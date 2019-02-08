@@ -6,3 +6,5 @@ Mobile inventory management system
 Patrick Richeal
 
 Brandon Ostasewski
+
+Matthew Finnegan
