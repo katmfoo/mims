@@ -8,3 +8,5 @@ Patrick Richeal
 Brandon Ostasewski
 
 Matthew Finnegan
+
+Steven Bruman
