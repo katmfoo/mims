@@ -12,3 +12,5 @@ Matthew Finnegan
 Dominic Marandino
 
 John Donahue
+
+Paul Sigloch
