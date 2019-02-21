@@ -2,7 +2,7 @@ from flask import Blueprint, request
 import jwt
 from passlib.hash import argon2
 import datetime
-from utility import Response, checkVars, mimsDb, config
+from utility import Response, checkVars, mimsDb, config, verifyPassword
 
 # ===============================================
 # Login endpoints
@@ -20,24 +20,24 @@ def login():
     if response.hasError(): return response.getJson()
 
     # Query users table for username and password combo
-    cur = mimsDb.cursor()
-    cur.execute("select id, password_hash from users where username='%s'"%(data['username']))
+    db = mimsDb()
+    cur = db.cursor()
+    cur.execute("select id from users where username='%s'"%(data['username']))
     sqlResponse = cur.fetchone()
+    db.close()
+
     if sqlResponse:
-        userId, rightPasswordHash = sqlResponse
+        userId = sqlResponse[0]
     else:
-        response.setError('Username and password combination not found')
-        return response.getJson()
+        return response.setError(2)
 
     # Verify that the password hash is valid
-    if not argon2.verify(data['password'], rightPasswordHash):
-        response.setError('Username and password combination not found')
-        return response.getJson()
+    if not verifyPassword(userId, data['password']):
+        return response.setError(2)
     
     # Generate and attach access token to response data
     response.data['accessToken'] = jwt.encode({
-        'userId': userId, 
-        'exp': datetime.datetime.now() + datetime.timedelta(hours=1)
+        'userId': userId
     }, config['jwt']['secret'], algorithm='HS256').decode('utf-8')
     
     return response.getJson()
