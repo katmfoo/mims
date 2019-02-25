@@ -67,6 +67,9 @@ class Response:
 # Function to ensure that all required input parameters for an endpoint
 # are contained within the data passed into the endpoint
 def checkVars(response, data, required):
+    if not data:
+        data = {}
+        
     for var in required:
         if not var in data:
             response.setError(1)
