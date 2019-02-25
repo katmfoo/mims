@@ -1,5 +1,6 @@
 import json
-import MySQLdb
+from sqlalchemy import create_engine, Table, MetaData
+from sqlalchemy.sql import select
 import configparser
 import jwt
 from passlib.hash import argon2
@@ -13,14 +14,8 @@ from passlib.hash import argon2
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-def mimsDb():
-    # Setup database connection to mims database
-    return MySQLdb.connect(
-        host = config['mimsdb']['hostname'],
-        user = config['mimsdb']['username'],
-        passwd = config['mimsdb']['password'],
-        db = config['mimsdb']['database']
-    )
+# Setup database engine for mims database
+mimsDbEng = create_engine("mysql://%s:%s@%s/%s"%(config['mimsdb']['username'], config['mimsdb']['password'], config['mimsdb']['hostname'], config['mimsdb']['database']))
 
 # Setup response error codes and messages
 responseErrors = {
@@ -31,7 +26,9 @@ responseErrors = {
     5: 'Access token is invalid',
     6: 'Permission denied',
     7: 'Username is already taken',
-    8: 'Password must be atleast 8 characters'
+    8: 'Password must be atleast 8 characters',
+    9: 'Page cannot be 0',
+    10: 'Username must be atleast 8 characters'
 }
 
 # Response class to create and format a consistent JSON response
@@ -74,7 +71,18 @@ def checkVars(response, data, required):
         if not var in data:
             response.setError(1)
             return False
-    return data
+
+    # Error check data
+    for var in data:
+        if var == 'page':
+            if int(data['page']) == 0:
+                response.setError(9)
+                return False
+
+    if data:
+        return data
+    else:
+        return {}
 
 # Function to ensure that the user making this request has the correct
 # permissions to do so. Ensures a valid access token is sent up with
@@ -106,17 +114,15 @@ def authenticateRequest(response, request, must_be_manager = False):
     # If must be manager, check that the user is a manger. Otherwise just return userId
     if must_be_manager:
         # Query users table for user, select user type
-        db = mimsDb()
-        cur = db.cursor()
-        cur.execute("select type from users where id='%s'"%(decoded['userId']))
-        sqlResponse = cur.fetchone()
-        db.close()
+        con = mimsDbEng.connect()
+        users = Table('users', MetaData(mimsDbEng), autoload=True)
+        stm = select([users]).where(users.c.id == decoded['userId'])
+        user = con.execute(stm).fetchone()
+        con.close()
 
-        if sqlResponse:
-            userType = sqlResponse[0]
-
+        if user:
             # If user isn't a manager, permission denied. Otherwise return user id
-            if userType != 1:
+            if user['type'] != 1:
                 response.setError(6)
                 return response.getJson()
             else:
@@ -136,6 +142,14 @@ def checkPassword(response, password):
         return False
     return True
 
+# Function to check the validity of a username and add errors to response
+# if not valid
+def checkUsername(response, username):
+    if len(username) < 8:
+        response.setError(10)
+        return False
+    return True
+
 # Function to hash a plaintext password. Returns the hashed password
 def hashPassword(password):
     return argon2.hash(password)
@@ -143,15 +157,36 @@ def hashPassword(password):
 # Function to verify that a plaintext password is valid for a specific
 # user. Returns True if password is valid, False otherwise
 def verifyPassword(userId, password):
-    db = mimsDb()
-    cur = db.cursor()
-    cur.execute("select password_hash from users where id='%s'"%(userId))
-    sqlResponse = cur.fetchone()
-    rightPasswordHash = sqlResponse[0]
-    db.close()
+    con = mimsDbEng.connect()
+    users = Table('users', MetaData(mimsDbEng), autoload=True)
+    stm = select([users]).where(users.c.id == userId)
+    user = con.execute(stm).fetchone()
+    con.close()
 
     # Verify that the password hash is valid
-    if not argon2.verify(password, rightPasswordHash):
+    if not argon2.verify(password, user['password_hash']):
         return False
     
     return True
+
+# Function to convert a SQLAlchemy result set to a dict that can be
+# easily converted to JSON
+def resultSetToJson(resultSet, exclusions = []):
+    newList = []
+    for result in resultSet:
+        newItem = {}
+        for key, val in result.items():
+            if key not in exclusions:
+                newItem[key] = str(val)
+        newList.append(newItem)
+    return newList
+
+# Function to set the proper limit and offset values on a SQLAlchemy
+# statement using the passed in data object to the endpoint
+def setLimit(stm, data):
+    if data.get('page_size'):
+        if not data.get('page'):
+            data['page'] = 1
+        stm = stm.limit(data['page_size'])
+        stm = stm.offset(int(data['page_size']) * (int(data['page']) - 1))
+    return stm
