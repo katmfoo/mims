@@ -12,13 +12,13 @@ usersBlueprint = Blueprint('users', __name__)
 # Endpoint to get users
 # GET /users/
 # Auth: Must be manager to access
-# Returns: A list of users and total users if limit is sent
+# Returns: A list of users
 @usersBlueprint.route('/', methods=['GET'])
 def getUsers():
     response = Response()
 
     # Ensure user has permission for this endpoint
-    userId = authenticateRequest(response, request, True)
+    userId = authenticateRequest(response, request, mustBeManager=True)
     if response.hasError(): return response.getJson()
 
     # Ensure required input parameters are received
@@ -70,7 +70,7 @@ def createUser():
     response = Response()
 
     # Ensure user has permission for this endpoint
-    userId = authenticateRequest(response, request, True)
+    userId = authenticateRequest(response, request, mustBeManager=True)
     if response.hasError(): return response.getJson()
 
     # Ensure required input parameters are received
@@ -84,7 +84,7 @@ def createUser():
     users = Table('users', MetaData(mimsDbEng), autoload=True)
 
     # Select the business_id of this manager so we know what business to make
-    # the employee for
+    # the user for
     stm = select([users]).where(users.c.id == userId)
     businessId = con.execute(stm).fetchone()['business_id']
 
@@ -124,13 +124,13 @@ def editUser(userIdToEdit):
     response = Response()
 
     # Ensure user has permission for this endpoint
-    userId = authenticateRequest(response, request, True)
+    userId = authenticateRequest(response, request, mustBeManager=True)
     if response.hasError(): return response.getJson()
 
     # Ensure required input parameters are received
     required = []
     optional = ['username', 'first_name', 'last_name', 'new_password', 'current_password']
-    data = checkVars(response, request.get_json(), required, optional, {'atLeastOneOptional': True})
+    data = checkVars(response, request.get_json(), required, optional, atLeastOneOptional=True)
     if response.hasError(): return response.getJson()
 
     # Setup database connection and table

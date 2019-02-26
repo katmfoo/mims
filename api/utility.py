@@ -73,7 +73,7 @@ class Response:
 # Potential options:
 #   atLeastOneOptional: True - ensures that, if there are optional params,
 #                              atleast one of them are within data
-def checkVars(response, data, required, optional, options={}):
+def checkVars(response, data, required, optional, atLeastOneOptional=False):
     if not data:
         data = {}
         
@@ -84,7 +84,7 @@ def checkVars(response, data, required, optional, options={}):
     
     # If there are optional params and atleastOneOptionalRequired is true, ensure
     # atleast one optional params
-    if optional and options['atLeastOneOptional']:
+    if optional and atLeastOneOptional:
         atLeastOne = False
         for var in optional:
             if var in data:
@@ -111,7 +111,7 @@ def checkVars(response, data, required, optional, options={}):
 # the request an optionally ensures the user of the token is a
 # manager. Returns the user id that the token belongs to if successful,
 # otherwise False
-def authenticateRequest(response, request, must_be_manager=False):
+def authenticateRequest(response, request, mustBeManager=False, fromBusiness=False):
 
     # Retrieve access token from request headers
     access_token = request.headers.get('access-token')
@@ -133,28 +133,39 @@ def authenticateRequest(response, request, must_be_manager=False):
         response.setError(5)
         return False
     
+    # Query users table for decoded user id
+    con = mimsDbEng.connect()
+    users = Table('users', MetaData(mimsDbEng), autoload=True)
+    stm = select([users]).where(users.c.id == decoded['userId'])
+    user = con.execute(stm).fetchone()
+    con.close()
+
+    if not user:
+        # Couldn't find user, access token invalid
+        response.setError(5)
+        return False
+    
     # If must be manager, check that the user is a manger. Otherwise just return userId
-    if must_be_manager:
-        # Query users table for user, select user type
+    if mustBeManager:
+        # If user isn't a manager, permission denied
+        if user['type'] != 1:
+            response.setError(6)
+            return False
+    
+    # If from business is set, ensure that the user is 
+    if fromBusiness:
+        # Get business id of reference (frmoBusiness is a business reference)
         con = mimsDbEng.connect()
-        users = Table('users', MetaData(mimsDbEng), autoload=True)
-        stm = select([users]).where(users.c.id == decoded['userId'])
-        user = con.execute(stm).fetchone()
+        businesses = Table('businesses', MetaData(mimsDbEng), autoload=True)
+        stm = select([businesses]).where(businesses.c.reference == fromBusiness)
+        business = con.execute(stm).fetchone()
         con.close()
 
-        if user:
-            # If user isn't a manager, permission denied. Otherwise return user id
-            if user['type'] != 1:
-                response.setError(6)
-                return response.getJson()
-            else:
-                return decoded['userId']
-        else:
-            # Couldn't find user, access token invalid
-            response.setError(5)
-            return response.getJson()
-    else:
-        return decoded['userId']
+        # If user isn't from business, permission denied
+        if user['business_id'] != business['id']:
+            response.setError(6)
+
+    return decoded['userId']
 
 # Function to check the validity of a password and add errors to response
 # if not valid
