@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Router } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -23,4 +23,17 @@ const routes: Routes = [
   ],
   declarations: [LoginPagePage]
 })
-export class LoginPagePageModule {}
+export class LoginPagePageModule {
+
+  constructor(private router: Router)
+  {
+
+  }
+
+  loginListener()
+  {
+    this.router.navigate(['home']);
+  }
+
+
+}
