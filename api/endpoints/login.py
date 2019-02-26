@@ -10,13 +10,18 @@ from utility import Response, checkVars, config, verifyPassword, mimsDbEng
 
 loginBlueprint = Blueprint('login', __name__)
 
+# Endpoint to login with username and password
+# POST /login/
+# Auth: None
+# Returns: An access token upon successful authentication, error otherwise
 @loginBlueprint.route('/', methods=['POST'])
 def login():
     response = Response()
 
     # Ensure required input parameters are received
     required = ['username', 'password']
-    data = checkVars(response, request.get_json(), required)
+    optional = []
+    data = checkVars(response, request.get_json(), required, optional)
     if response.hasError(): return response.getJson()
 
     # Setup database connection, table, and query
@@ -29,7 +34,7 @@ def login():
     if not user:
         return response.setError(2)
 
-    # Verify that the password hash is valid
+    # Verify that the password is valid
     if not verifyPassword(user['id'], data['password']):
         return response.setError(2)
     

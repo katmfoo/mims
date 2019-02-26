@@ -28,7 +28,11 @@ responseErrors = {
     7: 'Username is already taken',
     8: 'Password must be atleast 8 characters',
     9: 'Page cannot be 0',
-    10: 'Username must be atleast 8 characters'
+    10: 'Username must be atleast 8 characters',
+    11: 'User not found',
+    12: 'At least one optional parameter is required',
+    13: 'Current password must be sent up to change password',
+    14: 'Current password is not correct'
 }
 
 # Response class to create and format a consistent JSON response
@@ -65,8 +69,11 @@ class Response:
         return json.dumps(self.getResponseObject())
 
 # Function to ensure that all required input parameters for an endpoint
-# are contained within the data passed into the endpoint
-def checkVars(response, data, required):
+# are contained within the data passed into the endpoint.
+# Potential options:
+#   atLeastOneOptional: True - ensures that, if there are optional params,
+#                              atleast one of them are within data
+def checkVars(response, data, required, optional, options={}):
     if not data:
         data = {}
         
@@ -74,6 +81,18 @@ def checkVars(response, data, required):
         if not var in data:
             response.setError(1)
             return False
+    
+    # If there are optional params and atleastOneOptionalRequired is true, ensure
+    # atleast one optional params
+    if optional and options['atLeastOneOptional']:
+        atLeastOne = False
+        for var in optional:
+            if var in data:
+                atLeastOne = True
+        if not atLeastOne:
+            response.setError(12)
+            return False
+
 
     # Error check data
     for var in data:
@@ -92,7 +111,7 @@ def checkVars(response, data, required):
 # the request an optionally ensures the user of the token is a
 # manager. Returns the user id that the token belongs to if successful,
 # otherwise False
-def authenticateRequest(response, request, must_be_manager = False):
+def authenticateRequest(response, request, must_be_manager=False):
 
     # Retrieve access token from request headers
     access_token = request.headers.get('access-token')
