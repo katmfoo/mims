@@ -1,3 +1,41 @@
-<p>
-  user-management-page works!
-</p>
+<div class="container">
+  <br>
+  <br>
+  <nav class="navbar navbar-light bg-light">
+    <span class="navbar-brand mb-0 h1">MIMS - User Management</span>
+    <form class="form-inline">
+      <input class="form-control mr-sm-2" type="search" [(ngModel)]="search_term" name="search_term" placeholder="Search users" aria-label="Search">
+      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" (click)="searchUsers()">Search</button>
+    </form>
+  </nav>
+  <br>
+  <br>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Username</th>
+        <th scope="col">Type</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.first_name }} {{ user.last_name }}</td>
+        <td>{{ user.username }}</td>
+        <td>
+          <span *ngIf="user.type == 1">Manager</span>
+          <span *ngIf="user.type == 2">Employee</span>
+        </td>
+        <td>
+          <a href="">Edit</a>&nbsp;&nbsp;<a href="">Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination-buttons">
+    <button class="btn btn-outline-primary" (click)="previousPage()" type="button" [disabled]="previousDisabled()">Previous</button>
+    <span>Page {{ data.page }}</span>
+    <button class="btn btn-outline-primary" (click)="nextPage()" type="button" [disabled]="nextDisabled()">Next</button>
+  </div>
+</div>
