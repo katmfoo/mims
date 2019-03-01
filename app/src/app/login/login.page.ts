@@ -31,8 +31,10 @@ export class LoginPage {
         if (response.success) {
           localStorage.setItem('access-token', response.data.accessToken);
           this.navCtrl.navigateRoot('home');
+        } else {
+          this.errorMsg = response.error.message;
+          return;
         }
-        console.log(response);
       })
     }
   }
