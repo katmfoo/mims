@@ -36,7 +36,7 @@ def getUsers():
     userBusiness = con.execute(stm).fetchone()['business']
 
     # Setup main select statement
-    stm = select([users]).where(users.c.business == userBusiness)
+    stm = select([users]).where(and_(users.c.business == userBusiness, users.c.is_deleted == 0))
 
     # Handle optional filters
     if data.get('username'):
@@ -61,7 +61,7 @@ def getUsers():
     # Handle page_size and page
     stm = setPagination(stm, data)
 
-    response.data['items'] = resultSetToJson(con.execute(stm).fetchall(), ['password_hash', 'business', 'updated_datetime', 'creation_datetime'])
+    response.data['items'] = resultSetToJson(con.execute(stm).fetchall(), ['password_hash', 'business', 'is_deleted', 'updated_datetime', 'creation_datetime'])
 
     con.close()
 
@@ -135,7 +135,7 @@ def editUser(userIdToEdit):
 
     # Ensure required input parameters are received
     required = []
-    optional = ['username', 'first_name', 'last_name', 'new_password', 'current_password']
+    optional = ['username', 'first_name', 'last_name', 'new_password', 'current_password', 'is_deleted']
     data = checkVars(response, request.get_json(), required, optional, atLeastOneOptional=True)
     if response.hasError(): return response.getJson()
 
@@ -145,8 +145,17 @@ def editUser(userIdToEdit):
 
     # Ensure user exists
     stm = select([users]).where(users.c.id == userIdToEdit)
-    if not con.execute(stm).fetchone():
+    userToEdit = con.execute(stm).fetchone()
+    if not userToEdit:
         return response.setError(11)
+
+    # Get user making request
+    stm = select([users]).where(users.c.id == userId)
+    userMakingRequest = con.execute(stm).fetchone()
+
+    # Ensure user making request is in same business as user being editted, if not, permission denied
+    if (userMakingRequest['business'] != userToEdit['business']):
+        return response.setError(6)
 
     if data.get('username'):
         # Check username validity
@@ -190,6 +199,8 @@ def editUser(userIdToEdit):
         stm = stm.values(last_name=data['last_name'])
     if data.get('new_password'):
         stm = stm.values(password_hash=hashedNewPassword)
+    if data.get('is_deleted'):
+        stm = stm.values(is_deleted=data['is_deleted'])
 
     result = con.execute(stm)
 

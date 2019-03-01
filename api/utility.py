@@ -1,6 +1,6 @@
 import json
 from sqlalchemy import create_engine, Table, MetaData
-from sqlalchemy.sql import select
+from sqlalchemy.sql import select, and_
 import configparser
 import jwt
 from passlib.hash import argon2
@@ -139,7 +139,7 @@ def authenticateRequest(response, request, mustBeManager=False):
     # Query users table for decoded user id
     con = mimsDbEng.connect()
     users = Table('users', MetaData(mimsDbEng), autoload=True)
-    stm = select([users]).where(users.c.id == decoded['userId'])
+    stm = select([users]).where(and_(users.c.id == decoded['userId'], users.c.is_deleted == 0))
     user = con.execute(stm).fetchone()
     con.close()
 
@@ -182,7 +182,7 @@ def hashPassword(password):
 def verifyPassword(userId, password):
     con = mimsDbEng.connect()
     users = Table('users', MetaData(mimsDbEng), autoload=True)
-    stm = select([users]).where(users.c.id == userId)
+    stm = select([users]).where(and_(users.c.id == userId, users.c.is_deleted == 0))
     user = con.execute(stm).fetchone()
     con.close()
 
@@ -200,7 +200,12 @@ def resultSetToJson(resultSet, exclusions = []):
         newItem = {}
         for key, val in result.items():
             if key not in exclusions:
-                newItem[key] = str(val)
+                if key in ['item_code', 'plu', 'type', 'id']:
+                    newItem[key] = int(val)
+                elif key in ['price']:
+                    newItem[key] = float(val)
+                else:
+                    newItem[key] = str(val)
         newList.append(newItem)
     return newList
 

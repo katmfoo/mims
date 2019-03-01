@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from sqlalchemy import Table, MetaData
-from sqlalchemy.sql import select
+from sqlalchemy.sql import select, and_
 import jwt
 from utility import Response, checkVars, config, verifyPassword, mimsDbEng
 
@@ -29,7 +29,7 @@ def login():
     users = Table('users', MetaData(mimsDbEng), autoload=True)
     
     # Get user id of username passed in, also ensure user exists
-    stm = select([users]).where(users.c.username == data['username'])
+    stm = select([users]).where(and_(users.c.username == data['username'], users.c.is_deleted == 0))
     user = con.execute(stm).fetchone()
     if not user:
         return response.setError(2)
