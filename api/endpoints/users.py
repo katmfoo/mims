@@ -27,10 +27,16 @@ def getUsers():
     data = checkVars(response, request.values.to_dict(), required, optional)
     if response.hasError(): return response.getJson()
 
-    # Setup database connection, table, and query
+    # Setup database connection and table
     con = mimsDbEng.connect()
     users = Table('users', MetaData(mimsDbEng), autoload=True)
-    stm = select([users])
+
+    # Get business of user making request
+    stm = select([users]).where(users.c.id == userId)
+    userBusiness = con.execute(stm).fetchone()['business']
+
+    # Setup main select statement
+    stm = select([users]).where(users.c.business == userBusiness)
 
     # Handle optional filters
     if data.get('username'):
