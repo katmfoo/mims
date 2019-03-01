@@ -38,3 +38,52 @@ app/$RECYCLE.BIN/
 app/.DS_Store
 app/Thumbs.db
 app/UserInterfaceState.xcuserstate
+
+
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+admin/dist
+admin/tmp
+admin/out-tsc
+# Only exists if Bazel was run
+admin/bazel-out
+
+# dependencies
+admin/node_modules
+
+# profiling files
+admin/chrome-profiler-events.json
+admin/speed-measure-plugin.json
+
+# IDEs and editors
+admin/.idea
+admin/.project
+admin/.classpath
+admin/.c9/
+admin/*.launch
+admin/.settings/
+admin/*.sublime-workspace
+
+# IDE - VSCode
+admin/.vscode/*
+admin/!.vscode/settings.json
+admin/!.vscode/tasks.json
+admin/!.vscode/launch.json
+admin/!.vscode/extensions.json
+admin/.history/*
+
+# misc
+admin/.sass-cache
+admin/connect.lock
+admin/coverage
+admin/libpeerconnection.log
+admin/npm-debug.log
+admin/yarn-error.log
+admin/testem.log
+admin/typings
+
+# System Files
+admin/.DS_Store
+admin/Thumbs.db
