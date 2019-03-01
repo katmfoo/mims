@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { ApiCallService } from '../services/api-call.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-product-search',
+  templateUrl: 'product-search.page.html',
+  styleUrls: ['product-search.page.scss'],
 })
-export class HomePage {
+export class ProductSearchPage {
 
   public items: Array<any> = [];
   public search_term: string;

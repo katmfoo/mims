@@ -18,7 +18,7 @@ export class AppComponent {
     this.initializeApp();
 
     if (localStorage.getItem('access-token') != null) {
-      this.navCtrl.navigateRoot('home');
+      this.navCtrl.navigateRoot('product-search');
     } else {
       this.navCtrl.navigateRoot('login');
     }
