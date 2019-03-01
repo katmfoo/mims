@@ -43,6 +43,8 @@ def login():
         'userId': user['id']
     }, config['jwt']['secret'], algorithm='HS256').decode('utf-8')
 
+    response.data['userType'] = user['type']
+
     con.close()
     
     return response.getJson()
