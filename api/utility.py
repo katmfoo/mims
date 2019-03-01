@@ -17,6 +17,9 @@ config.read('config.ini')
 # Setup database engine for mims database
 mimsDbEng = create_engine("mysql://%s:%s@%s/%s"%(config['mimsdb']['username'], config['mimsdb']['password'], config['mimsdb']['hostname'], config['mimsdb']['database']))
 
+# Setup database engine for shoprite database
+shopriteDbEng = create_engine("mysql://%s:%s@%s/%s"%(config['shopritedb']['username'], config['shopritedb']['password'], config['shopritedb']['hostname'], config['shopritedb']['database']))
+
 # Setup response error codes and messages
 responseErrors = {
     1: 'Missing required input parameters',
@@ -111,7 +114,7 @@ def checkVars(response, data, required, optional, atLeastOneOptional=False):
 # the request an optionally ensures the user of the token is a
 # manager. Returns the user id that the token belongs to if successful,
 # otherwise False
-def authenticateRequest(response, request, mustBeManager=False, fromBusiness=False):
+def authenticateRequest(response, request, mustBeManager=False):
 
     # Retrieve access token from request headers
     access_token = request.headers.get('access-token')
@@ -151,19 +154,6 @@ def authenticateRequest(response, request, mustBeManager=False, fromBusiness=Fal
         if user['type'] != 1:
             response.setError(6)
             return False
-    
-    # If from business is set, ensure that the user is 
-    if fromBusiness:
-        # Get business id of reference (frmoBusiness is a business reference)
-        con = mimsDbEng.connect()
-        businesses = Table('businesses', MetaData(mimsDbEng), autoload=True)
-        stm = select([businesses]).where(businesses.c.reference == fromBusiness)
-        business = con.execute(stm).fetchone()
-        con.close()
-
-        # If user isn't from business, permission denied
-        if user['business_id'] != business['id']:
-            response.setError(6)
 
     return decoded['userId']
 
@@ -216,7 +206,7 @@ def resultSetToJson(resultSet, exclusions = []):
 
 # Function to set the proper limit and offset values on a SQLAlchemy
 # statement using the passed in data object to the endpoint
-def setLimit(stm, data):
+def setPagination(stm, data):
     if data.get('page_size'):
         if not data.get('page'):
             data['page'] = 1

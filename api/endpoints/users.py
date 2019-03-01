@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from sqlalchemy import Table, MetaData
 from sqlalchemy.sql import select, func, or_, update, and_
-from utility import Response, checkVars, authenticateRequest, checkPassword, hashPassword, mimsDbEng, resultSetToJson, setLimit, checkUsername, verifyPassword
+from utility import Response, checkVars, authenticateRequest, checkPassword, hashPassword, mimsDbEng, resultSetToJson, setPagination, checkUsername, verifyPassword
 
 # ===============================================
 # Users endpoints
@@ -11,7 +11,7 @@ usersBlueprint = Blueprint('users', __name__)
 
 # Endpoint to get users
 # GET /users/
-# Auth: Must be manager to access
+# Auth: Access token required, must be a manager
 # Returns: A list of users
 @usersBlueprint.route('/', methods=['GET'])
 def getUsers():
@@ -34,11 +34,11 @@ def getUsers():
 
     # Handle optional filters
     if data.get('username'):
-        stm = stm.where(users.c.username == data['username'])
+        stm = stm.where(users.c.username.like(data['username']))
     if data.get('first_name'):
-        stm = stm.where(users.c.first_name == data['first_name'])
+        stm = stm.where(users.c.first_name.like(data['first_name']))
     if data.get('last_name'):
-        stm = stm.where(users.c.last_name == data['last_name'])
+        stm = stm.where(users.c.last_name.like(data['last_name']))
     if data.get('type'):
         stm = stm.where(users.c.type == data['type'])
 
@@ -53,7 +53,7 @@ def getUsers():
         ))
     
     # Handle page_size and page
-    stm = setLimit(stm, data)
+    stm = setPagination(stm, data)
 
     response.data['items'] = resultSetToJson(con.execute(stm).fetchall(), ['password_hash'])
 
@@ -63,7 +63,7 @@ def getUsers():
 
 # Endpoint to create a user
 # POST /users/
-# Auth: Must be manager to access
+# Auth: Access token required, must be a manager
 # Returns: The user id of the newly created user
 @usersBlueprint.route('/', methods=['POST'])
 def createUser():
@@ -83,10 +83,10 @@ def createUser():
     con = mimsDbEng.connect()
     users = Table('users', MetaData(mimsDbEng), autoload=True)
 
-    # Select the business_id of this manager so we know what business to make
+    # Select the business of this manager so we know what business to make
     # the user for
     stm = select([users]).where(users.c.id == userId)
-    businessId = con.execute(stm).fetchone()['business_id']
+    businessId = con.execute(stm).fetchone()['business']
 
     # Check username validity
     if not checkUsername(response, data['username']):
@@ -105,7 +105,7 @@ def createUser():
     hashedPassword = hashPassword(data['password'])
 
     # Create user
-    stm = users.insert().values(username=data['username'], password_hash=hashedPassword, first_name=data['first_name'], last_name=data['last_name'], type=data['type'], business_id=businessId)
+    stm = users.insert().values(username=data['username'], password_hash=hashedPassword, first_name=data['first_name'], last_name=data['last_name'], type=data['type'], business=businessId)
     result = con.execute(stm)
 
     # Attach newly created user id to response data
@@ -117,7 +117,7 @@ def createUser():
 
 # Endpoint to edit a user
 # PUT /users/
-# Auth: Must be manager to access
+# Auth: Access token required, must be a manager
 # Returns: The user id of the updated user
 @usersBlueprint.route('/<userIdToEdit>/', methods=['PUT'])
 def editUser(userIdToEdit):

@@ -3,6 +3,9 @@ from sqlalchemy import Table, MetaData
 from sqlalchemy.sql import select
 from utility import Response, checkVars, authenticateRequest, mimsDbEng
 
+# Business function imports
+from .businesses.shoprite import shopRiteGetProducts
+
 # ===============================================
 # Product endpoints
 # ===============================================
@@ -11,7 +14,7 @@ productsBlueprint = Blueprint('products', __name__)
 
 # Endpoint to get products
 # GET /products/
-# Auth: Must be employee to access
+# Auth: Access token required, can be employee or manager
 # Returns: A list of products
 @productsBlueprint.route('/', methods=['GET'])
 def getProducts():
@@ -23,20 +26,20 @@ def getProducts():
 
     # Ensure required input parameters are received
     required = []
-    optional = []
+    optional = ['name', 'item_code', 'plu', 'barcode', 'search_term', 'page_size', 'page']
     data = checkVars(response, request.values.to_dict(), required, optional)
     if response.hasError(): return response.getJson()
 
     # Setup database connection and table
     con = mimsDbEng.connect()
     users = Table('users', MetaData(mimsDbEng), autoload=True)
-    businesses = Table('businesses', MetaData(mimsDbEng), autoload=True)
 
     # Get the business reference of the business of the user making this request
     stm = select([users]).where(users.c.id == userId)
-    businessId = con.execute(stm).fetchone()['business_id']
-    stm = select([businesses]).where(businesses.c.id == businessId)
-    businessReference = con.execute(stm).fetchone()['reference']
+    businessId = con.execute(stm).fetchone()['business']
+
+    # Call the relevant get products function depending on business to get response data
+    if businessId == 1:
+        response.data = shopRiteGetProducts(data)
     
-    # Return redirect to correct business endpoint with same query params
-    return redirect(url_for(businessReference + '.getProducts') + '?' + request.query_string.decode('utf-8'))
+    return response.getJson()

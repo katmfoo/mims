@@ -12,7 +12,7 @@ loginBlueprint = Blueprint('login', __name__)
 
 # Endpoint to login with username and password
 # POST /login/
-# Auth: None
+# Auth: No access token required
 # Returns: An access token upon successful authentication, error otherwise
 @loginBlueprint.route('/', methods=['POST'])
 def login():
