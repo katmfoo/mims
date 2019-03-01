@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 # Endpoint blueprint imports
 from endpoints.users import usersBlueprint
@@ -14,6 +15,9 @@ from endpoints.businesses.shoprite import shopriteBlueprint
 # ===============================================
 
 app = Flask(__name__)
+
+# Allow access from all origins
+CORS(app)
 
 # Register blueprints
 app.register_blueprint(usersBlueprint, url_prefix='/users')
