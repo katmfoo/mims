@@ -19,6 +19,8 @@ def shopRiteGetProducts(data):
         stm = stm.where(products.c.plu == data['plu'])
     if data.get('barcode'):
         stm = stm.where(products.c.barcode == data['barcode'])
+    if data.get('department'):
+        stm = stm.where(products.c.department == data['department'])
     
      # Handle search_term
     if data.get('search_term'):
@@ -32,6 +34,11 @@ def shopRiteGetProducts(data):
     # Handle page_size and page
     stm = setPagination(stm, data)
 
+    # Get items
+    items = resultSetToJson(con.execute(stm).fetchall(), ['department', 'barcode', 'unit', 'units_per_case', 'updated_datetime', 'creation_datetime'])
+
+    con.close()
+
     return {
-        'items': resultSetToJson(con.execute(stm).fetchall(), ['password_hash'])
+        'items': items
     }

@@ -34,11 +34,11 @@ def getUsers():
 
     # Handle optional filters
     if data.get('username'):
-        stm = stm.where(users.c.username.like(data['username']))
+        stm = stm.where(users.c.username.like('%' + data['username'] + '%'))
     if data.get('first_name'):
-        stm = stm.where(users.c.first_name.like(data['first_name']))
+        stm = stm.where(users.c.first_name.like('%' + data['first_name'] + '%'))
     if data.get('last_name'):
-        stm = stm.where(users.c.last_name.like(data['last_name']))
+        stm = stm.where(users.c.last_name.like('%' + data['last_name'] + '%'))
     if data.get('type'):
         stm = stm.where(users.c.type == data['type'])
 
@@ -55,7 +55,7 @@ def getUsers():
     # Handle page_size and page
     stm = setPagination(stm, data)
 
-    response.data['items'] = resultSetToJson(con.execute(stm).fetchall(), ['password_hash'])
+    response.data['items'] = resultSetToJson(con.execute(stm).fetchall(), ['password_hash', 'business', 'updated_datetime', 'creation_datetime'])
 
     con.close()
 

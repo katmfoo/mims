@@ -26,7 +26,7 @@ def getProducts():
 
     # Ensure required input parameters are received
     required = []
-    optional = ['name', 'item_code', 'plu', 'barcode', 'search_term', 'page_size', 'page']
+    optional = ['name', 'item_code', 'plu', 'barcode', 'department', 'search_term', 'page_size', 'page']
     data = checkVars(response, request.values.to_dict(), required, optional)
     if response.hasError(): return response.getJson()
 
