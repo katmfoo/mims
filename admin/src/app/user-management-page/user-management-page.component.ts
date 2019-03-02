@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallService } from '../services/api-call.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-user-management-page',
@@ -9,10 +10,10 @@ import { ApiCallService } from '../services/api-call.service';
 export class UserManagementPageComponent implements OnInit {
 
   public users: Array<any> = [];
-  public data: any = {page_size: 10, page: 1};
+  public data: any = {page_size: 2, page: 1};
   public search_term: string;
 
-  constructor(private apiCall: ApiCallService) {}
+  constructor(private apiCall: ApiCallService, private modalService: NgbModal) {}
 
   ngOnInit() {
     this.updateUsers();
@@ -56,5 +57,13 @@ export class UserManagementPageComponent implements OnInit {
 
   previousDisabled() {
     return this.data.page <= 1;
+  }
+
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      console.log('fulfilled');
+    }, (reason) => {
+      console.log('rejected');
+    });
   }
 }
