@@ -10,12 +10,16 @@ import { UserManagementPageComponent } from './user-management-page/user-managem
 import { ApiCallService } from './services/api-call.service';
 import { UtilityService } from './services/utility.service';
 import { HttpClientModule } from '@angular/common/http';
+import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.component';
+import { CreateUserModalComponent } from './create-user-modal/create-user-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
-    UserManagementPageComponent
+    UserManagementPageComponent,
+    EditUserModalComponent,
+    CreateUserModalComponent
   ],
   imports: [
     BrowserModule,
