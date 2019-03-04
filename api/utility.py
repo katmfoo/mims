@@ -35,7 +35,9 @@ responseErrors = {
     11: 'User not found',
     12: 'At least one optional parameter is required',
     13: 'Current password must be sent up to change password',
-    14: 'Current password is not correct'
+    14: 'Current password is not correct',
+    15: 'Invalid user type',
+    16: 'Invalid is_deleted value'
 }
 
 # Response class to create and format a consistent JSON response
@@ -170,6 +172,14 @@ def checkPassword(response, password):
 def checkUsername(response, username):
     if len(username) < 8:
         response.setError(10)
+        return False
+    return True
+
+# Function to check the validity of a user type and add errors to response
+# if not valid
+def checkUserType(response, type_value):
+    if not type(type_value) is int or not type_value in [1, 2]:
+        response.setError(15)
         return False
     return True
 

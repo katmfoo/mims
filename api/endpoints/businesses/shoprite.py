@@ -11,19 +11,19 @@ def shopRiteGetProducts(data):
     stm = select([products])
 
     # Handle optional filters
-    if data.get('name'):
+    if 'name' in data:
         stm = stm.where(products.c.name.like('%' + data['name'] + '%'))
-    if data.get('item_code'):
+    if 'item_code' in data:
         stm = stm.where(products.c.item_code == data['item_code'])
-    if data.get('plu'):
+    if 'plu' in data:
         stm = stm.where(products.c.plu == data['plu'])
-    if data.get('barcode'):
+    if 'barcode' in data:
         stm = stm.where(products.c.barcode == data['barcode'])
-    if data.get('department'):
+    if 'department' in data:
         stm = stm.where(products.c.department == data['department'])
     
      # Handle search_term
-    if data.get('search_term'):
+    if 'search_term' in data:
         search_term = '%' + data['search_term'] + '%'
         stm = stm.where(or_(
             products.c.name.like(search_term),
