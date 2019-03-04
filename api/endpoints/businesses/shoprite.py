@@ -1,5 +1,5 @@
 from sqlalchemy import Table, MetaData
-from sqlalchemy.sql import select, or_
+from sqlalchemy.sql import select, or_, join, alias
 from utility import shopriteDbEng, resultSetToJson, setPagination
 
 # Function for GET /products/
@@ -49,7 +49,22 @@ def shopRiteGetProduct(itemCode):
     # Setup database connection, table, and query
     con = shopriteDbEng.connect()
     products = Table('products', MetaData(shopriteDbEng), autoload=True)
-    stm = select([products]).where(products.c.item_code == itemCode)
+    departments = Table('departments', MetaData(shopriteDbEng), autoload=True)
+    units = Table('units', MetaData(shopriteDbEng), autoload=True)
+
+    stm = select([
+        products.c.item_code,
+        products.c.name,
+        products.c.price,
+        departments.c.name.label('department'),
+        products.c.plu,
+        products.c.barcode,
+        units.c.name.label('unit'),
+        products.c.units_per_case
+    ]).select_from(products
+        .join(departments, products.c.department == departments.c.id)
+        .join(units, products.c.unit == units.c.id)
+    ).where(products.c.item_code == itemCode)
 
     items = resultSetToJson(con.execute(stm).fetchall(), ['updated_datetime', 'creation_datetime'])
 
