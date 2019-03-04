@@ -4,7 +4,7 @@ from sqlalchemy.sql import select
 from utility import Response, checkVars, authenticateRequest, mimsDbEng
 
 # Business function imports
-from .businesses.shoprite import shopRiteGetProducts
+from .businesses.shoprite import shopRiteGetProducts, shopRiteGetProduct
 
 # ===============================================
 # Product endpoints
@@ -41,5 +41,37 @@ def getProducts():
     # Call the relevant get products function depending on business to get response data
     if businessId == 1:
         response.data = shopRiteGetProducts(data)
+    
+    return response.getJson()
+
+# Endpoint to get a specific product
+# GET /products/<item_code>/
+# Auth: Access token required, can be employee or manager
+# Returns: A single product
+@productsBlueprint.route('/<itemCode>/', methods=['GET'])
+def getProduct(itemCode):
+    response = Response()
+
+    # Ensure user has permission for this endpoint
+    userId = authenticateRequest(response, request)
+    if response.hasError(): return response.getJson()
+
+    # Ensure required input parameters are received
+    required = []
+    optional = []
+    data = checkVars(response, request.values.to_dict(), required, optional)
+    if response.hasError(): return response.getJson()
+
+    # Setup database connection and table
+    con = mimsDbEng.connect()
+    users = Table('users', MetaData(mimsDbEng), autoload=True)
+
+    # Get the business reference of the business of the user making this request
+    stm = select([users]).where(users.c.id == userId)
+    businessId = con.execute(stm).fetchone()['business']
+
+    # Call the relevant get products function depending on business to get response data
+    if businessId == 1:
+        response.data = shopRiteGetProduct(itemCode)
     
     return response.getJson()

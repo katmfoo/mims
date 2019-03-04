@@ -210,7 +210,7 @@ def resultSetToJson(resultSet, exclusions = []):
         newItem = {}
         for key, val in result.items():
             if key not in exclusions:
-                if key in ['item_code', 'plu', 'type', 'id']:
+                if key in ['item_code', 'plu', 'type', 'id', 'department', 'barcode', 'unit', 'units_per_case']:
                     newItem[key] = int(val)
                 elif key in ['price']:
                     newItem[key] = float(val)

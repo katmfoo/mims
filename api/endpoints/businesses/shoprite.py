@@ -42,3 +42,19 @@ def shopRiteGetProducts(data):
     return {
         'items': items
     }
+
+# Function for GET /products/<item_code>/
+def shopRiteGetProduct(itemCode):
+
+    # Setup database connection, table, and query
+    con = shopriteDbEng.connect()
+    products = Table('products', MetaData(shopriteDbEng), autoload=True)
+    stm = select([products]).where(products.c.item_code == itemCode)
+
+    items = resultSetToJson(con.execute(stm).fetchall(), ['updated_datetime', 'creation_datetime'])
+
+    con.close()
+
+    return {
+        'items': items
+    }
