@@ -8,7 +8,15 @@ def shopRiteGetProducts(data):
     # Setup database connection, table, and query
     con = shopriteDbEng.connect()
     products = Table('products', MetaData(shopriteDbEng), autoload=True)
-    stm = select([products])
+    plus = Table('plus', MetaData(shopriteDbEng), autoload=True)
+    stm = select([
+        products.c.item_code,
+        products.c.name,
+        products.c.price,
+        plus.c.name.label('plu'),
+        products.c.plu.label('plu_number'),
+        products.c.image_url
+    ]).select_from(products.join(plus, products.c.plu == plus.c.plu))
 
     # Handle optional filters
     if 'name' in data:
@@ -35,7 +43,7 @@ def shopRiteGetProducts(data):
     stm = setPagination(stm, data)
 
     # Get items
-    items = resultSetToJson(con.execute(stm).fetchall(), ['department', 'barcode', 'unit', 'units_per_case', 'updated_datetime', 'creation_datetime'])
+    items = resultSetToJson(con.execute(stm).fetchall())
 
     con.close()
 
@@ -51,22 +59,26 @@ def shopRiteGetProduct(itemCode):
     products = Table('products', MetaData(shopriteDbEng), autoload=True)
     departments = Table('departments', MetaData(shopriteDbEng), autoload=True)
     units = Table('units', MetaData(shopriteDbEng), autoload=True)
+    plus = Table('plus', MetaData(shopriteDbEng), autoload=True)
 
     stm = select([
         products.c.item_code,
         products.c.name,
         products.c.price,
         departments.c.name.label('department'),
-        products.c.plu,
+        products.c.department.label('department_number'),
+        plus.c.name.label('plu'),
+        products.c.plu.label('plu_number'),
         products.c.barcode,
         units.c.name.label('unit'),
         products.c.units_per_case
     ]).select_from(products
         .join(departments, products.c.department == departments.c.id)
         .join(units, products.c.unit == units.c.id)
+        .join(plus, products.c.plu == plus.c.plu)
     ).where(products.c.item_code == itemCode)
 
-    items = resultSetToJson(con.execute(stm).fetchall(), ['updated_datetime', 'creation_datetime'])
+    items = resultSetToJson(con.execute(stm).fetchall())
 
     con.close()
 
