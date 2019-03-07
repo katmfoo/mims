@@ -6,3 +6,5 @@ Patrick Richeal, Brandon Ostasewski, Matthew Finnegan, Dominic Marandino, John D
 
 ### Starting the API
 Run `FLASK_APP=main.py flask run` in the `api/` directory
+
+test
