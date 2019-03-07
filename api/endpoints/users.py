@@ -126,7 +126,7 @@ def createUser():
     return response.getJson()
 
 # Endpoint to edit a user
-# PUT /users/
+# PUT /users/{user_id}/
 # Auth: Access token required, can be employee or manager (different functionality allowed for each)
 # Returns: The user id of the updated user
 @usersBlueprint.route('/<userIdToEdit>/', methods=['PUT'])

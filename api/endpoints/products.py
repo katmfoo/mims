@@ -45,7 +45,7 @@ def getProducts():
     return response.getJson()
 
 # Endpoint to get a specific product
-# GET /products/<item_code>/
+# GET /products/{item_code}/
 # Auth: Access token required, can be employee or manager
 # Returns: A single product
 @productsBlueprint.route('/<itemCode>/', methods=['GET'])

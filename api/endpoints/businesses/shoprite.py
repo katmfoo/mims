@@ -51,7 +51,7 @@ def shopRiteGetProducts(data):
         'items': items
     }
 
-# Function for GET /products/<item_code>/
+# Function for GET /products/{item_code}/
 def shopRiteGetProduct(itemCode):
 
     # Setup database connection, table, and query
