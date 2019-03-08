@@ -40,10 +40,10 @@ def login():
         return response.setError(2)
     
     # Generate and attach access token to response data
-    response.data['accessToken'] = jwt.encode({
+    response.data['access_token'] = jwt.encode({
         'userId': user['id']
     }, config['jwt']['secret'], algorithm='HS256').decode('utf-8')
 
-    response.data['userType'] = user['type']
+    response.data['user_type'] = user['type']
     
     return response.getJson()

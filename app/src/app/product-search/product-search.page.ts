@@ -17,7 +17,7 @@ export class ProductSearchPage {
     if (this.search_term) {
       this.apiCall.get('/products/', {search_term: this.search_term}).then((response: any) => {
         if (response.success) {
-          this.items = response.data.items;
+          this.items = response.data.products;
         }
       });
     }

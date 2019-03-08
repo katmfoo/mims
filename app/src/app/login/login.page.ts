@@ -29,7 +29,7 @@ export class LoginPage {
         password: this.password
       }).then((response: any) => {
         if (response.success) {
-          localStorage.setItem('access-token', response.data.accessToken);
+          localStorage.setItem('access-token', response.data.access_token);
           this.navCtrl.navigateRoot('product-search');
         } else {
           this.errorMsg = response.error.message;

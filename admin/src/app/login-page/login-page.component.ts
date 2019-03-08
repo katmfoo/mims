@@ -31,8 +31,8 @@ export class LoginPageComponent implements OnInit {
         password: this.password
       }).then((response: any) => {
         if (response.success) {
-          if (response.data.userType == 1) {
-            localStorage.setItem('access-token', response.data.accessToken);
+          if (response.data.user_type == 1) {
+            localStorage.setItem('access-token', response.data.access_token);
             this.router.navigate(['users']);
           } else {
             this.errorMsg = 'Must be manager to login';

@@ -61,10 +61,10 @@ def getUsers():
     # Handle page_size and page
     stm = setPagination(stm, data)
 
-    response.data['items'] = resultSetToJson(con.execute(stm).fetchall(), ['password_hash', 'business', 'is_deleted', 'updated_datetime', 'creation_datetime'])
+    response.data['users'] = resultSetToJson(con.execute(stm).fetchall(), ['password_hash', 'business', 'is_deleted', 'updated_datetime', 'creation_datetime'])
     con.close()
 
-    for item in response.data['items']:
+    for item in response.data['users']:
         item['id'] = int(item['id'])
         item['type'] = int(item['type'])
 
@@ -123,7 +123,7 @@ def createUser():
     con.close()
 
     # Attach newly created user id to response data
-    response.data['userId'] = result.lastrowid
+    response.data['user_id'] = result.lastrowid
 
     return response.getJson()
 
@@ -238,6 +238,6 @@ def editUser(userIdToEdit):
     con.close()
 
     # Attach newly created user id to response data
-    response.data['userId'] = int(userIdToEdit)
+    response.data['user_id'] = int(userIdToEdit)
 
     return response.getJson()

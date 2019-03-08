@@ -22,7 +22,7 @@ export class UserManagementPageComponent implements OnInit {
   updateUsers() {
     this.apiCall.get('/users/', this.data).then((response: any) => {
       if (response.success) {
-        this.users = response.data.items;
+        this.users = response.data.users;
       }
     });
   }
