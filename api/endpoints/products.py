@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, url_for
+from flask import Blueprint, request
 from sqlalchemy import Table, MetaData
 from sqlalchemy.sql import select
 import datetime

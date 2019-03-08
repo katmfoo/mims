@@ -40,7 +40,10 @@ responseErrors = {
     16: 'Invalid is_deleted value',
     17: 'Invalid date format',
     18: 'Product not found',
-    19: 'Invalid price format'
+    19: 'Invalid price format',
+    20: 'Unit not found',
+    21: 'Amount value must be integer',
+    22: 'Invalid datetime format'
 }
 
 # Response class to create and format a consistent JSON response

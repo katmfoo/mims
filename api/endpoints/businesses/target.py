@@ -112,6 +112,25 @@ def targetEditProduct(itemCode, data):
 
     return itemCode
 
+# Function to get a unit
+def targetGetUnit(unit):
+
+    # Setup database connection, table, and query
+    con = targetDbEng.connect()
+    units = Table('units', MetaData(targetDbEng), autoload=True)
+
+    stm = select([units]).where(units.c.id == unit)
+
+    items = resultSetToJson(con.execute(stm).fetchall())
+    con.close()
+
+    if items:
+        item = items[0]
+    else:
+        item = None
+
+    return item
+
 # Function to get inventory of a product, optionally at a specific point in time
 def targetGetProductInventory(itemCode, datetime=None):
 
@@ -164,3 +183,17 @@ def targetGetProductMovement(itemCode, startDateTime):
 # Function to get forecasted inventory transactions of a product
 def targetGetProductForecast(itemCode):
     return {}
+
+# Function to create an inventory transaction
+def targetCreateInventoryTransaction(data):
+
+    # Setup database connection and table
+    con = targetDbEng.connect()
+    inventory_transactions = Table('inventory_transactions', MetaData(targetDbEng), autoload=True)
+
+    # Create inventory transactions
+    stm = inventory_transactions.insert().values(item_code=data['item_code'], amount=data['amount'], unit=data['unit'], creation_datetime=data['datetime'])
+    result = con.execute(stm)
+    con.close()
+
+    return result.lastrowid
