@@ -1,0 +1,5 @@
+Simulation notes:
+ * Business that we are modeling is a Target
+ * Mode 1 year of data
+ * Try to keep amount of data as small as possible, its
+   just easier to deal with less data
