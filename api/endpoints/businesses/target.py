@@ -1,5 +1,6 @@
 from sqlalchemy import Table, MetaData
 from sqlalchemy.sql import select, or_, join, alias, func
+import datetime
 from utility import targetDbEng, resultSetToJson, setPagination
 
 # Function for GET /products/
@@ -49,9 +50,7 @@ def targetGetProducts(data):
     for item in items:
         item['price'] = float(item['price'])
 
-    return {
-        'items': items
-    }
+    return items
 
 # Function for GET /products/{item_code}/
 def targetGetProduct(itemCode):
@@ -83,16 +82,15 @@ def targetGetProduct(itemCode):
     items = resultSetToJson(con.execute(stm).fetchall())
     con.close()
 
-    for item in items:
-        item['units_per_case'] = int(item['units_per_case'])
-        item['price'] = float(item['price'])
-        if item['barcode'] == "None":
-            item['barcode'] = None
-        item['current_inventory'] = targetGetProductInventory(itemCode)
+    item = items[0]
 
-    return {
-        'items': items
-    }
+    item['units_per_case'] = int(item['units_per_case'])
+    item['price'] = float(item['price'])
+    if item['barcode'] == "None":
+        item['barcode'] = None
+    item['current_inventory'] = targetGetProductInventory(itemCode)
+
+    return item
 
 # Function to get inventory of a product, optionally at a specific point in time
 def targetGetProductInventory(itemCode, datetime=None):
@@ -126,3 +124,19 @@ def targetGetProductInventory(itemCode, datetime=None):
     con.close()
 
     return int(current_inventory[0])
+
+# Function to get previous inventory movement of a product from a specific starting date
+def targetGetProductMovement(itemCode, startDateTime):
+    movement = {}
+
+    startDateTime = startDateTime.replace(hour=23,minute=59,second=59)
+
+    # For each day from startDate to today
+    while startDateTime <= datetime.datetime.today().replace(hour=23,minute=59,second=59):
+        # Get inventory at current date we are iterating on    
+        movement[str(startDateTime.date())] = targetGetProductInventory(itemCode, str(startDateTime))
+
+        # Increment date by 1 day
+        startDateTime = startDateTime + datetime.timedelta(days=1)
+    
+    return movement

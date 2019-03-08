@@ -37,7 +37,8 @@ responseErrors = {
     13: 'Current password must be sent up to change password',
     14: 'Current password is not correct',
     15: 'Invalid user type',
-    16: 'Invalid is_deleted value'
+    16: 'Invalid is_deleted value',
+    17: 'Invalid date format'
 }
 
 # Response class to create and format a consistent JSON response
