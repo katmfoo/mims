@@ -1,14 +1,14 @@
 from sqlalchemy import Table, MetaData
-from sqlalchemy.sql import select, or_, join, alias
-from utility import shopriteDbEng, resultSetToJson, setPagination
+from sqlalchemy.sql import select, or_, join, alias, func
+from utility import targetDbEng, resultSetToJson, setPagination
 
 # Function for GET /products/
-def shopRiteGetProducts(data):
+def targetGetProducts(data):
 
     # Setup database connection, table, and query
-    con = shopriteDbEng.connect()
-    products = Table('products', MetaData(shopriteDbEng), autoload=True)
-    plus = Table('plus', MetaData(shopriteDbEng), autoload=True)
+    con = targetDbEng.connect()
+    products = Table('products', MetaData(targetDbEng), autoload=True)
+    plus = Table('plus', MetaData(targetDbEng), autoload=True)
     stm = select([
         products.c.item_code,
         products.c.name,
@@ -44,22 +44,24 @@ def shopRiteGetProducts(data):
 
     # Get items
     items = resultSetToJson(con.execute(stm).fetchall())
-
     con.close()
+
+    for item in items:
+        item['price'] = float(item['price'])
 
     return {
         'items': items
     }
 
 # Function for GET /products/{item_code}/
-def shopRiteGetProduct(itemCode):
+def targetGetProduct(itemCode):
 
     # Setup database connection, table, and query
-    con = shopriteDbEng.connect()
-    products = Table('products', MetaData(shopriteDbEng), autoload=True)
-    departments = Table('departments', MetaData(shopriteDbEng), autoload=True)
-    units = Table('units', MetaData(shopriteDbEng), autoload=True)
-    plus = Table('plus', MetaData(shopriteDbEng), autoload=True)
+    con = targetDbEng.connect()
+    products = Table('products', MetaData(targetDbEng), autoload=True)
+    departments = Table('departments', MetaData(targetDbEng), autoload=True)
+    units = Table('units', MetaData(targetDbEng), autoload=True)
+    plus = Table('plus', MetaData(targetDbEng), autoload=True)
 
     stm = select([
         products.c.item_code,
@@ -79,9 +81,48 @@ def shopRiteGetProduct(itemCode):
     ).where(products.c.item_code == itemCode)
 
     items = resultSetToJson(con.execute(stm).fetchall())
-
     con.close()
+
+    for item in items:
+        item['units_per_case'] = int(item['units_per_case'])
+        item['price'] = float(item['price'])
+        if item['barcode'] == "None":
+            item['barcode'] = None
+        item['current_inventory'] = targetGetProductInventory(itemCode)
 
     return {
         'items': items
     }
+
+# Function to get inventory of a product, optionally at a specific point in time
+def targetGetProductInventory(itemCode, datetime=None):
+
+    # Setup database connection, table, and query
+    con = targetDbEng.connect()
+    products = Table('products', MetaData(targetDbEng), autoload=True)
+    inventory_transactions = Table('inventory_transactions', MetaData(targetDbEng), autoload=True)
+
+    stm = select([
+        func.coalesce(
+            func.sum(
+                func.IF(
+                    inventory_transactions.c.unit == 3,
+                    inventory_transactions.c.amount * products.c.units_per_case,
+                    inventory_transactions.c.amount
+                )
+            ),
+            0
+        )
+    ]).select_from(
+        inventory_transactions.join(
+            products,
+            inventory_transactions.c.item_code == products.c.item_code
+    )).where(inventory_transactions.c.item_code == itemCode)
+
+    if datetime:
+        stm = stm.where(inventory_transactions.c.creation_datetime <= datetime)
+
+    current_inventory = con.execute(stm).fetchone()
+    con.close()
+
+    return int(current_inventory[0])

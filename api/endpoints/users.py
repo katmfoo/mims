@@ -62,8 +62,11 @@ def getUsers():
     stm = setPagination(stm, data)
 
     response.data['items'] = resultSetToJson(con.execute(stm).fetchall(), ['password_hash', 'business', 'is_deleted', 'updated_datetime', 'creation_datetime'])
-
     con.close()
+
+    for item in response.data['items']:
+        item['id'] = int(item['id'])
+        item['type'] = int(item['type'])
 
     return response.getJson()
 
@@ -117,11 +120,10 @@ def createUser():
     # Create user
     stm = users.insert().values(username=data['username'], password_hash=hashedPassword, first_name=data['first_name'], last_name=data['last_name'], type=data['type'], business=businessId)
     result = con.execute(stm)
+    con.close()
 
     # Attach newly created user id to response data
     response.data['userId'] = result.lastrowid
-
-    con.close()
 
     return response.getJson()
 
@@ -233,10 +235,9 @@ def editUser(userIdToEdit):
         stm = stm.values(is_deleted=data['is_deleted'])
 
     result = con.execute(stm)
+    con.close()
 
     # Attach newly created user id to response data
     response.data['userId'] = int(userIdToEdit)
-
-    con.close()
 
     return response.getJson()

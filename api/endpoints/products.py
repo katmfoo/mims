@@ -4,7 +4,7 @@ from sqlalchemy.sql import select
 from utility import Response, checkVars, authenticateRequest, mimsDbEng
 
 # Business function imports
-from .businesses.shoprite import shopRiteGetProducts, shopRiteGetProduct
+from .businesses.target import targetGetProducts, targetGetProduct
 
 # ===============================================
 # Product endpoints
@@ -40,7 +40,7 @@ def getProducts():
 
     # Call the relevant get products function depending on business to get response data
     if businessId == 1:
-        response.data = shopRiteGetProducts(data)
+        response.data = targetGetProducts(data)
     
     return response.getJson()
 
@@ -72,6 +72,6 @@ def getProduct(itemCode):
 
     # Call the relevant get products function depending on business to get response data
     if businessId == 1:
-        response.data = shopRiteGetProduct(itemCode)
+        response.data = targetGetProduct(itemCode)
     
     return response.getJson()

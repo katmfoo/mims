@@ -17,8 +17,8 @@ config.read('config.ini')
 # Setup database engine for mims database
 mimsDbEng = create_engine("mysql://%s:%s@%s/%s"%(config['mimsdb']['username'], config['mimsdb']['password'], config['mimsdb']['hostname'], config['mimsdb']['database']))
 
-# Setup database engine for shoprite database
-shopriteDbEng = create_engine("mysql://%s:%s@%s/%s"%(config['shopritedb']['username'], config['shopritedb']['password'], config['shopritedb']['hostname'], config['shopritedb']['database']))
+# Setup database engine for target database
+targetDbEng = create_engine("mysql://%s:%s@%s/%s"%(config['targetdb']['username'], config['targetdb']['password'], config['targetdb']['hostname'], config['targetdb']['database']))
 
 # Setup response error codes and messages
 responseErrors = {
@@ -210,12 +210,7 @@ def resultSetToJson(resultSet, exclusions = []):
         newItem = {}
         for key, val in result.items():
             if key not in exclusions:
-                if key in ['type', 'id', 'units_per_case']:
-                    newItem[key] = int(val)
-                elif key in ['price']:
-                    newItem[key] = float(val)
-                else:
-                    newItem[key] = str(val)
+                newItem[key] = str(val)
         newList.append(newItem)
     return newList
 
