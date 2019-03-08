@@ -2,10 +2,10 @@ from flask import Blueprint, request, redirect, url_for
 from sqlalchemy import Table, MetaData
 from sqlalchemy.sql import select
 import datetime
-from utility import Response, checkVars, authenticateRequest, mimsDbEng
+from utility import Response, checkVars, authenticateRequest, mimsDbEng, checkPrice
 
 # Business function imports
-from .businesses.target import targetGetProducts, targetGetProduct, targetGetProductMovement, targetGetProductForecast
+from .businesses.target import targetGetProducts, targetGetProduct, targetEditProduct, targetGetProductMovement, targetGetProductForecast
 
 # ===============================================
 # Product endpoints
@@ -73,7 +73,49 @@ def getProduct(itemCode):
 
     # Call the relevant get products function depending on business to get response data
     if businessId == 1:
-        response.data['product'] = targetGetProduct(itemCode)
+        product = targetGetProduct(itemCode)
+
+    if product:    
+        response.data['product'] = product
+    else:
+        return response.setError(18)
+    
+    return response.getJson()
+
+# Endpoint to edit a product
+# PUT /products/{item_code}/
+# Auth: Access token required, can be employee or manager
+# Returns: The id of the updated product
+@productsBlueprint.route('/<itemCode>/', methods=['PUT'])
+def editProduct(itemCode):
+    response = Response()
+
+    # Ensure user has permission for this endpoint
+    userId = authenticateRequest(response, request)
+    if response.hasError(): return response.getJson()
+
+    # Ensure required input parameters are received
+    required = []
+    optional = ['price']
+    data = checkVars(response, request.get_json(), required, optional, atLeastOneOptional=True)
+    if response.hasError(): return response.getJson()
+
+    if 'price' in data and not checkPrice(response, data['price']):
+        return response.getJson()
+
+    # Setup database connection and table
+    con = mimsDbEng.connect()
+    users = Table('users', MetaData(mimsDbEng), autoload=True)
+
+    # Get the business reference of the business of the user making this request
+    stm = select([users]).where(users.c.id == userId)
+    businessId = con.execute(stm).fetchone()['business']
+
+    # Call the relevant get products function depending on business to get response data
+    if businessId == 1:
+        product = targetGetProduct(itemCode)
+        if not product: return response.setError(18)
+        response.data['item_code'] = targetEditProduct(itemCode, data)
     
     return response.getJson()
 
@@ -107,6 +149,8 @@ def getProductMovement(itemCode):
 
     # Call the relevant get products function depending on business to get response data
     if businessId == 1:
+        product = targetGetProduct(itemCode)
+        if not product: return response.setError(18)
         response.data['product_movement'] = targetGetProductMovement(itemCode, startDate)
     
     return response.getJson()
@@ -139,6 +183,8 @@ def getProductForecast(itemCode):
 
     # Call the relevant get products function depending on business to get response data
     if businessId == 1:
+        product = targetGetProduct(itemCode)
+        if not product: return response.setError(18)
         response.data['product_forecast'] = targetGetProductForecast(itemCode)
     
     return response.getJson()

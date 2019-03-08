@@ -82,15 +82,35 @@ def targetGetProduct(itemCode):
     items = resultSetToJson(con.execute(stm).fetchall())
     con.close()
 
-    item = items[0]
-
-    item['units_per_case'] = int(item['units_per_case'])
-    item['price'] = float(item['price'])
-    if item['barcode'] == "None":
-        item['barcode'] = None
-    item['current_inventory'] = targetGetProductInventory(itemCode)
+    if items:
+        item = items[0]
+        item['units_per_case'] = int(item['units_per_case'])
+        item['price'] = float(item['price'])
+        if item['barcode'] == "None":
+            item['barcode'] = None
+        item['current_inventory'] = targetGetProductInventory(itemCode)
+    else:
+        item = None
 
     return item
+
+def targetEditProduct(itemCode, data):
+    
+    # Setup database connection and table
+    con = targetDbEng.connect()
+    products = Table('products', MetaData(targetDbEng), autoload=True)
+
+    # Main update statement
+    stm = products.update().where(products.c.item_code == itemCode)
+
+    # Check potential passed in params to update
+    if 'price' in data:
+        stm = stm.values(price=data['price'])
+    
+    con.execute(stm)
+    con.close()
+
+    return itemCode
 
 # Function to get inventory of a product, optionally at a specific point in time
 def targetGetProductInventory(itemCode, datetime=None):
