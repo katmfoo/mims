@@ -5,7 +5,7 @@ import datetime
 from utility import Response, checkVars, authenticateRequest, mimsDbEng
 
 # Business function imports
-from .businesses.target import targetGetProducts, targetGetProduct, targetGetProductMovement
+from .businesses.target import targetGetProducts, targetGetProduct, targetGetProductMovement, targetGetProductForecast
 
 # ===============================================
 # Product endpoints
@@ -108,5 +108,37 @@ def getProductMovement(itemCode):
     # Call the relevant get products function depending on business to get response data
     if businessId == 1:
         response.data['product_movement'] = targetGetProductMovement(itemCode, startDate)
+    
+    return response.getJson()
+
+# Endpoint to get a specific product's forecasted inventory transactions
+# GET /products/{item_code}/forecast/
+# Auth: Access token required, can be employee or manager
+# Returns: The product's forecasted inventory transactions
+@productsBlueprint.route('/<itemCode>/forecast/', methods=['GET'])
+def getProductForecast(itemCode):
+    response = Response()
+
+    # Ensure user has permission for this endpoint
+    userId = authenticateRequest(response, request)
+    if response.hasError(): return response.getJson()
+
+    # Ensure required input parameters are received
+    required = []
+    optional = []
+    data = checkVars(response, request.values.to_dict(), required, optional)
+    if response.hasError(): return response.getJson()
+
+    # Setup database connection and table
+    con = mimsDbEng.connect()
+    users = Table('users', MetaData(mimsDbEng), autoload=True)
+
+    # Get the business reference of the business of the user making this request
+    stm = select([users]).where(users.c.id == userId)
+    businessId = con.execute(stm).fetchone()['business']
+
+    # Call the relevant get products function depending on business to get response data
+    if businessId == 1:
+        response.data['product_forecast'] = targetGetProductForecast(itemCode)
     
     return response.getJson()

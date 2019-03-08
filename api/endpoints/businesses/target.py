@@ -140,3 +140,7 @@ def targetGetProductMovement(itemCode, startDateTime):
         startDateTime = startDateTime + datetime.timedelta(days=1)
     
     return movement
+
+# Function to get forecasted inventory transactions of a product
+def targetGetProductForecast(itemCode):
+    return {}
