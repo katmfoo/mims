@@ -34,7 +34,7 @@ def createInventoryTransaction():
     if 'price' in data and not checkPrice(response, data['price']):
         return response.getJson()
     
-    if not type(data['amount']) is int:
+    if not type(data['amount']) is int or not type(data['amount']) is float:
         return response.setError(21)
     
     try:

@@ -42,7 +42,7 @@ responseErrors = {
     18: 'Product not found',
     19: 'Invalid price format',
     20: 'Unit not found',
-    21: 'Amount value must be integer',
+    21: 'Amount value must be integer or float',
     22: 'Invalid datetime format'
 }
 
