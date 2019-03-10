@@ -197,3 +197,38 @@ def targetCreateInventoryTransaction(data):
     con.close()
 
     return result.lastrowid
+
+# Function to create a sale
+def targetCreateSale(data):
+
+    # Setup database connection and table
+    con = targetDbEng.connect()
+    sales = Table('sales', MetaData(targetDbEng), autoload=True)
+    products = Table('products', MetaData(targetDbEng), autoload=True)
+    sale_items = Table('sale_items', MetaData(targetDbEng), autoload=True)
+
+    # Create sale
+    stm = sales.insert()
+    sale = con.execute(stm)
+
+    sale_id = sale.lastrowid
+
+    # Create inventory transactions and sale items
+    for item in data['items']:
+        # Get the item to figure out what unit it is sold in and what its price is
+        stm = select([products]).where(products.c.item_code == item['item_code'])
+        item_obj = con.execute(stm).fetchone()
+        item['unit'] = item_obj['unit']
+
+        # Create the inventory transaction
+        inventory_transaction_id = targetCreateInventoryTransaction(item)
+
+        sale_item_price = float(item['amount']) * float(item_obj['price'])
+
+        # Create the sale item
+        stm = sale_items.insert().values(sale=sale_id, inventory_transaction=inventory_transaction_id, price=sale_item_price)
+        result = con.execute(stm)
+
+    con.close()
+
+    return sale_id

@@ -43,7 +43,9 @@ responseErrors = {
     19: 'Invalid price format',
     20: 'Unit not found',
     21: 'Amount value must be integer or float',
-    22: 'Invalid datetime format'
+    22: 'Invalid datetime format',
+    23: 'One or more items are missing data',
+    24: 'One or more products not found'
 }
 
 # Response class to create and format a consistent JSON response

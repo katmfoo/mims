@@ -6,6 +6,7 @@ from endpoints.users import usersBlueprint
 from endpoints.login import loginBlueprint
 from endpoints.products import productsBlueprint
 from endpoints.inventory import inventoryBlueprint
+from endpoints.sales import salesBlueprint
 
 # ===============================================
 # Main API file, imports endpoints and registers
@@ -22,3 +23,4 @@ app.register_blueprint(usersBlueprint, url_prefix='/users')
 app.register_blueprint(loginBlueprint, url_prefix='/login')
 app.register_blueprint(productsBlueprint, url_prefix='/products')
 app.register_blueprint(inventoryBlueprint, url_prefix='/inventory')
+app.register_blueprint(salesBlueprint, url_prefix='/sales')

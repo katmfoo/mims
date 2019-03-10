@@ -5,20 +5,20 @@ import datetime
 from utility import Response, checkVars, authenticateRequest, mimsDbEng
 
 # Business function imports
-from .businesses.target import targetGetProduct, targetGetUnit, targetCreateInventoryTransaction
+from .businesses.target import targetGetProduct, targetCreateSale
 
 # ===============================================
-# Inventory endpoints
+# Sales endpoints
 # ===============================================
 
-inventoryBlueprint = Blueprint('inventory', __name__)
+salesBlueprint = Blueprint('sales', __name__)
 
-# Endpoint to create an inventory transaction
-# POST /inventory/
+# Endpoint to create a sale
+# POST /sales/
 # Auth: Access token required, can be employee or manager
-# Returns: The inventory transaction id of the newly created inventory transaction
-@inventoryBlueprint.route('/', methods=['POST'])
-def createInventoryTransaction():
+# Returns: The sale id of the newly created sale
+@salesBlueprint.route('/', methods=['POST'])
+def createSale():
     response = Response()
 
     # Ensure user has permission for this endpoint
@@ -26,18 +26,25 @@ def createInventoryTransaction():
     if response.hasError(): return response.getJson()
 
     # Ensure required input parameters are received
-    required = ['item_code', 'amount', 'unit', 'datetime']
+    required = ['items']
     optional = []
     data = checkVars(response, request.get_json(), required, optional)
     if response.hasError(): return response.getJson()
-    
-    if not type(data['amount']) is int and not type(data['amount']) is float:
-        return response.setError(21)
-    
-    try:
-        datetime.datetime.strptime(data['datetime'], "%Y-%m-%d %H:%M:%S")
-    except:
-        return response.setError(22)
+
+    for item in data['items']:
+        # Ensure item is not missing required data
+        if not 'item_code' in item or not 'amount' in item or not 'datetime' in item:
+            return response.setError(23)
+        
+        # Ensure amount is formatted properly
+        if not type(item['amount']) is int and not type(item['amount']) is float:
+            return response.setError(21)
+
+        # Ensure datetime is formatted properly
+        try:
+            datetime.datetime.strptime(item['datetime'], "%Y-%m-%d %H:%M:%S")
+        except:
+            return response.setError(22)
 
     # Setup database connection and table
     con = mimsDbEng.connect()
@@ -49,10 +56,11 @@ def createInventoryTransaction():
 
     # Call the relevant get products function depending on business to get response data
     if businessId == 1:
-        product = targetGetProduct(data['item_code'])
-        if not product: return response.setError(18)
-        unit = targetGetUnit(data['unit'])
-        if not unit: return response.setError(20)
-        response.data['inventory_transaction'] = targetCreateInventoryTransaction(data)
+        # Ensure each item code is accurate
+        for item in data['items']:
+            product = targetGetProduct(item['item_code'])
+            if not product: return response.setError(24)
+        
+        response.data['sale'] = targetCreateSale(data)
     
     return response.getJson()
