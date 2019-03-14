@@ -4,6 +4,13 @@ Mobile inventory management system
 ### Team members
 Patrick Richeal, Brandon Ostasewski, Matthew Finnegan, Dominic Marandino, John Donahue, Paul Sigloch, Steven Bruman, Sagarika Kumar
 
+### Account info for users on the API
+
+| Username  | Password |
+|-----------|----------|
+| Manager1  | password |
+| Employee1 | password |
+
 ### Starting the app for local development
 * Run `npx ionic serve` in the `app/` directory
 
