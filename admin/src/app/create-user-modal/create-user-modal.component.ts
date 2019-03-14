@@ -1,4 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
+//import { Component, OnInit } from '@angular/core';
+import { ApiCallService } from '../services/api-call.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-create-user-modal',
@@ -9,7 +13,7 @@ export class CreateUserModalComponent implements OnInit {
 
   @Input('modal') modal;
 
-  constructor() { }
+  constructor(private apiCall: ApiCallService, private router: Router) { }
 
   ngOnInit() {
   }
