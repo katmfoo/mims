@@ -12,7 +12,7 @@ Patrick Richeal, Brandon Ostasewski, Matthew Finnegan, Dominic Marandino, John D
 | Employee1 | password |
 
 ### Live API URL
-The live API is available at `http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/login/`.
+The live API is available at `http://ec2-54-81-254-121.compute-1.amazonaws.com:5000`.
 
 ### Starting the app for local development
 * Run `npx ionic serve` in the `app/` directory
