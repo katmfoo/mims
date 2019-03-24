@@ -25,16 +25,6 @@ export class CreateUserModalComponent implements OnInit {
 
   ngOnInit() {}
 
-  test() {                // THIS METHOD IS BEING USED IN PLACE OF createUSER TO TEST ERROR MESSAGES
-    //alert("Testing...");
-    this.errorMsg = "";
-
-    if (!this.username || !this.password || !this.confirm_password || !this.first_name || !this.last_name) {
-      this.errorMsg = "All fields required";
-      return; // error message is not displayed, though this is the same theory in the login page (which works)
-    }
-  }
-
   createUser() {
     // Reset error message
     this.errorMsg = "";
