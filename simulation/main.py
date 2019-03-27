@@ -129,60 +129,61 @@ def makeSale(headers, items, simtime):
     elif(shopperType < 90):
         url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
         numItems = random.randint(3, 10)
-        rng = random.randint(0, len(items))
-        item = items[rng]
-        url += "{" + item + "}/"
-        payload = ""
-        x = requests.request("GET", url, data=payload, headers=headers)
-        print(x.text)
-        # Convert Response object to Json object
-        response = x.json()
-        print(response["data"])
-        # Right here we have "success" = true, so we must get the inner array
-        data = response["data"]
-        print(data["products"])
-        # We are going into the next nested dictionary object(key value object) to get products
-        product = data["products"][0]
-        inventory = product["current_inventory"]
-        amount = 0
-        if (inventory > 1):
-            amount = random.randint(1, inventory / 2)
-        if (amount > 0):
-            newItem = {
-                "item_code": item,
-                "amount": amount,
-                "datetime": simtime
-            }
-            sale.append(newItem)
+        for i in range(1, numItems):
+            rng = random.randint(0, len(items))
+            item = items[rng]
+            url += "{" + item + "}/"
+            payload = ""
+            x = requests.request("GET", url, data=payload, headers=headers)
+            print(x.text)
+            # Convert Response object to Json object
+            response = x.json()
+            print(response["data"])
+            # Right here we have "success" = true, so we must get the inner array
+            data = response["data"]
+            print(data["products"])
+            # We are going into the next nested dictionary object(key value object) to get products
+            product = data["products"][0]
+            inventory = product["current_inventory"]
+            amount = 0
+            if (inventory > 1):
+                amount = random.randint(1, inventory / 2)
+            if (amount > 0):
+                newItem = {
+                    "item_code": item,
+                    "amount": amount,
+                    "datetime": simtime
+                }
+                sale.append(newItem)
     else:
         url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
         numItems = random.randint(8, 20)
-        rng = random.randint(0, len(items))
-        item = items[rng]
-        url += "{" + item + "}/"
-        payload = ""
-        x = requests.request("GET", url, data=payload, headers=headers)
-        print(x.text)
-        # Convert Response object to Json object
-        response = x.json()
-        print(response["data"])
-        # Right here we have "success" = true, so we must get the inner array
-        data = response["data"]
-        print(data["products"])
-        # We are going into the next nested dictionary object(key value object) to get products
-        product = data["products"][0]
-        inventory = product["current_inventory"]
-        amount = 0
-        if (inventory > 0):
-            amount = random.randint(1, inventory)
-        if (amount > 0):
-            newItem = {
-                "item_code": item,
-                "amount": amount,
-                "datetime": simtime
-            }
-            sale.append(newItem)
-
+        for i in range(1, numItems):
+            rng = random.randint(0, len(items))
+            item = items[rng]
+            url += "{" + item + "}/"
+            payload = ""
+            x = requests.request("GET", url, data=payload, headers=headers)
+            print(x.text)
+            # Convert Response object to Json object
+            response = x.json()
+            print(response["data"])
+            # Right here we have "success" = true, so we must get the inner array
+            data = response["data"]
+            print(data["products"])
+            # We are going into the next nested dictionary object(key value object) to get products
+            product = data["products"][0]
+            inventory = product["current_inventory"]
+            amount = 0
+            if (inventory > 0):
+                amount = random.randint(1, inventory)
+            if (amount > 0):
+                newItem = {
+                    "item_code": item,
+                    "amount": amount,
+                    "datetime": simtime
+                }
+                sale.append(newItem)
     data = {
         "items": sale
     }
