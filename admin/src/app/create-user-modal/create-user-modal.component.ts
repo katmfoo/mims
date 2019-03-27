@@ -36,15 +36,15 @@ export class CreateUserModalComponent implements OnInit {
     } else if (this.password != this.confirm_password) { // != or some method?
       this.errorMsg = "Passwords must match"; // NOT WORKING
     } else {
-      this.apiCall.post('/createUser/', { // use the createUser method from the API
+      this.apiCall.post('/users/', { // use the createUser method from the API
         username: this.username,      // MUST BE IN ORDER: username, first_name, last_name, password, type
         first_name: this.first_name,
         last_name: this.last_name,
         password: this.password,
-        type: this.type
+        type: Math.floor(this.type.valueOf()) // this.type is not working as of now
       }).then((response: any) => { // figure out what needs to happen after getting response
         if (response.success) {
-          if (response.data.user_type == 1) { // TEST FOR DIFFERENT RESPONSE DATA
+          if (response.data.user_id != 0) { // TEST FOR DIFFERENT RESPONSE DATA
             this.router.navigate(['users']); // return to users page after user creation
           } else {
             this.errorMsg = 'Must be manager to create new user';
