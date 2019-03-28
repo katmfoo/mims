@@ -112,9 +112,9 @@ def makeSale(headers, items, simtime):
             print(response["data"])
             # Right here we have "success" = true, so we must get the inner array
             data = response["data"]
-            print(data["products"])
+            print(data["product"])
             # We are going into the next nested dictionary object(key value object) to get products
-            product = data["products"][0]
+            product = data["product"]
             inventory = product["current_inventory"]
             amount = 0
             if(inventory > 3):
@@ -143,9 +143,9 @@ def makeSale(headers, items, simtime):
             print(response["data"])
             # Right here we have "success" = true, so we must get the inner array
             data = response["data"]
-            print(data["products"])
+            print(data["product"])
             # We are going into the next nested dictionary object(key value object) to get products
-            product = data["products"][0]
+            product = data["product"]
             inventory = product["current_inventory"]
             amount = 0
             if (inventory > 100):
@@ -176,9 +176,9 @@ def makeSale(headers, items, simtime):
             print(response["data"])
             # Right here we have "success" = true, so we must get the inner array
             data = response["data"]
-            print(data["products"])
+            print(data["product"])
             # We are going into the next nested dictionary object(key value object) to get products
-            product = data["products"][0]
+            product = data["product"]
             inventory = product["current_inventory"]
             amount = 0
             if (inventory > 100):
@@ -244,9 +244,9 @@ def changePrices(headers, items, simtime):
         print(response["data"])
         # Right here we have "success" = true, so we must get the inner array
         data = response["data"]
-        print(data["products"])
+        print(data["product"])
         # We are going into the next nested dictionary object(key value object) to get products
-        product = data["products"][0]
+        product = data["product"]
         initPrice = product["price"]
         newPrice = initPrice * 1.1
         data = {
@@ -268,9 +268,9 @@ def changePrices(headers, items, simtime):
         print(response["data"])
         # Right here we have "success" = true, so we must get the inner array
         data = response["data"]
-        print(data["products"])
+        print(data["product"])
         # We are going into the next nested dictionary object(key value object) to get products
-        product = data["products"][0]
+        product = data["product"]
         initPrice = product["price"]
         newPrice = initPrice * .9
         data = {
