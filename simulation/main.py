@@ -12,7 +12,7 @@ def main():
     payload = ""
     headers = {
         'content-type': "application/json",
-        'access-token': "access-token"
+        'access-token': "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjF9.-FE628IPFnkNhO3B-voWdeBZ4196HMfWUJ4edxvEYf0"
     }
 
     # Pull response from the URL
