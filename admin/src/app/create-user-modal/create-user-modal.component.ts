@@ -31,32 +31,27 @@ export class CreateUserModalComponent implements OnInit {
 
     // Ensure all fields are filled out (not including user type, always specified)
     if (!this.username || !this.password || !this.confirm_password || !this.first_name || !this.last_name) {
-      this.errorMsg = "All fields required"; // NOT WORKING
+      this.errorMsg = "All fields required";
       return;
     } else if (this.password != this.confirm_password) { // != or some method?
-      this.errorMsg = "Passwords must match"; // NOT WORKING
+      this.errorMsg = "Passwords must match";
     } else {
-      this.apiCall.post('/users/', { // use the createUser method from the API
+      this.apiCall.post('/users/', { // users.py POST method creates users
         username: this.username,      // MUST BE IN ORDER: username, first_name, last_name, password, type
         first_name: this.first_name,
         last_name: this.last_name,
         password: this.password,
-        type: Math.floor(this.type.valueOf()) // this.type is not working as of now
-      }).then((response: any) => { // figure out what needs to happen after getting response
+        type: Math.floor(this.type.valueOf()) // convert the value of 'type' to an "int"
+      }).then((response: any) => { 
         if (response.success) {
-          if (response.data.user_id != 0) { // TEST FOR DIFFERENT RESPONSE DATA
-            this.router.navigate(['users']); // return to users page after user creation
-          } else {
-            this.errorMsg = 'Must be manager to create new user';
-            return;
-          }
+          this.modal.close(); // close modal after successful user creation
+          return;
         } else {
           this.errorMsg = response.error.message; // if user creation doesn't work, respond with specified response
           return;
         }
       })
     }
-    // modal.close() ??? NEED TO FIGURE OUT HOW TO CLOSE MODAL AFTER SUCCESSFULL SER CREATION
   }
 
 }
