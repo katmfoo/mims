@@ -135,9 +135,9 @@ def makeSale(headers, items, simtime):
                 }
                 sale.append(newItem)
     elif(shopperType < 90):
-        url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
         numItems = random.randint(3, 10)
         for i in range(1, numItems):
+            url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
             rng = random.randint(0, len(items))
             item = items[rng]
             url +=  item + "/"
@@ -169,14 +169,14 @@ def makeSale(headers, items, simtime):
                 }
                 sale.append(newItem)
     else:
-        url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
         numItems = random.randint(8, 20)
         for i in range(1, numItems):
+            url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
             rng = random.randint(0, len(items))
             item = items[rng]
             url += item + "/"
             payload = ""
-            print(item)
+            print(url)
             x = requests.request("GET", url, data=payload, headers=headers)
             print(x.text)
             # Convert Response object to Json object
