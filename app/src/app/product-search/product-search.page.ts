@@ -28,4 +28,6 @@ export class ProductSearchPage {
     //this.navCtrl.navigateRoot('product-details');
     this.navCtrl.navigateForward('product-details/' + item_code);
   }
+
+  
 }
