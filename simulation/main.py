@@ -45,13 +45,13 @@ def main():
                  [False, False, False, False, False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False],
                  [False, False, False, False, False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False, False]]
 
-    waitTimes = [[1,1,1,1,1,1,1,5,5,5,10,10,10,15,15,15,10,10,10,10,10,10,5,1,1],
-                 [1,1,1,1,1,1,1,5,5,5,10,10,10,15,15,15,15,15,15,10,10,10,10,1,1],
-                 [1,1,1,1,1,1,1,5,10,10,10,10,10,15,15,15,15,15,15,10,10,5,1,1],
-                 [1,1,1,1,1,1,1,5,5,5,10,10,10,10,10,10,10,10,10,10,10,10,5, 1, 1],
-                 [1,1,1,1,1,1,1,5,5,5,10,10,10,10,15,15,10,10,10,10,10,10,5,1,1],
-                 [1,1,1,1,1,1,1,5,5,10,10,15,15,15,15,15,15,15,10,10,10,10,5,1,1],
-                 [1, 1, 1, 1, 1, 1, 1, 10, 5, 10, 15, 15, 15, 15, 15, 15, 15, 10, 10, 10, 10, 10, 1, 1, 1]]
+    waitTimes = [[1,1,1,1,1,1,1,5,5,5,10,10,10,15,15,15,10,10,10,10,10,10,5,5,1],
+                 [1,1,1,1,1,1,1,5,5,5,10,10,10,15,15,15,15,15,15,10,10,10,10,5,1],
+                 [1,1,1,1,1,1,1,5,10,10,10,10,10,15,15,15,15,15,15,10,10,5,5,1],
+                 [1,1,1,1,1,1,1,5,5,5,10,10,10,10,10,10,10,10,10,10,10,10,5, 5, 1],
+                 [1,1,1,1,1,1,1,5,5,5,10,10,10,10,15,15,10,10,10,10,10,10,5,5,1],
+                 [1,1,1,1,1,1,1,5,5,10,10,15,15,15,15,15,15,15,10,10,10,10,5,5,1],
+                 [1,1,1,1,1,1,1,10, 5, 10, 15, 15, 15, 15, 15, 15, 15, 10, 10, 10, 10, 10, 10, 1, 1]]
 
     print(str(simtime.date()) + " " + str(simtime.time().isoformat(timespec='seconds')))
 
@@ -103,7 +103,7 @@ def makeSale(headers, items, simtime):
             url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
             rng = random.randint(0, len(items))
             item = items[rng]
-            url += "{" + item + "}/"
+            url += item + "/"
             payload = ""
             x = requests.request("GET", url, data=payload, headers=headers)
             print(x.text)
@@ -134,7 +134,7 @@ def makeSale(headers, items, simtime):
         for i in range(1, numItems):
             rng = random.randint(0, len(items))
             item = items[rng]
-            url += "{" + item + "}/"
+            url +=  item + "/"
             payload = ""
             x = requests.request("GET", url, data=payload, headers=headers)
             print(x.text)
@@ -167,7 +167,7 @@ def makeSale(headers, items, simtime):
         for i in range(1, numItems):
             rng = random.randint(0, len(items))
             item = items[rng]
-            url += "{" + item + "}/"
+            url += item + "/"
             payload = ""
             x = requests.request("GET", url, data=payload, headers=headers)
             print(x.text)
@@ -235,7 +235,7 @@ def changePrices(headers, items, simtime):
         url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
         rng = random.randint(0,len(items))
         item = items[rng]
-        url += "{" + item + "}/"
+        url += item + "/"
         payload = ""
         x = requests.request("GET", url, data=payload, headers=headers)
         print(x.text)
@@ -259,7 +259,7 @@ def changePrices(headers, items, simtime):
         url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
         rng = random.randint(0,len(items))
         item = items[rng]
-        url += "{" + item + "}/"
+        url += item + "/"
         payload = ""
         x = requests.request("GET", url, data=payload, headers=headers)
         print(x.text)
@@ -282,6 +282,3 @@ def changePrices(headers, items, simtime):
 
 if __name__ == "__main__":
     main()
-
-
-
