@@ -106,7 +106,7 @@ def makeSale(headers, items, simtime):
         numItems = random.randint(1,5)
         for i in range(1,numItems):
             url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
-            rng = random.randint(0, len(items))
+            rng = random.randint(0, len(items) - 1)
             item = items[rng]
             url += item + "/"
             payload = ""
@@ -138,7 +138,7 @@ def makeSale(headers, items, simtime):
         numItems = random.randint(3, 10)
         for i in range(1, numItems):
             url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
-            rng = random.randint(0, len(items))
+            rng = random.randint(0, len(items) - 1)
             item = items[rng]
             url +=  item + "/"
             payload = ""
@@ -172,7 +172,7 @@ def makeSale(headers, items, simtime):
         numItems = random.randint(8, 20)
         for i in range(1, numItems):
             url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
-            rng = random.randint(0, len(items))
+            rng = random.randint(0, len(items) - 1)
             item = items[rng]
             url += item + "/"
             payload = ""
