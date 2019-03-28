@@ -44,8 +44,13 @@ export class CreateUserModalComponent implements OnInit {
         type: Math.floor(this.type.valueOf()) // convert the value of 'type' to an "int"
       }).then((response: any) => { 
         if (response.success) {
-          this.modal.close(); // close modal after successful user creation
-          return;
+          if (response.data.user_type == 1) {
+            this.modal.close(); // close modal after successful user creation
+            return;
+          } else {
+            this.errorMsg = 'Must be manager to create new users';
+            return;
+          }
         } else {
           this.errorMsg = response.error.message; // if user creation doesn't work, respond with specified response
           return;
