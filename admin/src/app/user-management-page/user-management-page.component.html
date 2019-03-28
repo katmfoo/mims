@@ -1,6 +1,8 @@
 <div class="container">
   <br>
   <br>
+
+  <button class="btn btn-primary" (click)="logout()" type="button">Logout</button>
   <nav class="navbar navbar-light bg-light">
     <span class="navbar-brand mb-0 h1">MIMS - User Management</span>
     <form class="form-inline">
@@ -29,7 +31,7 @@
           <span *ngIf="user.type == 2">Employee</span>
         </td>
         <td>
-          <button type="button" class="btn btn-primary btn-sm" (click)="open(editModal)">Edit</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="openEditModal(editModal, user.username)">Edit</button>
           &nbsp;
           <button type="button" class="btn btn-primary btn-sm">Delete</button>
         </td>
@@ -44,7 +46,7 @@
 </div>
 
 <ng-template #editModal let-modal>
-  <app-edit-user-modal [modal]="modal"></app-edit-user-modal>
+  <app-edit-user-modal [modal]="modal" [username-input]='selectedUser'></app-edit-user-modal>
 </ng-template>
 
 <ng-template #createModal let-modal>

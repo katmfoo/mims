@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiCallService } from '../services/api-call.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-management-page',
@@ -10,13 +11,20 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class UserManagementPageComponent implements OnInit {
 
   public users: Array<any> = [];
-  public data: any = {page_size: 2, page: 1};
+  public data: any = {page_size: 10, page: 1};
   public search_term: string;
+  public selectedUser;
 
   constructor(private apiCall: ApiCallService, private modalService: NgbModal) {}
 
   ngOnInit() {
     this.updateUsers();
+  }
+
+  logout() {
+    // logout current user
+    localStorage.removeItem('userToken');
+    //this.router.navigate(['login']);
   }
 
   updateUsers() {
@@ -65,5 +73,10 @@ export class UserManagementPageComponent implements OnInit {
     }, (reason) => {
       console.log('rejected');
     });
+  }
+
+  openEditModal(content, username) {
+    this.selectedUser = username;
+    this.open(content);
   }
 }

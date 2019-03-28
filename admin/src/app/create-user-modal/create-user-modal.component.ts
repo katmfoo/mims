@@ -29,8 +29,8 @@ export class CreateUserModalComponent implements OnInit {
     // Reset error message
     this.errorMsg = "";
 
-    // Ensure all fields are filled out (not including user type, always specified)
-    if (!this.username || !this.password || !this.confirm_password || !this.first_name || !this.last_name) {
+    // Ensure all fields are filled out
+    if (!this.username || !this.password || !this.type || !this.confirm_password || !this.first_name || !this.last_name) {
       this.errorMsg = "All fields required";
       return;
     } else if (this.password != this.confirm_password) { // != or some method?
@@ -44,13 +44,8 @@ export class CreateUserModalComponent implements OnInit {
         type: Math.floor(this.type.valueOf()) // convert the value of 'type' to an "int"
       }).then((response: any) => { 
         if (response.success) {
-          if (response.data.user_type == 1) {
-            this.modal.close(); // close modal after successful user creation
+            this.modal.close();
             return;
-          } else {
-            this.errorMsg = 'Must be manager to create new users';
-            return;
-          }
         } else {
           this.errorMsg = response.error.message; // if user creation doesn't work, respond with specified response
           return;
