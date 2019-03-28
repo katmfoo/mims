@@ -7,21 +7,22 @@
 </ion-header>
 
 <ion-content padding>
+  <div *ngIf="item">
   <div class="bar bar-header bar-light">
     <h1>
-      Green Peppers
+      {{item.name}}
     </h1>
   </div>
 
   <ion-item>
     <ion-label>
-      PLU: 4065
+      PLU: {{item.plu_number}}
     </ion-label>
   </ion-item>
 
   <ion-item>
     <ion-label>
-      Inventory: 4543
+      Inventory: {{item.current_inventory}}
     </ion-label>
   </ion-item>
 
@@ -32,23 +33,20 @@
   </ion-item>
 
   <ion-item>
-    <ion-label >
-      Movement Yesterday: 423
-    </ion-label>
-    <ion-button href="/movement">Weekly</ion-button>
+    <ion-button href="/movement">Movement</ion-button>
   </ion-item>
   
 
   <ion-item>
-    <ion-label>
-      Forecast Tomorrow: 1234
-    </ion-label>
-    <ion-button href="/forecast">Weekly</ion-button>
+    <ion-button href="/forecast">Forecast</ion-button>
   </ion-item>
 
+</div>
   <ion-button color="primary" href="/home">Go back</ion-button>
+
 
   
 </ion-content>
+
 
 
