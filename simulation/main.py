@@ -74,7 +74,7 @@ def main():
             wait = False
             if(openclose[simtime.weekday()][simtime.hour]):
                 wait = True
-                waitTime = random.randint(2,(120/waitTimes[simtime.weekday()][simtime.hour]))
+                waitTime = random.randint(3,(240/waitTimes[simtime.weekday()][simtime.hour]))
         last_time = simtime
         simtime = simtime + timedelta(minutes=1)
     print("Sales: " + str(sales))
@@ -95,7 +95,7 @@ def main():
             sales = sales + 1
         if (openclose[currentDT.weekday()][currentDT.hour]):
             wait = True
-            waitTime = random.randint(2, (120/waitTimes[currentDT.weekday()][currentDT.hour]))
+            waitTime = random.randint(3, (240/waitTimes[currentDT.weekday()][currentDT.hour]))
         else:
             waitTime = 0
 
@@ -104,7 +104,7 @@ def makeSale(headers, items, simtime):
     shopperType = random.randint(1,100)
     sale = []
     if(shopperType < 60):
-        numItems = random.randint(1,5)
+        numItems = random.randint(1,3)
         for i in range(1,numItems):
             url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
             rng = random.randint(0, len(items) - 1)
@@ -136,7 +136,7 @@ def makeSale(headers, items, simtime):
                 }
                 sale.append(newItem)
     elif(shopperType < 90):
-        numItems = random.randint(3, 10)
+        numItems = random.randint(2, 5)
         for i in range(1, numItems):
             url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
             rng = random.randint(0, len(items) - 1)
@@ -170,7 +170,7 @@ def makeSale(headers, items, simtime):
                 }
                 sale.append(newItem)
     else:
-        numItems = random.randint(8, 20)
+        numItems = random.randint(5, 10)
         for i in range(1, numItems):
             url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
             rng = random.randint(0, len(items) - 1)
