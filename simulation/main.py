@@ -119,6 +119,8 @@ def makeSale(headers, items, simtime):
             amount = 0
             if(inventory > 3):
                 amount = random.randint(1,3)
+            elif (inventory > 0):
+                amount = random.randint(1, inventory)
             if(amount > 0):
                 newItem = {
                     "item_code": item,
@@ -146,8 +148,12 @@ def makeSale(headers, items, simtime):
             product = data["products"][0]
             inventory = product["current_inventory"]
             amount = 0
-            if (inventory > 1):
-                amount = random.randint(1, inventory / 2)
+            if (inventory > 100):
+                amount = random.randint(1, inventory / 20)
+            elif (inventory > 5):
+                amount = random.randint(1, 5)
+            elif (inventory > 0):
+                amount = random.randint(1, inventory)
             if (amount > 0):
                 newItem = {
                     "item_code": item,
@@ -175,8 +181,10 @@ def makeSale(headers, items, simtime):
             product = data["products"][0]
             inventory = product["current_inventory"]
             amount = 0
-            if (inventory > 0):
-                amount = random.randint(1, inventory)
+            if (inventory > 100):
+                amount = random.randint(1, inventory / 10)
+            elif (inventory > 0):
+                amount = random.randint(1,inventory / 5);
             if (amount > 0):
                 newItem = {
                     "item_code": item,
@@ -195,7 +203,7 @@ def makeSale(headers, items, simtime):
 def newInventory(headers, items, simtime):
     url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
     for item in items:
-        amount = random.randint(1,5)
+        amount = random.randint(1,10)
         data = {
             "item_code": item,
             "amount": amount,
