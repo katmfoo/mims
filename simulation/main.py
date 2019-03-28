@@ -74,7 +74,7 @@ def main():
             wait = False
             if(openclose[simtime.weekday()][simtime.hour]):
                 wait = True
-                waitTime = random.randint(0,(60/waitTimes[simtime.weekday()][simtime.hour]))
+                waitTime = random.randint(2,(120/waitTimes[simtime.weekday()][simtime.hour]))
         simtime = simtime + timedelta(minutes=1)
     print("Sales: " + str(sales))
 
@@ -94,7 +94,7 @@ def main():
             sales = sales + 1
         if (openclose[currentDT.weekday()][currentDT.hour]):
             wait = True
-            waitTime = random.randint(0, (60/waitTimes[currentDT.weekday()][currentDT.hour]))
+            waitTime = random.randint(2, (120/waitTimes[currentDT.weekday()][currentDT.hour]))
         else:
             waitTime = 0
 
