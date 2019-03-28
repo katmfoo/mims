@@ -110,6 +110,7 @@ def makeSale(headers, items, simtime):
             item = items[rng]
             url += item + "/"
             payload = ""
+            print(item)
             x = requests.request("GET", url, data=payload, headers=headers)
             print(x.text)
             # Convert Response object to Json object
@@ -141,6 +142,7 @@ def makeSale(headers, items, simtime):
             item = items[rng]
             url +=  item + "/"
             payload = ""
+            print(item)
             x = requests.request("GET", url, data=payload, headers=headers)
             print(x.text)
             # Convert Response object to Json object
@@ -174,6 +176,7 @@ def makeSale(headers, items, simtime):
             item = items[rng]
             url += item + "/"
             payload = ""
+            print(item)
             x = requests.request("GET", url, data=payload, headers=headers)
             print(x.text)
             # Convert Response object to Json object
