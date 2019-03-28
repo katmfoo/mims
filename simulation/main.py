@@ -60,7 +60,7 @@ def main():
     sales = 0
     last_time = simtime
     while(simtime < datetime.today()):
-        if(last_time.weekday() - simtime.weekday() == 6):
+        if(simtime.weekday() == 6 and simtime.weekday() - last_time.weekday() == 1):
             changePrices(headers, items, (str(simtime.date()) + " " + str(simtime.time().isoformat(timespec='seconds'))))
         if (last_time.date() < simtime.date()):
             newInventory(headers, items, (str(simtime.date()) + " " + str(simtime.time().isoformat(timespec='seconds'))))
@@ -82,8 +82,13 @@ def main():
 
     while(True):
         time.sleep(waitTime * 60)
+        last_time = currentDT
         currentDT = datetime.now()
         if(wait):
+            if (currentDT.weekday() == 6 and currentDT.weekday() - last_time.weekday() == 1):
+                changePrices(headers, items, (str(currentDT.date()) + " " + str(currentDT.time().isoformat(timespec='seconds'))))
+            if (last_time.date() < currentDT.date()):
+                newInventory(headers, items, (str(currentDT.date()) + " " + str(currentDT.time().isoformat(timespec='seconds'))))
             makeSale(headers, items, str(currentDT.date()) + " " + str(currentDT.time().isoformat(timespec='seconds')))
             print(str(currentDT.date()) + " " + str(currentDT.time().isoformat(timespec='seconds')))
             sales = sales + 1
