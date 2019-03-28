@@ -34,6 +34,5 @@ export class LoginPageModule {
   {
     this.router.navigate(['home']);
   }
-
-
+  
 }

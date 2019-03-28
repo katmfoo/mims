@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Routes, RouterModule, Router } from '@angular/router';
 
 import { ProductSearchPage } from './product-search.page';
 
@@ -20,4 +20,16 @@ import { ProductSearchPage } from './product-search.page';
   ],
   declarations: [ProductSearchPage]
 })
-export class ProductSearchPageModule {}
+export class ProductSearchPageModule {
+
+constructor(private router: Router)
+  {
+
+  }
+
+  loginListener()
+  {
+    this.router.navigate(['home']);
+  }
+
+}
