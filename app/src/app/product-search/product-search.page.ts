@@ -25,7 +25,6 @@ export class ProductSearchPage {
   }
 
   navigate(item_code) {
-    //this.navCtrl.navigateRoot('product-details');
     this.navCtrl.navigateForward('product-details/' + item_code);
   }
 

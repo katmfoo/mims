@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiCallService } from '../services/api-call.service';
 import { AlertController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-product-details',
@@ -12,7 +13,7 @@ export class ProductDetailsPage implements OnInit {
   public item_code;
   public item;
 
-  constructor(private route: ActivatedRoute, private apiCall: ApiCallService, private alertController: AlertController) { }
+  constructor(private route: ActivatedRoute, private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController) { }
 
   ngOnInit() {
     this.item_code = this.route.snapshot.params.itemCode;
@@ -82,6 +83,10 @@ export class ProductDetailsPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  toMovement(item_code) {
+    this.navCtrl.navigateForward('product-movement/' + item_code);
   }
 
 }
