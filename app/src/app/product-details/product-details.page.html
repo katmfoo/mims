@@ -22,6 +22,12 @@
 
   <ion-item>
     <ion-label>
+      Unit Price: ${{item.price}}
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
       Inventory: {{item.current_inventory}} {{item.unit}}s <ion-button (click)="addInventory(item.item_code)">Add</ion-button>
     </ion-label>
   </ion-item>
