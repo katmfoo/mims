@@ -9,16 +9,16 @@ import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./edit-user-modal.component.scss']
 })
 export class EditUserModalComponent implements OnInit {
-
   // set the following equal to the values inputted into the html page during attemptUserCreation()
   public user_id : number;
   public first_name : string;
   public last_name : string;
-  public type : number; // check for correct data type
+  public type : number;
   public username: string;
   public password: string;
   public confirm_password : string;
   public errorMsg: string;
+  public curr_type : number; // current user type for error handling
 
   @Input('modal') modal;
 
@@ -29,16 +29,12 @@ export class EditUserModalComponent implements OnInit {
   ngOnInit() {
     console.log(this.username_input);
     // get user data first, send to PUT
-    this.apiCall.get('/users/', {username: this.username_input}).then((response) => {
+    this.apiCall.get('/users/', {username: this.username_input}).then((response: any) => {
       console.log(response);
       console.log(response.data.users[0]);
       this.user_id = response.data.users[0].id;
-      this.username = response.data.users[0].username;
-      this.first_name = response.data.users[0].first_name
-      this.last_name = response.data.users[0].last_name;
-      // use GET to store data
-      this.password = ;
-      this.type = ; // Math.floor('type from GET'.valueOf())
+      // save 'type' because if no input, we need a value that won't change the user info
+      this.curr_type = Math.floor(response.data.users[0].type.valueOf()); // just type? math not necessary here?
     })
   }
 
@@ -54,21 +50,21 @@ export class EditUserModalComponent implements OnInit {
       this.errorMsg = "Passwords must match";
     } else {
       console.log(this.user_id);
+      
+      if (!this.type) {
+        this.type = this.curr_type;
+      }
       this.apiCall.put('/users/' + this.user_id, { // users.py PUT method edits users NEED USER ID TO MODIFY
         username: this.username,      // MUST BE IN ORDER: username, first_name, last_name, password, type
         first_name: this.first_name,
         last_name: this.last_name,
         password: this.password,
-        type: this.type // convert the value of 'type' to an "int"
+        type: Math.floor(this.type.valueOf()) // convert the value of 'type' to an "int"
       }).then((response: any) => { 
+        console.log(response);
         if (response.success) {
-          if (response.data.user_type == 1) {
-            this.modal.close(); // close modal after successful user editing
-            return;
-          } else {
-            this.errorMsg = 'Must be manager to edit user information';
-            return;
-          }
+          this.modal.close();
+          return;
         } else {
           this.errorMsg = response.error.message; // if user editing doesn't work, respond with specified response
           return;
