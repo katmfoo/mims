@@ -11,23 +11,15 @@
     <h1 class="title">Item Code: {{item.item_code}} Movement By {{item.unit}}</h1>
   </div>
   
-  <ion-item>
-    <ion-label>
-      PLU: {{item.plu_number}} 
-    </ion-label>
-  </ion-item>
-
-  <ion-item>
-    <ion-label>
-      Movement:
-    </ion-label>
-  </ion-item>
-
-    <ion-item>
+  <ion-list>
+    <ion-item *ngFor="let string of movementKeys; index as i">
       <ion-label>
-        {{movement}}
+        {{movementKeys[i]}}: {{movementValues[i]}}
       </ion-label>
     </ion-item>
+  </ion-list>
+
+
 
 </div>
 

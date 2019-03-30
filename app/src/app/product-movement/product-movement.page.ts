@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiCallService } from '../services/api-call.service';
+import { utils } from 'protractor';
 
 @Component({
   selector: 'app-product-movement',
@@ -10,8 +11,9 @@ import { ApiCallService } from '../services/api-call.service';
 export class ProductMovementPage implements OnInit {
   public item_code;
   public item;
-  //public movement;
-  public movement: Array<any> = [];
+  public movement;
+  public movementKeys: Array<any> = [];
+  public movementValues: Array<any> = [];
 
   constructor(private route: ActivatedRoute, private apiCall: ApiCallService) { }
 
@@ -29,8 +31,15 @@ export class ProductMovementPage implements OnInit {
     this.apiCall.get('/products/' + this.item_code + '/movement/', {}).then((response: any) => {
       if (response.success) {
         this.movement = response.data.product_movement;
+        this.movementKeys = Object.keys(this.movement);
+        this.movementValues = Object.values(this.movement);
         console.log(this.movement);
-      }
+        console.log(this.movementKeys);
+        console.log(this.movementValues);
+        }
+        
+
+      
     });
   }
 
