@@ -38,11 +38,14 @@
       </div>
       <div class="form-group col-md-6">
         <label for="confirm_password">Confirm Password</label>
-        <input type="confirm_password" class="form-control" id="confirm_password" [(ngModel)]="confirm_password" name="confirm_password" placeholder="Confirm password">
+        <input type="password" class="form-control" id="confirm_password" [(ngModel)]="confirm_password" name="confirm_password" placeholder="Confirm password">
       </div>
     </div>
   </form>
 </div>
+<ngb-alert *ngIf="errorMsg" [dismissible]="false" type="danger">
+  {{ errorMsg }}
+</ngb-alert>
 <div class="modal-footer">
   <button type="button" class="btn btn-primary" (click)="editUser()">Save User</button>
 </div>

@@ -46,7 +46,7 @@ export class EditUserModalComponent implements OnInit {
     if (!this.username && !this.password && !this.confirm_password && !this.first_name && !this.last_name && !this.type) {
       this.errorMsg = "At least one field required";
       return;
-    } else if (this.password != this.confirm_password) { // != or some method?
+    } else if (this.password != this.confirm_password) {
       this.errorMsg = "Passwords must match";
     } else {
       console.log(this.user_id);
@@ -54,7 +54,7 @@ export class EditUserModalComponent implements OnInit {
       if (!this.type) {
         this.type = this.curr_type;
       }
-      this.apiCall.put('/users/' + this.user_id, { // users.py PUT method edits users NEED USER ID TO MODIFY
+      this.apiCall.put('/users/' + this.user_id, { // users.py PUT method edits users
         username: this.username,      // MUST BE IN ORDER: username, first_name, last_name, password, type
         first_name: this.first_name,
         last_name: this.last_name,
