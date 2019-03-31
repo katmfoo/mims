@@ -14,6 +14,7 @@ export class ProductMovementPage implements OnInit {
   public movement;
   public movementKeys: Array<any> = [];
   public movementValues: Array<any> = [];
+  public movementDays: Array<any> = [];
 
   constructor(private route: ActivatedRoute, private apiCall: ApiCallService) { }
 
@@ -33,9 +34,10 @@ export class ProductMovementPage implements OnInit {
         this.movement = response.data.product_movement;
         this.movementKeys = Object.keys(this.movement);
         this.movementValues = Object.values(this.movement);
-        console.log(this.movement);
-        console.log(this.movementKeys);
-        console.log(this.movementValues);
+        this.movementKeys = this.movementKeys.slice(this.movementKeys.length - 7, this.movementKeys.length + 1);
+        this.movementValues = this.movementValues.slice(this.movementValues.length - 7, this.movementValues.length + 1);
+        this.toDayofWeek();
+        console.log(this.movementDays);
         }
         
 
@@ -50,6 +52,14 @@ export class ProductMovementPage implements OnInit {
         console.log(this.item);
       }
     });
+  }
+
+  toDayofWeek() {
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    for (let i = 0; i < this.movementKeys.length; i++) {
+    var d = new Date(this.movementKeys[i]);
+    this.movementDays[i] = days[d.getDay()];
+    }
   }
 
 }
