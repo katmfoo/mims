@@ -2,7 +2,10 @@
   <br>
   <br>
 
-  <button class="btn btn-primary" (click)="logout()" type="button">Logout</button>
+  <div style="float: right">
+    <button class="btn btn-primary" (click)="logout()" type="button">Logout</button>
+  </div>
+  <br><br>
   <nav class="navbar navbar-light bg-light">
     <span class="navbar-brand mb-0 h1">MIMS - User Management</span>
     <form class="form-inline">
@@ -33,7 +36,9 @@
         <td>
           <button type="button" class="btn btn-primary btn-sm" (click)="openEditModal(editModal, user.username)">Edit</button>
           &nbsp;
-          <button type="button" class="btn btn-primary btn-sm">Delete</button>
+          <button type="button" class="btn btn-primary btn-sm" >Delete</button>
+          <!-- Create a "delete user modal" in order to make sure user should be deleted and to
+          hold on to the user's data (much like the "edit user modal"). -->
         </td>
       </tr>
     </tbody>
