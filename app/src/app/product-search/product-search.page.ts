@@ -28,5 +28,9 @@ export class ProductSearchPage {
     this.navCtrl.navigateForward('product-details/' + item_code);
   }
 
+  logout() {
+    localStorage.clear();
+    this.navCtrl.navigateRoot('login');
+  }
   
 }
