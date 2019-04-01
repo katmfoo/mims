@@ -192,7 +192,7 @@ def makeSale(headers, items, simtime):
             amount = 0
             if (inventory > 100):
                 amount = random.randint(1,int(inventory / 10))
-            elif (inventory > 0):
+            elif (inventory > 5):
                 amount = random.randint(1, int(inventory / 5))
             if (amount > 0):
                 newItem = {
