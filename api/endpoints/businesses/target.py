@@ -219,11 +219,13 @@ def targetCreateSale(data):
         stm = select([products]).where(products.c.item_code == item['item_code'])
         item_obj = con.execute(stm).fetchone()
         item['unit'] = item_obj['unit']
+        
+        sale_item_price = float(item['amount']) * float(item_obj['price'])
+        
+        item['amount'] = -float(item['amount'])
 
         # Create the inventory transaction
         inventory_transaction_id = targetCreateInventoryTransaction(item)
-
-        sale_item_price = float(item['amount']) * float(item_obj['price'])
 
         # Create the sale item
         stm = sale_items.insert().values(sale=sale_id, inventory_transaction=inventory_transaction_id, price=sale_item_price)
