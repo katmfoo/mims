@@ -212,16 +212,34 @@ def makeSale(headers, items, simtime):
 def newInventory(headers, items, simtime):
     url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
     for item in items:
-        amount = random.randint(1,5)
-        data = {
-            "item_code": item,
-            "amount": amount,
-            "unit": 3,
-            "datetime": simtime
-        }
-        payload = json.dumps(data)
-        print(data)
-    x = requests.request("POST", url, data=payload, headers=headers)
+        url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
+        url += item + "/"
+        payload = ""
+        print(url)
+        x = requests.request("GET", url, data=payload, headers=headers)
+        print(x.text)
+        # Convert Response object to Json object
+        response = x.json()
+        print(response["data"])
+        # Right here we have "success" = true, so we must get the inner array
+        data = response["data"]
+        print(data["product"])
+        # We are going into the next nested dictionary object(key value object) to get products
+        product = data["product"]
+        inventory = product["current_inventory"]
+        per = product["units_per_case"]
+        if inventory < per * 2:
+            amount = random.randint(1,2)
+            data = {
+                "item_code": item,
+                "amount": amount,
+                "unit": 3,
+                "datetime": simtime
+            }
+            payload = json.dumps(data)
+            print(data)
+            url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
+            x = requests.request("POST", url, data=payload, headers=headers)
 
 def initialInventory(headers, items, simtime):
     url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
