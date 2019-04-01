@@ -242,7 +242,7 @@ def initialInventory(headers, items, simtime):
 def changePrices(headers, items, simtime):
     for i in range(1,10):
         url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
-        rng = random.randint(0,len(items))
+        rng = random.randint(0,len(items) - 1)
         item = items[rng]
         url += item + "/"
         payload = ""
@@ -266,7 +266,7 @@ def changePrices(headers, items, simtime):
     x = requests.request("PUT", url, data=payload, headers=headers)
     for i in range(1,10):
         url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
-        rng = random.randint(0,len(items))
+        rng = random.randint(0,len(items) - 1)
         item = items[rng]
         url += item + "/"
         payload = ""
