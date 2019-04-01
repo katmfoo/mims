@@ -15,7 +15,7 @@ export class UserManagementPageComponent implements OnInit {
   public search_term: string;
   public selectedUser;
 
-  constructor(private apiCall: ApiCallService, private modalService: NgbModal) {}
+  constructor(private apiCall: ApiCallService, private modalService: NgbModal, private router: Router) {}
 
   ngOnInit() {
     this.updateUsers();
@@ -23,8 +23,8 @@ export class UserManagementPageComponent implements OnInit {
 
   logout() {
     // logout current user
-    localStorage.removeItem('userToken');
-    //this.router.navigate(['login']);
+    localStorage.removeItem('access-token');
+    this.router.navigate(['login']);
   }
 
   updateUsers() {
