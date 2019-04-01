@@ -210,7 +210,6 @@ def makeSale(headers, items, simtime):
     x = requests.request("POST", url, data=payload, headers=headers)
 
 def newInventory(headers, items, simtime):
-    url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
     for item in items:
         url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
         url += item + "/"
@@ -244,7 +243,7 @@ def newInventory(headers, items, simtime):
 def initialInventory(headers, items, simtime):
     url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
     for item in items:
-        amount = random.randint(5,10)
+        amount = random.randint(1,5)
         data = {
                 "item_code": item,
                 "amount": amount,
