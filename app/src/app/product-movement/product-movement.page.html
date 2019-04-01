@@ -15,9 +15,13 @@
   </div>
   
   <ion-list>
-    <ion-item *ngFor="let string of movementKeys; index as i">
+    <ion-item *ngFor="let item of movement; index as i">
       <ion-label>
-        {{movementDays[i]}}: {{movementValues[i]}}
+        {{ item.date.format('dddd') }} 
+        <span *ngIf="i == 0">(today, so far)</span>
+        <span *ngIf="i == 1">(yesterday, end of day)</span>
+        <span *ngIf="i == 7">(last week, end of day)</span>
+        : {{ item.inventory_amount }}
       </ion-label>
     </ion-item>
   </ion-list>
