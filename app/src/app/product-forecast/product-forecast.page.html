@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-button>
+        <ion-button (click)="goBack()">
           <ion-icon fill="clear" slot="icon-only" name="arrow-round-back"></ion-icon>
         </ion-button>
       <ion-title>Product Forecast</ion-title>
@@ -10,7 +10,7 @@
   <ion-content padding>
   
     <div class="bar bar-header bar-light">
-      <h1 class="title">Item Code:432432 Forecast By LB</h1>
+      <h1 class="title">Item Code: 432432 Forecast By LB</h1>
     </div>
     <ion-item>
       <ion-label>
@@ -46,12 +46,6 @@
       <ion-label>
         Saturday: 543
       </ion-label>
-    </ion-item>
-  
-    <ion-button href="/product-info">Go Back</ion-button>
-  
-  
-  
-  
+    </ion-item>  
   
   </ion-content>
