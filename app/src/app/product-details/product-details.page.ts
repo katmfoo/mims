@@ -40,28 +40,15 @@ export class ProductDetailsPage implements OnInit {
       inputs: [
         {
           name: 'amount',
-          type: 'number'
+          type: 'number',
         }
       ],
-      buttons: [
+      buttons: [  
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            
-          }
-        }, {
           text: 'Add Inventory',
           handler: (data) => {
             if (data.amount) {
-              let date = new Date();
-              let date_string = new Date().getUTCFullYear() + '-' +
-                  ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
-                  ('00' + date.getUTCDate()).slice(-2) + ' ' + 
-                  ('00' + date.getUTCHours()).slice(-2) + ':' + 
-                  ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
-                  ('00' + date.getUTCSeconds()).slice(-2);
+              let date_string = this.getDateTimeMySql();
               let unit_id = null;
               if (this.item.unit == 'Unit') {
                 unit_id = 1;
@@ -78,7 +65,15 @@ export class ProductDetailsPage implements OnInit {
               });
             }
           }
-        }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            
+          }
+        } 
       ]
     });
 
@@ -89,5 +84,30 @@ export class ProductDetailsPage implements OnInit {
     this.navCtrl.navigateForward('product-movement/' + item_code);
   }
 
+  toForecast(item_code) {
+    this.navCtrl.navigateForward('product-forecast/' + item_code);
+  }
+
+  getDateTimeMySql()
+  {
+    let date = new Date();
+    let date_string = new Date().getUTCFullYear() + '-' +
+      ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+      ('00' + date.getUTCDate()).slice(-2) + ' ' + 
+      ('00' + date.getUTCHours()).slice(-2) + ':' + 
+      ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+      ('00' + date.getUTCSeconds()).slice(-2);
+    return date_string;
+  }
+
+  goBack()
+  {
+    this.navCtrl.navigateBack('product-search');
+  }
 }
+
+
+
+
+
 

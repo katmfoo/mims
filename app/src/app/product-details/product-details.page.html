@@ -2,6 +2,9 @@
 
 <ion-header>
   <ion-toolbar>
+      <ion-button (click)="goBack()">
+        <ion-icon fill="clear" slot="icon-only" name="arrow-round-back"></ion-icon>
+      </ion-button>
     <ion-title>Product Details</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -28,7 +31,7 @@
 
   <ion-item>
     <ion-label>
-      Inventory: {{item.current_inventory}} {{item.unit}}s <ion-button (click)="addInventory(item.item_code)">Manage</ion-button>
+      Inventory: {{item.current_inventory}} {{item.unit}}s <ion-button (click)="addInventory(item.item_code)">Change</ion-button>
     </ion-label>
   </ion-item>
 
@@ -44,11 +47,10 @@
   
 
   <ion-item>
-    <ion-button href="/forecast">Forecast</ion-button>
+    <ion-button (click)="toForecast()">Forecast</ion-button>
   </ion-item>
 
 </div>
-  <ion-button color="primary" href="/home">Go back</ion-button>
 
 
   

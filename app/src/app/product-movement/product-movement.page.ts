@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiCallService } from '../services/api-call.service';
 import { utils } from 'protractor';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-product-movement',
@@ -16,7 +17,7 @@ export class ProductMovementPage implements OnInit {
   public movementValues: Array<any> = [];
   public movementDays: Array<any> = [];
 
-  constructor(private route: ActivatedRoute, private apiCall: ApiCallService) { }
+  constructor(private route: ActivatedRoute, private apiCall: ApiCallService, private navCtrl: NavController) { }
 
   ngOnInit() {
 
@@ -37,7 +38,6 @@ export class ProductMovementPage implements OnInit {
         this.movementKeys = this.movementKeys.slice(this.movementKeys.length - 7, this.movementKeys.length + 1);
         this.movementValues = this.movementValues.slice(this.movementValues.length - 7, this.movementValues.length + 1);
         this.toDayofWeek();
-        console.log(this.movementDays);
         }
         
 
@@ -60,6 +60,11 @@ export class ProductMovementPage implements OnInit {
     var d = new Date(this.movementKeys[i]);
     this.movementDays[i] = days[d.getDay()];
     }
+  }
+
+  goBack()
+  {
+    this.navCtrl.navigateBack('product-details' + '/' + this.item_code);
   }
 
 }
