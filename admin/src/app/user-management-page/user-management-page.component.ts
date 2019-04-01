@@ -79,4 +79,13 @@ export class UserManagementPageComponent implements OnInit {
     this.selectedUser = username;
     this.open(content);
   }
+
+  deleteUser(user_id) {
+    console.log(user_id);
+    this.apiCall.put('/users/' + user_id + '/', {
+      is_deleted: true
+    }).then((response) => {
+      this.updateUsers();
+    })
+  }
 }
