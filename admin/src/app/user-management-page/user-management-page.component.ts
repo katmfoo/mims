@@ -69,7 +69,7 @@ export class UserManagementPageComponent implements OnInit {
 
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      console.log('fulfilled');
+      this.updateUsers();
     }, (reason) => {
       console.log('rejected');
     });

@@ -11,14 +11,16 @@ import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class EditUserModalComponent implements OnInit {
   // set the following equal to the values inputted into the html page during attemptUserCreation()
   public user_id : number;
+
   public first_name : string;
   public last_name : string;
   public type : number;
   public username: string;
-  public password: string;
+
+  public new_password: string;
   public confirm_password : string;
+
   public errorMsg: string;
-  public curr_type : number; // current user type for error handling
 
   @Input('modal') modal;
 
@@ -32,9 +34,12 @@ export class EditUserModalComponent implements OnInit {
     this.apiCall.get('/users/', {username: this.username_input}).then((response: any) => {
       console.log(response);
       console.log(response.data.users[0]);
-      this.user_id = response.data.users[0].id;
-      // save 'type' because if no input, we need a value that won't change the user info
-      this.curr_type = Math.floor(response.data.users[0].type.valueOf()); // just type? math not necessary here?
+      let user = response.data.users[0];
+      this.user_id = user.id;
+      this.first_name = user.first_name;
+      this.last_name = user.last_name;
+      this.type = user.type;
+      this.username = user.username;
     })
   }
 
@@ -43,24 +48,22 @@ export class EditUserModalComponent implements OnInit {
     this.errorMsg = "";
 
     // Ensure all fields are filled out (not including user type, always specified)
-    if (!this.username && !this.password && !this.confirm_password && !this.first_name && !this.last_name && !this.type) {
-      this.errorMsg = "At least one field required";
-      return;
-    } else if (this.password != this.confirm_password) {
+    if (!this.username || !this.first_name || !this.last_name || !this.type) {
+      this.errorMsg = "All fields are required";
+    } else if ((this.new_password && !this.confirm_password) || (this.confirm_password && !this.new_password)) {
+      this.errorMsg = "All fields are required";
+    } else if (this.new_password != this.confirm_password) {
       this.errorMsg = "Passwords must match";
     } else {
       console.log(this.user_id);
       
-      if (!this.type) {
-        this.type = this.curr_type;
-      }
-      this.apiCall.put('/users/' + this.user_id, { // users.py PUT method edits users
+      this.apiCall.put('/users/' + this.user_id + '/', { // users.py PUT method edits users
         username: this.username,      // MUST BE IN ORDER: username, first_name, last_name, password, type
         first_name: this.first_name,
         last_name: this.last_name,
-        password: this.password,
-        type: Math.floor(this.type.valueOf()) // convert the value of 'type' to an "int"
-      }).then((response: any) => { 
+        new_password: this.new_password,
+        type: Number(this.type)
+      }).then((response: any) => {
         console.log(response);
         if (response.success) {
           this.modal.close();
