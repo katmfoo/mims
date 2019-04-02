@@ -50,6 +50,20 @@
     <ion-button (click)="toForecast(item_code)">Forecast</ion-button>
   </ion-item>
 
+
+  <ion-segment (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="inventory">
+          <ion-label>Inventory</ion-label>
+        </ion-segment-button>
+    <ion-segment-button value="movement">
+      <ion-label>Movement</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="forecast">
+      <ion-label>Forecast</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  
+
 </div>
 
 
