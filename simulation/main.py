@@ -85,7 +85,7 @@ def main():
         time.sleep(waitTime * 60)
         last_time = currentDT
         currentDT = datetime.now()
-        if(wait):
+        if(waitTime > 0):
             if (currentDT.weekday() == 6 and currentDT.weekday() - last_time.weekday() == 1):
                 changePrices(headers, items, (str(currentDT.date()) + " " + str(currentDT.time().isoformat(timespec='seconds'))))
             if (last_time.weekday() - currentDT.weekday() != 0):
@@ -227,8 +227,8 @@ def newInventory(headers, items, simtime):
         product = data["product"]
         inventory = product["current_inventory"]
         per = product["units_per_case"]
-        if inventory < per * 2:
-            amount = random.randint(1,2)
+        if inventory < per * 10:
+            amount = random.randint(1,10)
             data = {
                 "item_code": item,
                 "amount": amount,
@@ -243,7 +243,7 @@ def newInventory(headers, items, simtime):
 def initialInventory(headers, items, simtime):
     url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
     for item in items:
-        amount = random.randint(1,5)
+        amount = random.randint(5,10)
         data = {
                 "item_code": item,
                 "amount": amount,
