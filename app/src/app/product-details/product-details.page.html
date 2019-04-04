@@ -66,10 +66,10 @@
         <ion-segment-button checked ="true" value="inventory">
             <ion-label>Inventory</ion-label>
           </ion-segment-button>
-      <ion-segment-button value="movement">
+      <ion-segment-button value="movement" (click)="toMovement(item_code)">
         <ion-label>Movement</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="forecast">
+      <ion-segment-button value="forecast" (click)="toForecast(item_code)">
         <ion-label>Forecast</ion-label>
       </ion-segment-button>
     </ion-segment>
