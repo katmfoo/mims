@@ -72,7 +72,8 @@ def targetGetProduct(itemCode):
         products.c.plu.label('plu_number'),
         products.c.barcode,
         units.c.name.label('unit'),
-        products.c.units_per_case
+        products.c.units_per_case,
+        products.c.image_url
     ]).select_from(products
         .join(departments, products.c.department == departments.c.id)
         .join(units, products.c.unit == units.c.id)
