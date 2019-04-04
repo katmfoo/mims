@@ -164,19 +164,41 @@ def targetGetProductInventory(itemCode, datetime=None):
 
     return int(current_inventory[0])
 
+# Function to number of sales of a product from a certain date
+def targetGetProductSales(itemCode, date):
+
+    # Setup database connection, table, and query
+    con = targetDbEng.connect()
+    sale_items = Table('sale_items', MetaData(targetDbEng), autoload=True)
+    inventory_transactions = Table('inventory_transactions', MetaData(targetDbEng), autoload=True)
+
+    stm = select([
+        func.coalesce(
+            func.sum(inventory_transactions.c.amount),
+            0
+        )
+    ]).select_from(
+        sale_items.join(
+            inventory_transactions,
+            sale_items.c.inventory_transaction == inventory_transactions.c.id
+    )).where(inventory_transactions.c.item_code == itemCode).where(inventory_transactions.c.creation_datetime.like(date + '%'))
+
+    num_sales = con.execute(stm).fetchone()
+    con.close()
+
+    return -int(num_sales[0])
+
 # Function to get previous inventory movement of a product from a specific starting date
-def targetGetProductMovement(itemCode, startDateTime):
+def targetGetProductMovement(itemCode, startDate):
     movement = {}
 
-    startDateTime = startDateTime.replace(hour=23,minute=59,second=59)
-
     # For each day from startDate to today
-    while startDateTime <= datetime.datetime.today().replace(hour=23,minute=59,second=59):
-        # Get inventory at current date we are iterating on    
-        movement[str(startDateTime.date())] = targetGetProductInventory(itemCode, str(startDateTime))
+    while startDate <= datetime.datetime.today().date():
+        # Get num sales at current date we are iterating on
+        movement[str(startDate)] = targetGetProductSales(itemCode, str(startDate))
 
         # Increment date by 1 day
-        startDateTime = startDateTime + datetime.timedelta(days=1)
+        startDate = startDate + datetime.timedelta(days=1)
     
     return movement
 

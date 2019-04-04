@@ -151,7 +151,7 @@ def getProductMovement(itemCode):
     if businessId == 1:
         product = targetGetProduct(itemCode)
         if not product: return response.setError(18)
-        response.data['product_movement'] = targetGetProductMovement(itemCode, startDate)
+        response.data['product_movement'] = targetGetProductMovement(itemCode, startDate.date())
     
     return response.getJson()
 
