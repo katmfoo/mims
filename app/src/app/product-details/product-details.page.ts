@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiCallService } from '../services/api-call.service';
 import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-product-details',
@@ -10,29 +11,43 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./product-details.page.scss'],
 })
 export class ProductDetailsPage implements OnInit {
+
+  public current_tab = 'details';
+
   public item_code;
   public item;
+  public movement = [];
 
-  constructor(private route: ActivatedRoute, private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController) { }
+  constructor(private route: ActivatedRoute, private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController) {}
 
   ngOnInit() {
-    this.item_code = this.route.snapshot.params.itemCode;
-    console.log(this.item_code);
-
-        
-      this.downloadProduct();
-    
+    this.item_code = this.route.snapshot.params.itemCode; 
+    this.downloadProduct();
+    this.downloadMovement();
   }
 
   downloadProduct() {
     this.apiCall.get('/products/' + this.item_code + '/', {}).then((response: any) => {
       if (response.success) {
         this.item = response.data.product;
-        console.log(this.item);
       }
     });
   }
 
+  downloadMovement() {
+    this.apiCall.get('/products/' + this.item_code + '/movement/', {}).then((response: any) => {
+      if (response.success) {
+
+        for (let item in response.data.product_movement) {
+          this.movement.unshift({
+            'date': moment(item),
+            'inventory_amount': response.data.product_movement[item]
+          });
+        }
+
+      }
+    });
+  }
 
   async addInventory(item_code) {
     const alert = await this.alertController.create({
@@ -80,16 +95,7 @@ export class ProductDetailsPage implements OnInit {
     await alert.present();
   }
 
-  toMovement(item_code) {
-    this.navCtrl.navigateForward('product-movement/' + item_code);
-  }
-
-  toForecast(item_code) {
-    this.navCtrl.navigateForward('product-forecast/' + item_code);
-  }
-
-  getDateTimeMySql()
-  {
+  getDateTimeMySql() {
     let date = new Date();
     let date_string = new Date().getUTCFullYear() + '-' +
       ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
@@ -100,9 +106,12 @@ export class ProductDetailsPage implements OnInit {
     return date_string;
   }
 
-  goBack()
-  {
+  goBack() {
     this.navCtrl.navigateBack('product-search');
+  }
+
+  segmentChanged(value) {
+    this.current_tab = value.detail.value;
   }
 }
 
