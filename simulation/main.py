@@ -37,7 +37,9 @@ def main():
         simtime = datetime.today() - timedelta(days=365)
         initialInventory(headers, items, (str(simtime.date()) + " " + str(simtime.time().isoformat(timespec='seconds'))))
 
-
+        """Sets when the store is 
+            either opened or closed
+            """
         openclose = [[False, False, False, False, False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False],
                      [False, False, False, False, False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False],
                      [False, False, False, False, False, False, False, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False],
