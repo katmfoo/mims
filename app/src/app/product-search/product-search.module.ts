@@ -1,35 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule, Router } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+
+import { IonicModule } from '@ionic/angular';
 
 import { ProductSearchPage } from './product-search.page';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: ProductSearchPage
+  }
+];
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: ProductSearchPage
-      }
-    ])
+    RouterModule.forChild(routes)
   ],
   declarations: [ProductSearchPage]
 })
-export class ProductSearchPageModule {
-
-constructor(private router: Router)
-  {
-
-  }
-
-  loginListener()
-  {
-    this.router.navigate(['home']);
-  }
-
-}
+export class ProductSearchPageModule {}

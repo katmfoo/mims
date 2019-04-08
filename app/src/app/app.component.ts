@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Platform, NavController } from '@ionic/angular';
+import { Platform, NavController, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -13,12 +13,13 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private menuCtrl: MenuController
   ) {
     this.initializeApp();
 
     if (localStorage.getItem('access-token') != null) {
-      this.navCtrl.navigateRoot('product-search');
+      this.navCtrl.navigateRoot('search');
     } else {
       this.navCtrl.navigateRoot('login');
     }
@@ -29,5 +30,11 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  logout() {
+    localStorage.clear();
+    this.navCtrl.navigateRoot('login');
+    this.menuCtrl.close();
   }
 }

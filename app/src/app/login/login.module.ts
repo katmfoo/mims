@@ -23,16 +23,4 @@ const routes: Routes = [
   ],
   declarations: [LoginPage]
 })
-export class LoginPageModule {
-
-  constructor(private router: Router)
-  {
-
-  }
-
-  loginListener()
-  {
-    this.router.navigate(['home']);
-  }
-  
-}
+export class LoginPageModule {}

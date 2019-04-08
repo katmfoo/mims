@@ -30,7 +30,7 @@ export class LoginPage {
       }).then((response: any) => {
         if (response.success) {
           localStorage.setItem('access-token', response.data.access_token);
-          this.navCtrl.navigateRoot('product-search');
+          this.navCtrl.navigateRoot('search');
         } else {
           this.errorMsg = response.error.message;
           return;

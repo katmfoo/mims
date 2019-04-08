@@ -1,0 +1,24 @@
+div.loading-container {
+    text-align: center;
+    padding-top: 100px;
+}
+
+div.empty-search, div.no-results {
+    color: gray;
+    text-align: center;
+    margin-top: 30px;
+}
+
+ion-label {
+    h2 {
+        white-space: pre-wrap;
+    }
+}
+
+ion-list {
+    margin-bottom: 0;
+}
+
+ion-item:last-child {
+    --border-color: white;
+}
