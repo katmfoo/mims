@@ -36,4 +36,8 @@ export class AppComponent {
     this.navCtrl.navigateRoot('login');
     this.menuCtrl.close();
   }
+
+  getLoggedInUser() {
+    return localStorage.getItem('username');
+  }
 }

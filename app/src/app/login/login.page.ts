@@ -33,6 +33,7 @@ export class LoginPage {
       }).then((response: any) => {
         if (response.success) {
           localStorage.setItem('access-token', response.data.access_token);
+          localStorage.setItem('username', this.username);
           this.navCtrl.navigateRoot('search');
         } else {
           this.errorMsg = response.error.message;

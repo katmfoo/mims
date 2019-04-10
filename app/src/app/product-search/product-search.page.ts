@@ -164,6 +164,7 @@ export class ProductSearchPage {
   scanBarcode() {
     this.barcodeScanner.scan().then(barcodeData => {
       this.searching = false;
+      setTimeout
       this.current_tab = 'details';
       this.product_loading = true;
       this.apiCall.get('/products/', {barcode: barcodeData.text}).then((response: any) => {

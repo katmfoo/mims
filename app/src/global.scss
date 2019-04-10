@@ -9,3 +9,15 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+.logged-in-text {
+    padding: 0 15px;
+    color: gray;
+    font-style: italic;
+}
+
+ion-list.hide-last-border {
+    ion-item:last-child {
+        --border-color: white;
+    }
+}

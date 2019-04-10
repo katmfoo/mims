@@ -14,7 +14,7 @@
 
 <ion-content>
   <div *ngIf="searching">
-    <ion-list *ngIf="!search_loading">
+    <ion-list class="hide-last-border" *ngIf="!search_loading">
       <ion-item button *ngFor="let item of items" (click)="selectProduct(item.item_code)" detail>
         <ion-avatar slot="start">
           <img src="{{ item.image_url }}">
@@ -37,7 +37,7 @@
     </div>
   </div>
   <div *ngIf="!searching">
-    <ion-segment padding (ionChange)="segmentChanged($event)">
+    <ion-segment padding (ionChange)="segmentChanged($event)" [(ngModel)]="current_tab">
       <ion-segment-button checked ="true" value="details">
         <ion-label>Details</ion-label>
       </ion-segment-button>
@@ -89,7 +89,7 @@
             <div class="bar bar-header bar-light">
               <h1 class="title">Item Code: {{item.item_code}} Movement By {{item.unit}}</h1>
             </div>
-            <ion-list>
+            <ion-list class="hide-last-border">
               <ion-item *ngFor="let item of movement; index as i">
                 <ion-label>
                   {{ item.date.format('dddd') }} 
