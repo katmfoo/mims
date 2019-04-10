@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ApiCallService } from '../services/api-call.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import * as moment from 'moment';
 
 @Component({
@@ -27,7 +28,11 @@ export class ProductSearchPage {
   public item;
   public movement = [];
 
-  constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController) {}
+  public is_cordova: boolean = false;
+
+  constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
+    this.is_cordova = this.platform.is('cordova');
+  }
 
   searchProduct(event) {
     const search_term = event.detail.value;
@@ -86,6 +91,9 @@ export class ProductSearchPage {
         this.movement_loading = false;
       }
     });
+
+    // Download forecast data
+    this.forecast_loading = false;
   }
 
   async addInventory(item_code) {
@@ -151,6 +159,26 @@ export class ProductSearchPage {
 
   segmentChanged(value) {
     this.current_tab = value.detail.value;
+  }
+
+  scanBarcode() {
+    this.barcodeScanner.scan().then(barcodeData => {
+      this.searching = false;
+      this.current_tab = 'details';
+      this.product_loading = true;
+      this.apiCall.get('/products/', {barcode: barcodeData.text}).then((response: any) => {
+        if (response.success) {
+          if (response.data.products[0]) {
+            this.item_code = response.data.products[0].item_code;
+            this.downloadProduct();
+          }
+        }
+      });
+    });
+  }
+  
+  searchFocused() {
+    this.searching = true;
   }
 }
 

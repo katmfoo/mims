@@ -34,6 +34,7 @@ app/plugins/
 app/plugins/android.json
 app/plugins/ios.json
 app/$RECYCLE.BIN/
+app/resources/
 
 app/.DS_Store
 app/Thumbs.db

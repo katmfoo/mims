@@ -1,5 +1,7 @@
 {
   "name": "MIMS",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

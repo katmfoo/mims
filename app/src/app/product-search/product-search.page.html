@@ -3,16 +3,21 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-searchbar animated (ionChange)="searchProduct($event)" placeholder="Product search"></ion-searchbar>
+    <ion-searchbar animated (ionChange)="searchProduct($event)" (ionFocus)="searchFocused()" placeholder="Product search"></ion-searchbar>
+    <ion-buttons slot="end" *ngIf="is_cordova">
+      <ion-button class="barcode" (click)="scanBarcode()">
+        <ion-icon slot="icon-only" name="qr-scanner"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <div *ngIf="searching">
     <ion-list *ngIf="!search_loading">
-      <ion-item *ngFor="let item of items" (click)="selectProduct(item.item_code)" detail>
+      <ion-item button *ngFor="let item of items" (click)="selectProduct(item.item_code)" detail>
         <ion-avatar slot="start">
-          <img [src]="item.image_url">
+          <img src="{{ item.image_url }}">
         </ion-avatar>
         <ion-label>
           <h2>{{ item.name }}</h2>
@@ -32,7 +37,7 @@
     </div>
   </div>
   <div *ngIf="!searching">
-    <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment padding (ionChange)="segmentChanged($event)">
       <ion-segment-button checked ="true" value="details">
         <ion-label>Details</ion-label>
       </ion-segment-button>
@@ -46,38 +51,41 @@
     <div *ngIf="item">
       <div [ngSwitch]="current_tab">
         <div *ngSwitchCase="'details'">
-          <div class="bar bar-header bar-light">
-            <h1>
-              {{item.name}}
-            </h1>
+          <div padding *ngIf="!product_loading">
+            <img [src]="item.image_url">
+            <div class="bar bar-header bar-light">
+              <h1>
+                {{item.name}}
+              </h1>
+            </div>
+        
+            <ion-item>
+              <ion-label>
+                PLU: {{item.plu_number}} 
+              </ion-label>
+            </ion-item>
+        
+            <ion-item>
+              <ion-label>
+                Price per {{item.unit}}: ${{item.price}}
+              </ion-label>
+            </ion-item>
+        
+            <ion-item>
+              <ion-label>
+                Inventory: {{item.current_inventory}} {{item.unit}}s <ion-button (click)="addInventory(item.item_code)">Change</ion-button>
+              </ion-label>
+            </ion-item>
+        
+            <ion-item>
+              <ion-label>
+                Item Code: {{item_code}}
+              </ion-label>
+            </ion-item>
           </div>
-      
-          <ion-item>
-            <ion-label>
-              PLU: {{item.plu_number}} 
-            </ion-label>
-          </ion-item>
-      
-          <ion-item>
-            <ion-label>
-              Price per {{item.unit}}: ${{item.price}}
-            </ion-label>
-          </ion-item>
-      
-          <ion-item>
-            <ion-label>
-              Inventory: {{item.current_inventory}} {{item.unit}}s <ion-button (click)="addInventory(item.item_code)">Change</ion-button>
-            </ion-label>
-          </ion-item>
-      
-          <ion-item>
-            <ion-label>
-              Item Code: {{item_code}}
-            </ion-label>
-          </ion-item>
         </div>
         <div *ngSwitchCase="'movement'">
-          <div *ngIf="movement">
+          <div padding *ngIf="movement && !movement_loading">
             <div class="bar bar-header bar-light">
               <h1 class="title">Item Code: {{item.item_code}} Movement By {{item.unit}}</h1>
             </div>
@@ -95,7 +103,9 @@
           </div>
         </div>
         <div *ngSwitchCase="'forecast'">
-          
+          <div padding *ngIf="!forecast_loading">
+            <p>forecast data</p>
+          </div>
         </div>
       </div>
     </div>
