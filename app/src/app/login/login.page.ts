@@ -13,6 +13,8 @@ export class LoginPage {
   public password: string;
   public errorMsg: string;
 
+  public loading: boolean = false;
+
   constructor(private apiCall: ApiCallService, private navCtrl: NavController) {}
 
   login() {
@@ -24,6 +26,7 @@ export class LoginPage {
       this.errorMsg = "All fields required";
       return;
     } else {
+      this.loading = true;
       this.apiCall.post('/login/', {
         username: this.username,
         password: this.password
@@ -35,6 +38,7 @@ export class LoginPage {
           this.errorMsg = response.error.message;
           return;
         }
+        this.loading = false;
       })
     }
   }

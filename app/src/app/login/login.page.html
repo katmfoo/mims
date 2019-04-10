@@ -17,5 +17,8 @@
 </ion-content>
 
 <ion-footer>
-  <ion-button expand="block" color="primary" (click)="login()">Login</ion-button>
+  <ion-button expand="block" color="primary" (click)="login()">
+    <span *ngIf="!loading">Login</span>
+    <ion-spinner *ngIf="loading"></ion-spinner>
+  </ion-button>
 </ion-footer>
