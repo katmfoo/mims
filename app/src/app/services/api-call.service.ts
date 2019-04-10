@@ -49,9 +49,11 @@ export class ApiCallService {
           break;
       }
 
-      observable.subscribe((response: any) => {
-        resolve(response);
-      });
+      setTimeout(() => {
+        observable.subscribe((response: any) => {
+          resolve(response);
+        });
+      }, 500);
     });
     return promise;
   }
