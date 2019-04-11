@@ -103,8 +103,21 @@
           </div>
         </div>
         <div *ngSwitchCase="'forecast'">
-          <div padding *ngIf="!forecast_loading">
-            <p>forecast data</p>
+          <div padding *ngIf="forecast && !forecast_loading">
+            <div class="bar bar-header bar-light">
+              <h1 class="title">Item Code: {{item.item_code}} Forecast By {{item.unit}}</h1>
+            </div>
+            <ion-list class="hide-last-border">
+              <ion-item *ngFor="let item of forecast; index as i">
+                <ion-label>
+                  {{ item.date.format('dddd') }} 
+                  <span *ngIf="i == 0">(today, so far)</span>
+                  <span *ngIf="i == 1">(tomorrow, end of day)</span>
+                  <span *ngIf="i == 7">(next week, end of day)</span>
+                  : {{ item.inventory_amount }}
+                </ion-label>
+              </ion-item>
+            </ion-list>
           </div>
         </div>
       </div>
