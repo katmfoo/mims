@@ -105,6 +105,14 @@
         <div *ngSwitchCase="'forecast'">
           <div padding *ngIf="!forecast_loading">
             <p>forecast data</p>
+              <ion-list class="hide-last-border">
+                <ion-item *ngFor="let item of forecast; index as i">
+                  <ion-label>
+                    {{ item.date.format('dddd') }}
+                    : {{ item.forecast_sale }}
+                  </ion-label>
+                </ion-item>
+              </ion-list>
           </div>
         </div>
       </div>

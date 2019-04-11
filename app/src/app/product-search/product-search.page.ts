@@ -93,7 +93,19 @@ export class ProductSearchPage {
     });
 
     // Download forecast data
-    this.forecast_loading = false;
+    this.apiCall.get('/products/' + this.item_code + '/forecast', {}).then((response: any) => {
+      if (response.success) {
+
+        this.forecast = [];
+        for (let item in response.data.product_forecast) {
+          this.forecast.unshift({
+            'date': moment(item),
+            'forecast_sale': response.data.product_forecast[item]
+          });
+        }
+        this.forecast_loading = false;
+      }
+    });
   }
 
   async addInventory(item_code) {
