@@ -62,6 +62,7 @@ export class ProductSearchPage {
     this.item_code = item_code;
     this.downloadProduct();
     this.searching = false;
+    this.current_tab = 'details';
   }
 
   downloadProduct() {
