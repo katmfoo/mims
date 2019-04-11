@@ -165,7 +165,7 @@ def targetGetProductInventory(itemCode, datetime=None):
 
     return int(current_inventory[0])
 
-# Function to number of sales of a product from a certain date
+# Function to return number of sales of a product from a certain date
 def targetGetProductSales(itemCode, date):
 
     # Setup database connection, table, and query
@@ -205,7 +205,41 @@ def targetGetProductMovement(itemCode, startDate):
 
 # Function to get forecasted inventory transactions of a product
 def targetGetProductForecast(itemCode):
-    return {}
+    # Empty dictionary used to store forecast in format "'future_day': forecast_value"
+    forecast = {}
+
+    # Calculated weights for using exponential weighting forumula for projection
+    partial_weight = [12, 7, 4, 3, 2, 2, 1, 1]
+    full_weight = 32
+
+    # Measurement definitions so I can write stuff like English, will change later to formal calls for memory reasons
+    current_day = datetime.datetime.today().date()
+    one_day = datetime.timedelta(days=1)
+    one_week = datetime.timedelta(weeks=1)
+
+    i = 0
+    # i < 8 so we can get a full week of data (I know I can just do a while statement using time delta)
+    while i < 8:
+        j = 1
+        forecast_value = 0
+        # j < 9 to get 8 past weeks of data
+        while j < 9:
+            # Get this day, but last week
+            past_date = current_day - (one_week*j)
+            # Get sale information on this product on that day
+            previous_sales = targetGetProductSales(itemCode, str(past_date))
+            # Forecast = Forecast + sale information from that day weighted
+            forecast_value += previous_sales * (partial_weight[j-1] / full_weight)
+            # Increment
+            j += 1
+        # Future_day : forecast_value
+        forecast[str(current_day)] = int(forecast_value)
+        # Get next day
+        current_day += one_day
+        # Increment
+        i += 1
+
+    return forecast
 
 # Function to create an inventory transaction
 def targetCreateInventoryTransaction(data):
