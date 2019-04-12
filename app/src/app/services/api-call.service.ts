@@ -8,7 +8,7 @@ enum Method { Get, Post, Put }
 @Injectable()
 export class ApiCallService {
 
-  public apiUrl: string = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000"
+  public apiUrl: string = "http://mims.cf:5000"
 
   constructor(private http: HttpClient, private utility: UtilityService) {}
 
