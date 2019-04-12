@@ -177,18 +177,19 @@ export class ProductSearchPage {
 
   scanBarcode() {
     this.barcodeScanner.scan().then(barcodeData => {
-      this.searching = false;
-      setTimeout
-      this.current_tab = 'details';
-      this.product_loading = true;
-      this.apiCall.get('/products/', {barcode: barcodeData.text}).then((response: any) => {
-        if (response.success) {
-          if (response.data.products[0]) {
-            this.item_code = response.data.products[0].item_code;
-            this.downloadProduct();
+      if (barcodeData.text) {
+        this.searching = false;
+        this.current_tab = 'details';
+        this.product_loading = true;
+        this.apiCall.get('/products/', {barcode: barcodeData.text}).then((response: any) => {
+          if (response.success) {
+            if (response.data.products[0]) {
+              this.item_code = response.data.products[0].item_code;
+              this.downloadProduct();
+            }
           }
-        }
-      });
+        });
+      }
     });
   }
   
