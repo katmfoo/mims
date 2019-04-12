@@ -87,7 +87,7 @@ export class ProductSearchPage {
         for (let item in response.data.product_movement) {
           this.movement.unshift({
             'date': moment(item),
-            'inventory_amount': response.data.product_movement[item]
+            'amount': response.data.product_movement[item]
           });
         }
         this.movement_loading = false;
@@ -102,7 +102,7 @@ export class ProductSearchPage {
         for (let item in response.data.product_forecast) {
           this.forecast.push({
             'date': moment(item),
-            'inventory_amount': response.data.product_forecast[item]
+            'amount': response.data.product_forecast[item]
           });
         }
         this.forecast_loading = false;
