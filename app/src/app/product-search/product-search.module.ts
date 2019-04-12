@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProductSearchPage } from './product-search.page';
 
+import { ChartsModule } from 'ng2-charts';
+
 const routes: Routes = [
   {
     path: '',
@@ -15,7 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
+  imports: [ChartsModule,
     CommonModule,
     FormsModule,
     IonicModule,
