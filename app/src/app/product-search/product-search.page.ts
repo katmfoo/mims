@@ -23,11 +23,13 @@ export class ProductSearchPage {
   public forecast_loading: boolean = false;
 
   public current_tab = 'details';
-
+  public filtered;
   public item_code;
   public item;
   public movement = [];
   public forecast = [];
+  public movementValues = [0, 1, 2, 3, 4, 5, 6,];
+  public testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
   public is_cordova: boolean = false;
 
@@ -83,6 +85,7 @@ export class ProductSearchPage {
     this.apiCall.get('/products/' + this.item_code + '/movement/', {}).then((response: any) => {
       if (response.success) {
 
+        this.movementValues = [];
         this.movement = [];
         for (let item in response.data.product_movement) {
           this.movement.unshift({
@@ -90,7 +93,9 @@ export class ProductSearchPage {
             'amount': response.data.product_movement[item]
           });
         }
-        
+
+        this.movementValues = this.movement.map(element => element.amount);
+        console.log(this.movementValues);
         this.movement_loading = false;
       }
     });
@@ -200,9 +205,9 @@ export class ProductSearchPage {
   
   //This is where we have to put movement variable
   // Where the array of [1,5,2,8,9,4] is
-   public lineChartData:Array<any> = [
-     {data: [1,5,2,8,9,4,5], label: 'Movement'},
-   ];
+  public lineChartData:Array<any> = [
+    {data: this.movementValues, label: 'Movement'},
+  ];
   public lineChartLabels:Array<any> = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   public lineChartOptions:any = {
     responsive: true
