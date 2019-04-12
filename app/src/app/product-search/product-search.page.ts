@@ -23,10 +23,13 @@ export class ProductSearchPage {
   public forecast_loading: boolean = false;
 
   public current_tab = 'details';
-
+  public filtered;
   public item_code;
   public item;
   public movement = [];
+  public forecast = [];
+  public movementValues = [0, 1, 2, 3, 4, 5, 6,];
+  public testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
   public is_cordova: boolean = false;
 
@@ -62,6 +65,7 @@ export class ProductSearchPage {
     this.item_code = item_code;
     this.downloadProduct();
     this.searching = false;
+    this.current_tab = 'details';
   }
 
   downloadProduct() {
@@ -81,26 +85,30 @@ export class ProductSearchPage {
     this.apiCall.get('/products/' + this.item_code + '/movement/', {}).then((response: any) => {
       if (response.success) {
 
+        this.movementValues = [];
         this.movement = [];
         for (let item in response.data.product_movement) {
           this.movement.unshift({
             'date': moment(item),
-            'inventory_amount': response.data.product_movement[item]
+            'amount': response.data.product_movement[item]
           });
         }
+
+        this.movementValues = this.movement.map(element => element.amount);
+        console.log(this.movementValues);
         this.movement_loading = false;
       }
     });
 
     // Download forecast data
-    this.apiCall.get('/products/' + this.item_code + '/forecast', {}).then((response: any) => {
+    this.apiCall.get('/products/' + this.item_code + '/forecast/', {}).then((response: any) => {
       if (response.success) {
 
         this.forecast = [];
         for (let item in response.data.product_forecast) {
-          this.forecast.unshift({
+          this.forecast.push({
             'date': moment(item),
-            'forecast_sale': response.data.product_forecast[item]
+            'amount': response.data.product_forecast[item]
           });
         }
         this.forecast_loading = false;
@@ -175,23 +183,72 @@ export class ProductSearchPage {
 
   scanBarcode() {
     this.barcodeScanner.scan().then(barcodeData => {
-      this.searching = false;
-      setTimeout
-      this.current_tab = 'details';
-      this.product_loading = true;
-      this.apiCall.get('/products/', {barcode: barcodeData.text}).then((response: any) => {
-        if (response.success) {
-          if (response.data.products[0]) {
-            this.item_code = response.data.products[0].item_code;
-            this.downloadProduct();
+      if (barcodeData.text) {
+        this.searching = false;
+        this.current_tab = 'details';
+        this.product_loading = true;
+        this.apiCall.get('/products/', {barcode: barcodeData.text}).then((response: any) => {
+          if (response.success) {
+            if (response.data.products[0]) {
+              this.item_code = response.data.products[0].item_code;
+              this.downloadProduct();
+            }
           }
-        }
-      });
+        });
+      }
     });
   }
   
   searchFocused() {
     this.searching = true;
+  }
+  
+  //This is where we have to put movement variable
+  // Where the array of [1,5,2,8,9,4] is
+  public lineChartData:Array<any> = [
+    {data: this.movementValues, label: 'Movement'},
+  ];
+  public lineChartLabels:Array<any> = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  public lineChartOptions:any = {
+    responsive: true
+  };
+  public lineChartColors:Array<any> = [
+    { // grey
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    },
+    { // dark grey
+      backgroundColor: 'rgba(77,83,96,0.2)',
+      borderColor: 'rgba(77,83,96,1)',
+      pointBackgroundColor: 'rgba(77,83,96,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(77,83,96,1)'
+    },
+    { // grey
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }
+  ];
+  public lineChartLegend:boolean = true;
+  public lineChartType:string = 'line';
+  
+  
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+  
+  public chartHovered(e:any):void {
+    console.log(e);
   }
 }
 

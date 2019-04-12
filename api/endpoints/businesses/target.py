@@ -227,13 +227,13 @@ def targetGetProductForecast(itemCode):
             # Get this day, but last week
             past_date = current_day - (one_week*j)
             # Get sale information on this product on that day
-            previous_sales = targetGetProductSales(itemCode, past_date)
+            previous_sales = targetGetProductSales(itemCode, str(past_date))
             # Forecast = Forecast + sale information from that day weighted
             forecast_value += previous_sales * (partial_weight[j-1] / full_weight)
             # Increment
             j += 1
         # Future_day : forecast_value
-        forecast[str(current_day)] = forecast_value
+        forecast[str(current_day)] = int(forecast_value)
         # Get next day
         current_day += one_day
         # Increment
