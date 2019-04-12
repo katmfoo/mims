@@ -27,3 +27,6 @@ The live API is available at `http://ec2-54-81-254-121.compute-1.amazonaws.com:5
 * Run `nohup python3 main.py &` to start the api in the background
 * Run `ps -e | grep python3` to see the process of the running api
 * Run `kill -9 process-id` to kill the api
+
+### Start the web server on the EC2 instance
+* Run `sudo python3 -m http.server 80` in the `webserver/` directory
