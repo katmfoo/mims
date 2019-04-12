@@ -1,0 +1,19 @@
+{
+  "name": "Visualization",
+  "version": "1.0.0",
+  "description": "<a href=\"https://d3js.org\"><img src=\"https://d3js.org/logo.svg\" align=\"left\" hspace=\"10\" vspace=\"6\"></a>",
+  "main": "d3.js",
+  "dependencies": {
+    "d3": "^5.9.2"
+  },
+  "devDependencies": {
+    "@types/d3": "5.7.2",
+    "typescript": "^3.4.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
