@@ -3,7 +3,7 @@ Mobile inventory management system
 
 ### Use it live
 The app and admin can be used in browser from either links below. Use the account information found in the 'MIMS account info' section. The API is also publically available at the listed location. 
-Read the 'Get it on your device' section to be able to use the barcode scanner, which is only available through the Ionic DevApp.
+Read the '[Get it on your device](https://github.com/pricheal/mims/blob/master/README.md#get-it-on-your-device)' section to be able to use the barcode scanner, which is only available through the Ionic DevApp.
 
 * App: [http://mims.cf](http://mims.cf)
 * Admin: [http://mims.cf/admin](http://mims.cf/admin)
