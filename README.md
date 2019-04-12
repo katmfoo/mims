@@ -24,16 +24,16 @@ Patrick Richeal, Brandon Ostasewski, Matthew Finnegan, Dominic Marandino, John D
 
 ### Development commands
 
-# Starting the app for local development
+###### Starting the app for local development
 * Run `npx ionic serve` in the `app/` directory
 
-# Starting the admin for local development
+###### Starting the admin for local development
 * Run `npx ng serve` in the `admin/` directory
 
-# Starting the API for local development
+###### Starting the API for local development
 * Run `FLASK_APP=main.py flask run` in the `api/` directory
 
-# Managing the EC2 instance
+###### Managing the EC2 instance
 * Run `nohup python3 main.py &` to start the api or simulation in the background
 * Run `sudo nohup python3 -m http.server 80 &` to start the web server in the background
 * Run `ps -e | grep python3` to see the process of the running api
