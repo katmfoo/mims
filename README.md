@@ -24,7 +24,8 @@ The live API is available at `http://mims.cf:5000`.
 * Run `FLASK_APP=main.py flask run` in the `api/` directory
 
 ### Managing the API on the EC2 instance
-* Run `nohup python3 main.py &` to start the api in the background
+* Run `nohup python3 main.py &` to start the api or simulation in the background
+* Run `sudo nohup python3 -m http.server 80 &` to start the web server in the background
 * Run `ps -e | grep python3` to see the process of the running api
 * Run `kill -9 process-id` to kill the api
 
