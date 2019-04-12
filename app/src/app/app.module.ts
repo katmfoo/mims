@@ -12,11 +12,12 @@ import { ApiCallService } from './services/api-call.service';
 import { UtilityService } from './services/utility.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot({
+  imports: [ ChartsModule, BrowserModule, IonicModule.forRoot({
     mode: 'ios'
   }), AppRoutingModule, HttpClientModule],
   providers: [
