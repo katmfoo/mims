@@ -51,52 +51,47 @@
     <div *ngIf="item">
       <div [ngSwitch]="current_tab">
         <div *ngSwitchCase="'details'">
-          <div padding *ngIf="!product_loading">
-            <img [src]="item.image_url">
-            <div class="bar bar-header bar-light">
-              <h1>
-                {{item.name}}
-              </h1>
-            </div>
-        
-            <ion-item>
-              <ion-label>
-                PLU: {{item.plu_number}} 
-              </ion-label>
-            </ion-item>
-        
-            <ion-item>
-              <ion-label>
-                Price per {{item.unit}}: ${{item.price}}
-              </ion-label>
-            </ion-item>
-        
-            <ion-item>
-              <ion-label>
-                Inventory: {{item.current_inventory}} {{item.unit}}s <ion-button (click)="addInventory(item.item_code)">Change</ion-button>
-              </ion-label>
-            </ion-item>
-        
-            <ion-item>
-              <ion-label>
-                Item Code: {{item_code}}
-              </ion-label>
-            </ion-item>
+          <div *ngIf="!product_loading">
+            <img class="product-detail-image" [src]="item.image_url">
+
+            <h5 class="product-name">{{ item.name }}</h5>
+
+            <ion-list>
+              <ion-item>
+                <ion-label>
+                  PLU <span class="float-right">{{ item.plu }} ({{ item.plu_number }})</span>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label>
+                  Price per {{ item.unit }} <span class="float-right">{{ item.price | currency }}</span>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label>
+                  Inventory: {{item.current_inventory}} {{item.unit}}s <ion-button (click)="addInventory(item.item_code)">Change</ion-button>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label>
+                  Item code <span class="float-right">{{ item_code }}</span>
+                </ion-label>
+              </ion-item>
+            </ion-list>
           </div>
         </div>
         <div *ngSwitchCase="'movement'">
-          <div padding *ngIf="movement && !movement_loading">
-            <div class="bar bar-header bar-light">
-              <h1 class="title">Item Code: {{item.item_code}} Movement By {{item.unit}}</h1>
-            </div>
+          <div *ngIf="movement && !movement_loading">
+            <h5 class="product-name">{{ item.name }}</h5>
+            <p class="helper-text">Movement by {{ item.unit | lowercase }}s sold for the past week</p>
             <ion-list class="hide-last-border">
               <ion-item *ngFor="let item of movement; index as i">
                 <ion-label>
-                  {{ item.date.format('dddd') }} 
-                  <span *ngIf="i == 0">(today, so far)</span>
-                  <span *ngIf="i == 1">(yesterday, end of day)</span>
-                  <span *ngIf="i == 7">(last week, end of day)</span>
-                  : {{ item.inventory_amount }}
+                  {{ item.date.format('M/D, dddd') }} 
+                  <span *ngIf="i == 0">(today)</span>
+                  <span *ngIf="i == 1">(yesterday)</span>
+                  <span *ngIf="i == 7">(last week)</span>
+                  <span class="float-right">{{ item.amount }}</span>
                 </ion-label>
               </ion-item>
             </ion-list>
@@ -121,18 +116,17 @@
         
         </div>
         <div *ngSwitchCase="'forecast'">
-          <div padding *ngIf="forecast && !forecast_loading">
-            <div class="bar bar-header bar-light">
-              <h1 class="title">Item Code: {{item.item_code}} Forecast By {{item.unit}}</h1>
-            </div>
+          <div *ngIf="forecast && !forecast_loading">
+            <h5 class="product-name">{{ item.name }}</h5>
+            <p class="helper-text">Forecast by {{ item.unit | lowercase }}s sold for the next week</p>
             <ion-list class="hide-last-border">
               <ion-item *ngFor="let item of forecast; index as i">
                 <ion-label>
-                  {{ item.date.format('dddd') }} 
-                  <span *ngIf="i == 0">(today, so far)</span>
-                  <span *ngIf="i == 1">(tomorrow, end of day)</span>
-                  <span *ngIf="i == 7">(next week, end of day)</span>
-                  : {{ item.inventory_amount }}
+                  {{ item.date.format('M/D, dddd') }} 
+                  <span *ngIf="i == 0">(today)</span>
+                  <span *ngIf="i == 1">(tomorrow)</span>
+                  <span *ngIf="i == 7">(next week)</span>
+                  <span class="float-right">{{ item.amount }}</span>
                 </ion-label>
               </ion-item>
             </ion-list>

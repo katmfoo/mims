@@ -19,12 +19,30 @@ ion-list {
     margin-bottom: 0;
 }
 
-ion-segment {
-    padding-bottom: 0;
-}
-
 .barcode {
     ion-icon {
         font-size: 27px;
     }
+}
+
+.product-detail-image {
+    width: 200px;
+    margin: 16px auto 32px auto;
+    display: block;
+}
+
+.float-right {
+    float: right;
+}
+
+.product-name {
+    margin-left: 16px;
+    margin-top: 16px;
+    margin-right: 16px;
+}
+
+.helper-text {
+    color: gray;
+    font-style: italic;
+    margin: 16px;
 }
