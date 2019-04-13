@@ -38,7 +38,7 @@
   </div>
   <div *ngIf="!searching">
     <ion-segment padding (ionChange)="segmentChanged($event)" [(ngModel)]="current_tab">
-      <ion-segment-button checked ="true" value="details">
+      <ion-segment-button checked="true" value="details">
         <ion-label>Details</ion-label>
       </ion-segment-button>
       <ion-segment-button value="movement">
@@ -84,7 +84,15 @@
           <div *ngIf="movement && !movement_loading">
             <h5 class="product-name">{{ item.name }}</h5>
             <p class="helper-text">Movement by {{ item.unit | lowercase }}s sold for the past week</p>
-            <ion-list class="hide-last-border">
+            <ion-segment class="small-center" padding (ionChange)="movementDisplayChanged($event)">
+              <ion-segment-button checked="true" value="table">
+                <ion-label>Table</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="graph">
+                <ion-label>Graph</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+            <ion-list class="hide-last-border" *ngIf="movement_display == 'table'">
               <ion-item *ngFor="let item of movement; index as i">
                 <ion-label>
                   {{ item.date.format('M/D, dddd') }} 
@@ -96,30 +104,35 @@
               </ion-item>
             </ion-list>
           </div>
-
-         
-          <div class="row">
-              <div class="chart">
-                <div style="display: block;">
-                <canvas baseChart #baseChart="base-chart" width="300" height="400"
-                            [datasets]="movementChartData"
-                            [labels]="lineChartLabels"
-                            [options]="lineChartOptions"
-                            [colors]="lineChartColors"
-                            [legend]="lineChartLegend"
-                            [chartType]="lineChartType"
-                            (chartHover)="chartHovered($event)"
-                            (chartClick)="chartClicked($event)"></canvas>
-                </div>
+          <div class="row chart-row" *ngIf="movement_display == 'graph'">
+            <div class="chart">
+              <div style="display: block;">
+              <canvas baseChart #baseChart="base-chart" width="300" height="400"
+                          [datasets]="movementChartData"
+                          [labels]="lineChartLabels"
+                          [options]="lineChartOptions"
+                          [colors]="lineChartColors"
+                          [legend]="lineChartLegend"
+                          [chartType]="lineChartType"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"></canvas>
               </div>
             </div>
-        
+          </div>
         </div>
         <div *ngSwitchCase="'forecast'">
           <div *ngIf="forecast && !forecast_loading">
             <h5 class="product-name">{{ item.name }}</h5>
             <p class="helper-text">Forecast by {{ item.unit | lowercase }}s sold for the next week</p>
-            <ion-list class="hide-last-border">
+            <ion-segment class="small-center" padding (ionChange)="forecastDisplayChanged($event)">
+              <ion-segment-button checked="true" value="table">
+                <ion-label>Table</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="graph">
+                <ion-label>Graph</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+            <ion-list class="hide-last-border" *ngIf="forecast_display == 'table'">
               <ion-item *ngFor="let item of forecast; index as i">
                 <ion-label>
                   {{ item.date.format('M/D, dddd') }} 
@@ -131,7 +144,7 @@
               </ion-item>
             </ion-list>
           </div>
-          <div class="row">
+          <div class="row chart-row" *ngIf="forecast_display == 'graph'">
             <div class="chart">
               <div style="display: block;">
               <canvas baseChart #baseChart="base-chart" width="300" height="400"

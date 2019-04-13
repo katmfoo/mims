@@ -39,6 +39,9 @@ export class ProductSearchPage {
   public currentDay = this.d.getDay();
   public is_cordova: boolean = false;
 
+  public movement_display = 'table';
+  public forecast_display = 'table';
+
   constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
     this.is_cordova = this.platform.is('cordova');
   }
@@ -212,6 +215,14 @@ export class ProductSearchPage {
   
   searchFocused() {
     this.searching = true;
+  }
+
+  movementDisplayChanged(value) {
+    this.movement_display = value.detail.value;
+  }
+
+  forecastDisplayChanged(value) {
+    this.forecast_display = value.detail.value;
   }
   
   //This is where we have to put movement variable
