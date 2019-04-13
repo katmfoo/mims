@@ -216,9 +216,12 @@ export class ProductSearchPage {
   
   //This is where we have to put movement variable
   // Where the array of [1,5,2,8,9,4] is
-  public lineChartData:Array<any> = [
-    {data: this.movementValues, label: 'Actual Sales'},
-    {data: this.forecastValues, label: 'Expected Sales'}
+  public forecastChartData:Array<any> = [
+    {data: this.forecastValues, label: 'Forecast'}
+  ];
+
+  public movementChartData:Array<any> = [
+    {data: this.movementValues, label: 'Movement'},
   ];
   public lineChartLabels:Array<string> = [];
   public lineChartOptions:any = {
@@ -274,10 +277,12 @@ export class ProductSearchPage {
   }
   
   public drawChart(){
-    this.lineChartData = [{data: this.movementValues, label: 'Actual Sales'},
-                          {data: this.forecastValues, label: 'Expected Sales'}];
-    let clone = JSON.parse(JSON.stringify(this.lineChartData));
-    this.lineChartData = clone;
+    this.movementChartData = [{data: this.movementValues, label: 'Movement'}];
+    this.forecastChartData = [{data: this.forecastValues, label: 'Forecast'}];
+    let clone1 = JSON.parse(JSON.stringify(this.movementChartData));
+    let clone2 = JSON.parse(JSON.stringify(this.forecastChartData));
+    this.movementChartData = clone1;
+    this.forecastChartData = clone2;
     this.setLabel();
   }
 }

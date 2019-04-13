@@ -102,7 +102,7 @@
               <div class="chart">
                 <div style="display: block;">
                 <canvas baseChart #baseChart="base-chart" width="300" height="400"
-                            [datasets]="lineChartData"
+                            [datasets]="movementChartData"
                             [labels]="lineChartLabels"
                             [options]="lineChartOptions"
                             [colors]="lineChartColors"
@@ -130,6 +130,21 @@
                 </ion-label>
               </ion-item>
             </ion-list>
+          </div>
+          <div class="row">
+            <div class="chart">
+              <div style="display: block;">
+              <canvas baseChart #baseChart="base-chart" width="300" height="400"
+                          [datasets]="forecastChartData"
+                          [labels]="lineChartLabels"
+                          [options]="lineChartOptions"
+                          [colors]="lineChartColors"
+                          [legend]="lineChartLegend"
+                          [chartType]="lineChartType"
+                          (chartHover)="chartHovered($event)"
+                          (chartClick)="chartClicked($event)"></canvas>
+              </div>
+            </div>
           </div>
         </div>
       </div>
