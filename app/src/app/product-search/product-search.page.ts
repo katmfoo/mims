@@ -27,6 +27,7 @@ export class ProductSearchPage {
   public movement_loading: boolean = false;
   public forecast_loading: boolean = false;
 
+  public d = new Date();
   public current_tab = 'details';
   public filtered;
   public item_code;
@@ -34,8 +35,7 @@ export class ProductSearchPage {
   public movement = [];
   public forecast = [];
   public movementValues = [];
-  public dateValues = [];
-
+  public currentDay = this.d.getDay();
   public is_cordova: boolean = false;
 
   constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
@@ -100,14 +100,9 @@ export class ProductSearchPage {
         }
 
     
-        this.dateValues = this.movement.map(element => element.date._i);
         this.movementValues = this.movement.map(element => element.amount).reverse();
-        console.log(this.movementValues);
-        console.log(this.dateValues);
-        
         this.drawChart();
         this.movement_loading = false;
-        
       }
     });
 
@@ -220,7 +215,7 @@ export class ProductSearchPage {
   public lineChartData:Array<any> = [
     {data: this.movementValues, label: 'Movement'},
   ];
-  public lineChartLabels:Array<string> = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  public lineChartLabels:Array<string> = [];
   public lineChartOptions:any = {
     responsive: true
   };
@@ -259,6 +254,16 @@ export class ProductSearchPage {
     console.log(e);
   }
   
+  public setLabel(){
+    if(this.currentDay == 0) this.lineChartLabels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    else if(this.currentDay == 1) this.lineChartLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday'];
+    else if(this.currentDay == 2) this.lineChartLabels = ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday'];
+    else if(this.currentDay == 3) this.lineChartLabels = ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday'];
+    else if(this.currentDay == 4) this.lineChartLabels = ['Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+    else if(this.currentDay == 5) this.lineChartLabels = ['Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    else if(this.currentDay == 6) this.lineChartLabels = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  }
+
   public chartHovered(e:any):void {
     console.log(e);
   }
@@ -266,7 +271,8 @@ export class ProductSearchPage {
   public drawChart(){
     this.lineChartData = [{data: this.movementValues, label: 'Movement'},];
     let clone = JSON.parse(JSON.stringify(this.lineChartData));
-    this.lineChartData=clone;
+    this.lineChartData = clone;
+    this.setLabel();
   }
 }
 
