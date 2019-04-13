@@ -34,7 +34,7 @@ export class ProductSearchPage {
   public movement = [];
   public forecast = [];
   public movementValues = [];
-  public testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  public dateValues = [];
 
   public is_cordova: boolean = false;
 
@@ -100,9 +100,10 @@ export class ProductSearchPage {
         }
 
     
-
-        this.movementValues = this.movement.map(element => element.amount);
+        this.dateValues = this.movement.map(element => element.date._i);
+        this.movementValues = this.movement.map(element => element.amount).reverse();
         console.log(this.movementValues);
+        console.log(this.dateValues);
         
         this.drawChart();
         this.movement_loading = false;
@@ -183,6 +184,7 @@ export class ProductSearchPage {
     return date_string;
   }
 
+    
   goBack() {
     this.navCtrl.navigateBack('product-search');
   }
@@ -218,7 +220,7 @@ export class ProductSearchPage {
   public lineChartData:Array<any> = [
     {data: this.movementValues, label: 'Movement'},
   ];
-  public lineChartLabels:Array<any> = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  public lineChartLabels:Array<string> = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   public lineChartOptions:any = {
     responsive: true
   };
