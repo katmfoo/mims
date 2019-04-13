@@ -1,17 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, Directive, Input, ViewChild } from '@angular/core';
 import { ApiCallService } from '../services/api-call.service';
 import { AlertController, Platform } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import * as moment from 'moment';
+import { BaseChartDirective, ChartsModule } from 'ng2-charts/ng2-charts';
+
 
 @Component({
   selector: 'app-product-search',
   templateUrl: './product-search.page.html',
   styleUrls: ['./product-search.page.scss'],
 })
-export class ProductSearchPage {
 
+
+
+export class ProductSearchPage {
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   public searching: boolean = true;
   public search_no_results: boolean = false;
   public empty_search: boolean = true;
@@ -28,7 +33,7 @@ export class ProductSearchPage {
   public item;
   public movement = [];
   public forecast = [];
-  public movementValues = [0, 1, 2, 3, 4, 5, 6,];
+  public movementValues = [];
   public testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
   public is_cordova: boolean = false;
@@ -94,9 +99,14 @@ export class ProductSearchPage {
           });
         }
 
+    
+
         this.movementValues = this.movement.map(element => element.amount);
         console.log(this.movementValues);
+        
+        this.drawChart();
         this.movement_loading = false;
+        
       }
     });
 
@@ -249,6 +259,12 @@ export class ProductSearchPage {
   
   public chartHovered(e:any):void {
     console.log(e);
+  }
+  
+  public drawChart(){
+    this.lineChartData = [{data: this.movementValues, label: 'Movement'},];
+    let clone = JSON.parse(JSON.stringify(this.lineChartData));
+    this.lineChartData=clone;
   }
 }
 
