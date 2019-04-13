@@ -35,6 +35,7 @@ export class ProductSearchPage {
   public movement = [];
   public forecast = [];
   public movementValues = [];
+  public forecastValues = [];
   public currentDay = this.d.getDay();
   public is_cordova: boolean = false;
 
@@ -117,7 +118,10 @@ export class ProductSearchPage {
             'amount': response.data.product_forecast[item]
           });
         }
-        this.forecast_loading = false;
+
+        this.forecastValues = this.forecast.map(element => element.amount);
+        this.drawChart();
+        this.forecast_loading = false; 
       }
     });
   }
@@ -213,7 +217,8 @@ export class ProductSearchPage {
   //This is where we have to put movement variable
   // Where the array of [1,5,2,8,9,4] is
   public lineChartData:Array<any> = [
-    {data: this.movementValues, label: 'Movement'},
+    {data: this.movementValues, label: 'Actual Sales'},
+    {data: this.forecastValues, label: 'Expected Sales'}
   ];
   public lineChartLabels:Array<string> = [];
   public lineChartOptions:any = {
@@ -269,7 +274,8 @@ export class ProductSearchPage {
   }
   
   public drawChart(){
-    this.lineChartData = [{data: this.movementValues, label: 'Movement'},];
+    this.lineChartData = [{data: this.movementValues, label: 'Actual Sales'},
+                          {data: this.forecastValues, label: 'Expected Sales'}];
     let clone = JSON.parse(JSON.stringify(this.lineChartData));
     this.lineChartData = clone;
     this.setLabel();
