@@ -274,13 +274,29 @@ export class ProductSearchPage {
   }
   
   public setLabel(){
-    if(this.currentDay == 0) this.lineChartLabels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    else if(this.currentDay == 1) this.lineChartLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday'];
-    else if(this.currentDay == 2) this.lineChartLabels = ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday'];
-    else if(this.currentDay == 3) this.lineChartLabels = ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday'];
-    else if(this.currentDay == 4) this.lineChartLabels = ['Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
-    else if(this.currentDay == 5) this.lineChartLabels = ['Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    else if(this.currentDay == 6) this.lineChartLabels = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    switch(new Date().getDay()){
+      case 0:
+        this.lineChartLabels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        break;
+      case 1:
+        this.lineChartLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday'];
+        break;
+      case 2:
+        this.lineChartLabels = ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday'];
+        break;
+      case 3:
+        this.lineChartLabels = ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday'];
+        break;
+      case 4:
+        this.lineChartLabels = ['Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+        break;
+      case 5:
+        this.lineChartLabels = ['Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        break;
+      case 6:
+        this.lineChartLabels = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        break;
+    }
   }
 
   public chartHovered(e:any):void {
@@ -290,10 +306,10 @@ export class ProductSearchPage {
   public drawChart(){
     this.movementChartData = [{data: this.movementValues, label: 'Movement'}];
     this.forecastChartData = [{data: this.forecastValues, label: 'Forecast'}];
-    let clone1 = JSON.parse(JSON.stringify(this.movementChartData));
-    let clone2 = JSON.parse(JSON.stringify(this.forecastChartData));
-    this.movementChartData = clone1;
-    this.forecastChartData = clone2;
+    //let clone1 = JSON.parse(JSON.stringify(this.movementChartData));
+    //let clone2 = JSON.parse(JSON.stringify(this.forecastChartData));
+    //this.movementChartData = JSON.parse(JSON.stringify(this.movementChartData));
+    //this.forecastChartData = JSON.parse(JSON.stringify(this.forecastChartData));
     this.setLabel();
   }
 }
