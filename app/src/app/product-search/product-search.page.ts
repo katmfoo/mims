@@ -36,6 +36,8 @@ export class ProductSearchPage {
   public forecast = [];
   public movementValues = [];
   public forecastValues = [];
+  public lastWeek = [];
+  public nextWeek = [];
   public currentDay = this.d.getDay();
   public is_cordova: boolean = false;
 
@@ -234,7 +236,8 @@ export class ProductSearchPage {
   public movementChartData:Array<any> = [
     {data: this.movementValues, label: 'Movement'},
   ];
-  public lineChartLabels:Array<string> = [];
+  public movementChartLabels:Array<string> = [];
+  public forecastChartLabels:Array<string> = [];
   public lineChartOptions:any = {
     responsive: true
   };
@@ -267,34 +270,78 @@ export class ProductSearchPage {
   public lineChartLegend:boolean = true;
   public lineChartType:string = 'line';
   
-  
   // events
   public chartClicked(e:any):void {
     console.log(e);
   }
   
-  public setLabel(){
+  public formWeeks() {
+    var i: number;
+    for(i = 0; i < 8; i++){
+      this.lastWeek[i] = moment().subtract((7-i), 'days').format('M/DD');
+    }
+    
+    for(i = 0; i < 8; i++){
+      this.nextWeek[i] = moment().add((0+i), 'days').format('M/DD');
+    }
+  }
+
+  public buildString(weekday: string, formatedDate: string){
+    return weekday + " (" + formatedDate + ")";
+  }
+
+  public setLabelHelper(flag: number, pos: number){
+    if(flag == 0){
+      return this.lastWeek[pos];
+    }
+    else{
+      return this.nextWeek[pos];
+    }
+  }
+
+  public setLabel(flag: number){
     switch(new Date().getDay()){
       case 0:
-        this.lineChartLabels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        return [this.buildString('Sun', this.setLabelHelper(flag, 0)), this.buildString('Mon', this.setLabelHelper(flag, 1)), 
+                this.buildString('Tue', this.setLabelHelper(flag, 2)), this.buildString('Wed', this.setLabelHelper(flag, 3)), 
+                this.buildString('Thu', this.setLabelHelper(flag, 4)), this.buildString('Fri', this.setLabelHelper(flag, 5)), 
+                this.buildString('Sat', this.setLabelHelper(flag, 6)), this.buildString('Sun', this.setLabelHelper(flag, 7))];
         break;
       case 1:
-        this.lineChartLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday'];
+        return [this.buildString('Mon', this.setLabelHelper(flag, 0)), this.buildString('Tue', this.setLabelHelper(flag, 1)), 
+                this.buildString('Wed', this.setLabelHelper(flag, 2)), this.buildString('Thu', this.setLabelHelper(flag, 3)), 
+                this.buildString('Fri', this.setLabelHelper(flag, 4)), this.buildString('Sat', this.setLabelHelper(flag, 5)), 
+                this.buildString('Sun', this.setLabelHelper(flag, 6)), this.buildString('Mon', this.setLabelHelper(flag, 7))];
         break;
       case 2:
-        this.lineChartLabels = ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday'];
+        return [this.buildString('Tue', this.setLabelHelper(flag, 0)), this.buildString('Wed', this.setLabelHelper(flag, 1)), 
+                this.buildString('Thu', this.setLabelHelper(flag, 2)), this.buildString('Fri', this.setLabelHelper(flag, 3)), 
+                this.buildString('Sat', this.setLabelHelper(flag, 4)), this.buildString('Sun', this.setLabelHelper(flag, 5)), 
+                this.buildString('Mon', this.setLabelHelper(flag, 6)), this.buildString('Tue', this.setLabelHelper(flag, 7))];
         break;
       case 3:
-        this.lineChartLabels = ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday'];
+        return [this.buildString('Wed', this.setLabelHelper(flag, 0)), this.buildString('Thu', this.setLabelHelper(flag, 1)), 
+                this.buildString('Fri', this.setLabelHelper(flag, 2)), this.buildString('Sat', this.setLabelHelper(flag, 3)), 
+                this.buildString('Sun', this.setLabelHelper(flag, 4)), this.buildString('Mon', this.setLabelHelper(flag, 5)), 
+                this.buildString('Tue', this.setLabelHelper(flag, 6)), this.buildString('Wed', this.setLabelHelper(flag, 7))];
         break;
       case 4:
-        this.lineChartLabels = ['Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+        return [this.buildString('Thu', this.setLabelHelper(flag, 0)), this.buildString('Fri', this.setLabelHelper(flag, 1)), 
+                this.buildString('Sat', this.setLabelHelper(flag, 2)), this.buildString('Sun', this.setLabelHelper(flag, 3)), 
+                this.buildString('Mon', this.setLabelHelper(flag, 4)), this.buildString('Tue', this.setLabelHelper(flag, 5)), 
+                this.buildString('Wed', this.setLabelHelper(flag, 6)), this.buildString('Thu', this.setLabelHelper(flag, 7))];
         break;
       case 5:
-        this.lineChartLabels = ['Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        return [this.buildString('Fri', this.setLabelHelper(flag, 0)), this.buildString('Sat', this.setLabelHelper(flag, 1)), 
+                this.buildString('Sun', this.setLabelHelper(flag, 2)), this.buildString('Mon', this.setLabelHelper(flag, 3)), 
+                this.buildString('Tue', this.setLabelHelper(flag, 4)), this.buildString('Wed', this.setLabelHelper(flag, 5)), 
+                this.buildString('Thu', this.setLabelHelper(flag, 6)), this.buildString('Fri', this.setLabelHelper(flag, 7))];
         break;
       case 6:
-        this.lineChartLabels = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        return [this.buildString('Sat', this.setLabelHelper(flag, 0)), this.buildString('Sun', this.setLabelHelper(flag, 1)), 
+                this.buildString('Mon', this.setLabelHelper(flag, 2)), this.buildString('Tue', this.setLabelHelper(flag, 3)), 
+                this.buildString('Wed', this.setLabelHelper(flag, 4)), this.buildString('Thu', this.setLabelHelper(flag, 5)), 
+                this.buildString('Fri', this.setLabelHelper(flag, 6)), this.buildString('Sat', this.setLabelHelper(flag, 7))];
         break;
     }
   }
@@ -304,13 +351,11 @@ export class ProductSearchPage {
   }
   
   public drawChart(){
+    this.formWeeks();
     this.movementChartData = [{data: this.movementValues, label: 'Movement'}];
     this.forecastChartData = [{data: this.forecastValues, label: 'Forecast'}];
-    //let clone1 = JSON.parse(JSON.stringify(this.movementChartData));
-    //let clone2 = JSON.parse(JSON.stringify(this.forecastChartData));
-    //this.movementChartData = JSON.parse(JSON.stringify(this.movementChartData));
-    //this.forecastChartData = JSON.parse(JSON.stringify(this.forecastChartData));
-    this.setLabel();
+    this.movementChartLabels = this.setLabel(0);
+    this.forecastChartLabels = this.setLabel(1);
   }
 }
 
