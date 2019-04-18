@@ -185,6 +185,7 @@ export class ProductSearchPage {
       ('00' + date.getUTCHours()).slice(-2) + ':' + 
       ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
       ('00' + date.getUTCSeconds()).slice(-2);
+    console.log(date_string);
     return date_string;
   }
 
@@ -300,50 +301,17 @@ export class ProductSearchPage {
   }
 
   public setLabel(flag: number){
-    switch(new Date().getDay()){
-      case 0:
-        return [this.buildString('Sun', this.setLabelHelper(flag, 0)), this.buildString('Mon', this.setLabelHelper(flag, 1)), 
-                this.buildString('Tue', this.setLabelHelper(flag, 2)), this.buildString('Wed', this.setLabelHelper(flag, 3)), 
-                this.buildString('Thu', this.setLabelHelper(flag, 4)), this.buildString('Fri', this.setLabelHelper(flag, 5)), 
-                this.buildString('Sat', this.setLabelHelper(flag, 6)), this.buildString('Sun', this.setLabelHelper(flag, 7))];
-        break;
-      case 1:
-        return [this.buildString('Mon', this.setLabelHelper(flag, 0)), this.buildString('Tue', this.setLabelHelper(flag, 1)), 
-                this.buildString('Wed', this.setLabelHelper(flag, 2)), this.buildString('Thu', this.setLabelHelper(flag, 3)), 
-                this.buildString('Fri', this.setLabelHelper(flag, 4)), this.buildString('Sat', this.setLabelHelper(flag, 5)), 
-                this.buildString('Sun', this.setLabelHelper(flag, 6)), this.buildString('Mon', this.setLabelHelper(flag, 7))];
-        break;
-      case 2:
-        return [this.buildString('Tue', this.setLabelHelper(flag, 0)), this.buildString('Wed', this.setLabelHelper(flag, 1)), 
-                this.buildString('Thu', this.setLabelHelper(flag, 2)), this.buildString('Fri', this.setLabelHelper(flag, 3)), 
-                this.buildString('Sat', this.setLabelHelper(flag, 4)), this.buildString('Sun', this.setLabelHelper(flag, 5)), 
-                this.buildString('Mon', this.setLabelHelper(flag, 6)), this.buildString('Tue', this.setLabelHelper(flag, 7))];
-        break;
-      case 3:
-        return [this.buildString('Wed', this.setLabelHelper(flag, 0)), this.buildString('Thu', this.setLabelHelper(flag, 1)), 
-                this.buildString('Fri', this.setLabelHelper(flag, 2)), this.buildString('Sat', this.setLabelHelper(flag, 3)), 
-                this.buildString('Sun', this.setLabelHelper(flag, 4)), this.buildString('Mon', this.setLabelHelper(flag, 5)), 
-                this.buildString('Tue', this.setLabelHelper(flag, 6)), this.buildString('Wed', this.setLabelHelper(flag, 7))];
-        break;
-      case 4:
-        return [this.buildString('Thu', this.setLabelHelper(flag, 0)), this.buildString('Fri', this.setLabelHelper(flag, 1)), 
-                this.buildString('Sat', this.setLabelHelper(flag, 2)), this.buildString('Sun', this.setLabelHelper(flag, 3)), 
-                this.buildString('Mon', this.setLabelHelper(flag, 4)), this.buildString('Tue', this.setLabelHelper(flag, 5)), 
-                this.buildString('Wed', this.setLabelHelper(flag, 6)), this.buildString('Thu', this.setLabelHelper(flag, 7))];
-        break;
-      case 5:
-        return [this.buildString('Fri', this.setLabelHelper(flag, 0)), this.buildString('Sat', this.setLabelHelper(flag, 1)), 
-                this.buildString('Sun', this.setLabelHelper(flag, 2)), this.buildString('Mon', this.setLabelHelper(flag, 3)), 
-                this.buildString('Tue', this.setLabelHelper(flag, 4)), this.buildString('Wed', this.setLabelHelper(flag, 5)), 
-                this.buildString('Thu', this.setLabelHelper(flag, 6)), this.buildString('Fri', this.setLabelHelper(flag, 7))];
-        break;
-      case 6:
-        return [this.buildString('Sat', this.setLabelHelper(flag, 0)), this.buildString('Sun', this.setLabelHelper(flag, 1)), 
-                this.buildString('Mon', this.setLabelHelper(flag, 2)), this.buildString('Tue', this.setLabelHelper(flag, 3)), 
-                this.buildString('Wed', this.setLabelHelper(flag, 4)), this.buildString('Thu', this.setLabelHelper(flag, 5)), 
-                this.buildString('Fri', this.setLabelHelper(flag, 6)), this.buildString('Sat', this.setLabelHelper(flag, 7))];
-        break;
+    var i = 0;
+    var pos = new Date().getDay();
+    var returnArray = [];
+    const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+    for(i = 0; i < 8; i++){
+      returnArray[i] = this.buildString(weekDays[(pos % weekDays.length)], this.setLabelHelper(flag, i));
+      pos++;
     }
+
+    return returnArray;
   }
 
   public chartHovered(e:any):void {
