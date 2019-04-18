@@ -36,6 +36,7 @@ export class CreateUserModalComponent implements OnInit {
     } else if (this.password != this.confirm_password) { // != or some method?
       this.errorMsg = "Passwords must match";
     } else {
+      // generateUser()
       this.apiCall.post('/users/', { // users.py POST method creates users
         username: this.username,      // MUST BE IN ORDER: username, first_name, last_name, password, type
         first_name: this.first_name,
@@ -52,6 +53,37 @@ export class CreateUserModalComponent implements OnInit {
         }
       })
     }
+  }
+
+  generateUser(short_name) { // short_name = first initial of first name + shortened last name
+    // add number at end of short_name (starting at 0,) attempt user creation
+    // if failure, increment number, try again
+    var generated_name_and_number = "foobar4";
+    var increment_short_name = true;
+
+    while (increment_short_name) {
+      this.apiCall.post('/users/', { // users.py POST method creates users
+        username: generated_name_and_number,      // MUST BE IN ORDER: username, first_name, last_name, password, type
+        first_name: this.first_name,
+        last_name: this.last_name,
+        password: this.password,
+        type: Math.floor(this.type.valueOf()) // convert the value of 'type' to an "int"
+      }).then((response: any) => { 
+        if (response.success) {
+            increment_short_name = false;
+            this.modal.close();
+            return;
+        } else if (response.error.message = "Bad Username") { // username taken
+          // increment the short name (will loop automatically)
+        }
+        else {
+          this.errorMsg = response.error.message; // if user creation doesn't work, respond with specified response
+          increment_short_name = false;
+          return;
+        }
+      })
+    }
+    
   }
 
 }
