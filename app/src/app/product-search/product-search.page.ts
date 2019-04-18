@@ -5,17 +5,12 @@ import { NavController } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import * as moment from 'moment';
 import { BaseChartDirective, ChartsModule } from 'ng2-charts/ng2-charts';
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
-
 
 @Component({
   selector: 'app-product-search',
   templateUrl: './product-search.page.html',
   styleUrls: ['./product-search.page.scss'],
 })
-
-
-
 export class ProductSearchPage {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   public searching: boolean = true;
