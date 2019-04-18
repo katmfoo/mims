@@ -306,6 +306,7 @@ export class ProductSearchPage {
     var returnArray = [];
     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+    //sends the short hand weekday to be built as a string with the short hand date in format "Mon (4/28)"
     for(i = 0; i < 8; i++){
       returnArray[i] = this.buildString(weekDays[(pos % weekDays.length)], this.setLabelHelper(flag, i));
       pos++;
