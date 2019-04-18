@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import * as moment from 'moment';
 import { BaseChartDirective, ChartsModule } from 'ng2-charts/ng2-charts';
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 
 
 @Component({
@@ -286,16 +287,27 @@ export class ProductSearchPage {
 
   public setLabel(flag: number){
     var i = 0;
-    var pos = new Date().getDay();
+    var pos = 0;
     var returnArray = [];
     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-    //sends the short hand weekday to be built as a string with the short hand date in format "Mon (4/28)"
-    for(i = 0; i < 8; i++){
-      returnArray[i] = this.buildString(weekDays[(pos % weekDays.length)], this.setLabelHelper(flag, i));
-      pos++;
+    if(flag==1){
+      returnArray[0] = "Today"
+      pos = new Date().getDay() + 1;
+      //sends the short hand weekday to be built as a string with the short hand date in format "Mon (4/28)"
+      for(i = 1; i < 8; i++){
+        returnArray[i] = this.buildString(weekDays[(pos % weekDays.length)], this.setLabelHelper(flag, i));
+        pos++;
+      }
     }
-
+    else{
+      returnArray[7] = "Today"
+      pos = new Date().getDay();
+      for(i = 0; i < 7; i++){
+        returnArray[i] = this.buildString(weekDays[(pos % weekDays.length)], this.setLabelHelper(flag, i));
+        pos++;
+      }
+    }
     return returnArray;
   }
 
