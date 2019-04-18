@@ -96,9 +96,6 @@
               <ion-item *ngFor="let item of movement; index as i">
                 <ion-label>
                   {{ item.date.format('M/D, dddd') }} 
-                  <span *ngIf="i == 0">(today)</span>
-                  <span *ngIf="i == 1">(yesterday)</span>
-                  <span *ngIf="i == 7">(last week)</span>
                   <span class="float-right">{{ item.amount }}</span>
                 </ion-label>
               </ion-item>
