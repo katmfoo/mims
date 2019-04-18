@@ -80,13 +80,13 @@ export class UserManagementPageComponent implements OnInit {
     this.open(content);
   }
 
-  deleteUser(user_id) {
+  deleteUser(username) {
     // make sure a user can't delete themselves
     // store current user after they log in to the user-management-page
-    console.log(user_id);
-    var response = confirm("Are you sure you want to delete user: " + user_id + "?");
+    console.log(username);
+    var response = confirm("Are you sure you want to delete user: " + username + "?");
     if (response) {
-      this.apiCall.put('/users/' + user_id + '/', {
+      this.apiCall.put('/users/' + username + '/', {
         is_deleted: true
       }).then((response) => {
         this.updateUsers();
