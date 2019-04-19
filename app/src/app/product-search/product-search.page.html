@@ -72,15 +72,17 @@
                   Inventory <span class="float-right"> {{item.current_inventory}} {{item.unit}}s </span> <span class ="float-right"><ion-button (click)="addInventory(item.item_code)">Change</ion-button></span>
                 </ion-label>
               </ion-item>
+
               <ion-item>
-                <ion-button><ion-icon name="remove"></ion-icon></ion-button>
-                <ion-input value="{{item.current_inventory}}"></ion-input>
-                <ion-button><ion-icon name="add"></ion-icon></ion-button>
-              </ion-item>
-      
+                  <ion-button><ion-icon name="remove"></ion-icon></ion-button>
+                  <ion-input text-center  value="{{item.current_inventory}}"></ion-input>
+                  <ion-button><ion-icon name="add"></ion-icon></ion-button>
+              </ion-item>  
+              <ion-item>
                 <ion-button>Commit</ion-button>
-                <ion-button>Cancel</ion-button>
-              
+                <ion-button slot="end">Cancel</ion-button>
+              </ion-item>
+
               <ion-item>
                 <ion-label>
                   Item code <span class="float-right">{{ item_code }}</span>
