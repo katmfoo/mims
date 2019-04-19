@@ -1,21 +1,16 @@
-import { Component, Directive, Input, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ApiCallService } from '../services/api-call.service';
 import { AlertController, Platform } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import * as moment from 'moment';
-import { BaseChartDirective, ChartsModule } from 'ng2-charts/ng2-charts';
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
-
+import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 
 @Component({
   selector: 'app-product-search',
   templateUrl: './product-search.page.html',
   styleUrls: ['./product-search.page.scss'],
 })
-
-
-
 export class ProductSearchPage {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   public searching: boolean = true;
@@ -178,6 +173,16 @@ export class ProductSearchPage {
     await alert.present();
   }
 
+  async productNotFound() {
+    const alert = await this.alertController.create({
+      header: 'Product not found',
+      message: 'That product is not in the database.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
   getDateTimeMySql() {
     let date = new Date();
     let date_string = new Date().getUTCFullYear() + '-' +
@@ -210,6 +215,10 @@ export class ProductSearchPage {
             if (response.data.products[0]) {
               this.item_code = response.data.products[0].item_code;
               this.downloadProduct();
+            } else {
+              this.searching = true;
+              this.product_loading = false;
+              this.productNotFound();
             }
           }
         });
