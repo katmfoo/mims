@@ -18,4 +18,8 @@ export class LogoutPageComponent implements OnInit {
   ngOnInit() {}
 
 
-}
+logout() {
+  // logout current user
+  localStorage.removeItem('access-token');
+  this.router.navigate(['login']); // TODO: navigate to new logout page
+}}
