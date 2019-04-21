@@ -89,7 +89,7 @@ export class UserManagementPageComponent implements OnInit {
 
   deleteUser(user_id, username : string) {
     if (username.toLowerCase() == localStorage.getItem('current-username').toLowerCase()) {
-      alert("You are not able to delete your own user information!");
+      alert("Unable to delete user. Please try again later.");
       return;
     }
     else {
