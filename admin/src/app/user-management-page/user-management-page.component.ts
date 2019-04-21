@@ -13,7 +13,7 @@ export class UserManagementPageComponent implements OnInit {
   public users: Array<any> = [];
   public data: any = {page_size: 10, page: 1};
   public search_term: string;
-  public selectedUser;
+  public selectedUser: string; // used for opening the edit modal
 
   constructor(private apiCall: ApiCallService, private modalService: NgbModal, private router: Router) {}
 
@@ -24,7 +24,7 @@ export class UserManagementPageComponent implements OnInit {
   logout() {
     // logout current user
     localStorage.removeItem('access-token');
-    this.router.navigate(['login']);
+    this.router.navigate(['login']); // TODO: navigate to new logout page
   }
 
   updateUsers() {
@@ -75,24 +75,33 @@ export class UserManagementPageComponent implements OnInit {
     });
   }
 
-  openEditModal(content, username) {
+  openEditModal(content, username : string) {
     this.selectedUser = username;
-    this.open(content);
+    var edit_permission : Boolean = true;
+    if (username.toLowerCase() == localStorage.getItem('current-username').toLowerCase()) {
+      edit_permission = confirm("You are about to edit your own user information. Do you wish to continue?"
+        + "\nNote: editing your own information may cause issues with your permission on this page.");
+    }
+    if (edit_permission) {
+      this.open(content);
+    }
   }
 
-  deleteUser(user_id, username) {
-    // make sure a user can't delete themselves
-    // store current user after they log in to the user-management-page
-    console.log(username);
-    console.log(user_id);
-    var response = confirm("Are you sure you want to delete user: " + username + "?");
-    if (response) {
-      this.apiCall.put('/users/' + user_id + '/', {
-        is_deleted: true
-      }).then((response) => {
-        this.updateUsers();
-        alert(username + " has been deleted.");
-      })
+  deleteUser(user_id, username : string) {
+    if (username.toLowerCase() == localStorage.getItem('current-username').toLowerCase()) {
+      alert("You are not able to delete your own user information!");
+      return;
+    }
+    else {
+      var response = confirm("Are you sure you want to delete user: " + username + "?");
+      if (response) {
+        this.apiCall.put('/users/' + user_id + '/', {
+          is_deleted: true
+        }).then((response) => {
+          this.updateUsers();
+          alert(username + " has been deleted.");
+        })
+      }
     }
   }
 }
