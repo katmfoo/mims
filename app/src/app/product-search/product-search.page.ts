@@ -195,6 +195,7 @@ export class ProductSearchPage {
         this.downloadProduct();
       });
     }
+    this.toggleInventoryMenu();
   }
 
   toggleInventoryMenu()

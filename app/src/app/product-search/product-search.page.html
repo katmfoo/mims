@@ -69,19 +69,31 @@
               </ion-item>
               <ion-item>
                 <ion-label>
-                  Inventory <span class="float-right"> {{item.current_inventory}} {{item.unit}}s </span> <span class ="float-right"><ion-button (click)="toggleInventoryMenu()">Change</ion-button></span>
+                  Inventory <span class="float-right"> {{item.current_inventory}} {{item.unit}}s </span> <span class ="float-right"><ion-button (click)="toggleInventoryMenu()">Edit</ion-button></span>
                 </ion-label>
               </ion-item>
               <div *ngIf="inventoryMenu">
-                <ion-item>
-                    <ion-button (click)="minusButton()"><ion-icon name="remove"></ion-icon></ion-button>
-                    <ion-input text-center [(ngModel)]="tempInventory" ></ion-input>
-                    <ion-button (click)="plusButton()"><ion-icon name="add"></ion-icon></ion-button>
-                </ion-item>  
-                <ion-item>
-                  <ion-button (click)="updateInventory()">Commit</ion-button>
-                  <ion-button slot="end" (click)="toggleInventoryMenu()">Cancel</ion-button>
-                </ion-item>
+                <ion-grid no-padding>
+                  <ion-row>
+                    <ion-col>
+                      <ion-button size="large" (click)="plusButton()"><ion-icon name="add"></ion-icon></ion-button>
+                      <br>
+                      <ion-button size="large" (click)="minusButton()"><ion-icon name="remove"></ion-icon></ion-button>
+                    </ion-col>
+                    <ion-col align-self: center>
+                      <br>
+                      <br>
+                      <ion-item>
+                      <ion-input text-center [(ngModel)]="tempInventory"></ion-input>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col></ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col><ion-button expand="block" color="success" (click)="updateInventory()">Update</ion-button></ion-col>
+                    <ion-col><ion-button expand="block" color="danger" (click)="toggleInventoryMenu()">Cancel</ion-button></ion-col>
+                  </ion-row>
+                </ion-grid>
               </div>
 
               <ion-item>
