@@ -40,6 +40,9 @@ export class ProductSearchPage {
   public movement_display = 'table';
   public forecast_display = 'table';
 
+  public manageMenu: boolean = false;
+  public tempInventory;
+
   constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
     this.is_cordova = this.platform.is('cordova');
   }
@@ -171,6 +174,26 @@ export class ProductSearchPage {
     });
 
     await alert.present();
+  }
+
+  toggleInventoryMenu()
+  {
+    this.tempInventory = this.item.current_inventory;
+    if (this.manageMenu == false)
+      this.manageMenu = true;
+    else
+      this.manageMenu = false;
+    console.log(this.manageMenu);
+  }
+
+  plusButton()
+  {
+    this.tempInventory++;
+  }
+
+  minusButton()
+  {
+    this.tempInventory--;
   }
 
   async productNotFound() {
