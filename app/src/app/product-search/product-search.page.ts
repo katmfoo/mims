@@ -40,6 +40,9 @@ export class ProductSearchPage {
   public movement_display = 'table';
   public forecast_display = 'table';
 
+  public inventoryMenu: boolean = false;
+  public tempInventory;
+
   constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
     this.is_cordova = this.platform.is('cordova');
   }
@@ -172,6 +175,51 @@ export class ProductSearchPage {
 
     await alert.present();
   }
+
+  updateInventory()
+  {
+    if (this.tempInventory) {
+      let date_string = this.getDateTimeMySql();
+      let unit_id = null;
+      if (this.item.unit == 'Unit') {
+        unit_id = 1;
+      } else if (this.item.unit == 'Pound') {
+        unit_id = 2;
+      }
+      this.apiCall.post('/inventory/', {
+        'item_code': this.item.item_code,
+        'amount': (this.tempInventory-this.item.current_inventory),
+        'unit': unit_id,
+        'datetime': date_string
+      }).then(() => {
+        this.downloadProduct();
+      });
+    }
+  }
+
+  toggleInventoryMenu()
+  {
+    this.tempInventory = this.item.current_inventory;
+    if (this.inventoryMenu == false)
+      this.inventoryMenu = true;
+    else
+      this.inventoryMenu = false;
+    console.log(this.inventoryMenu);
+
+  }
+
+  plusButton()
+  {
+    this.tempInventory++;
+    console.log(this.tempInventory);
+  }
+
+  minusButton()
+  {
+    this.tempInventory--;
+    console.log(this.tempInventory);
+  }
+
 
   async productNotFound() {
     const alert = await this.alertController.create({
