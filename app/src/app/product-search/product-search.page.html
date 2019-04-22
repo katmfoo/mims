@@ -72,15 +72,15 @@
                   Inventory <span class="float-right"> {{item.current_inventory}} {{item.unit}}s </span> <span class ="float-right"><ion-button (click)="toggleInventoryMenu()">Change</ion-button></span>
                 </ion-label>
               </ion-item>
-              <div *ngIf="manageMenu">
+              <div *ngIf="inventoryMenu">
                 <ion-item>
-                    <ion-button><ion-icon name="remove" (click)="minusButton()"></ion-icon></ion-button>
+                    <ion-button (click)="minusButton()"><ion-icon name="remove"></ion-icon></ion-button>
                     <ion-input text-center  value="{{tempInventory}}"></ion-input>
-                    <ion-button><ion-icon name="add" (click)="plusButton()"></ion-icon></ion-button>
+                    <ion-button (click)="plusButton()"><ion-icon name="add"></ion-icon></ion-button>
                 </ion-item>  
                 <ion-item>
                   <ion-button>Commit</ion-button>
-                  <ion-button slot="end">Cancel</ion-button>
+                  <ion-button slot="end" (click)="toggleInventoryMenu()">Cancel</ion-button>
                 </ion-item>
               </div>
 

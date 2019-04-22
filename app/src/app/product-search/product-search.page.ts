@@ -40,7 +40,7 @@ export class ProductSearchPage {
   public movement_display = 'table';
   public forecast_display = 'table';
 
-  public manageMenu: boolean = false;
+  public inventoryMenu: boolean = false;
   public tempInventory;
 
   constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
@@ -179,22 +179,26 @@ export class ProductSearchPage {
   toggleInventoryMenu()
   {
     this.tempInventory = this.item.current_inventory;
-    if (this.manageMenu == false)
-      this.manageMenu = true;
+    if (this.inventoryMenu == false)
+      this.inventoryMenu = true;
     else
-      this.manageMenu = false;
-    console.log(this.manageMenu);
+      this.inventoryMenu = false;
+    console.log(this.inventoryMenu);
+
   }
 
   plusButton()
   {
     this.tempInventory++;
+    console.log(this.tempInventory);
   }
 
   minusButton()
   {
     this.tempInventory--;
+    console.log(this.tempInventory);
   }
+
 
   async productNotFound() {
     const alert = await this.alertController.create({
