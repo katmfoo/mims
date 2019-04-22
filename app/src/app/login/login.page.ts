@@ -37,7 +37,6 @@ export class LoginPage {
           this.navCtrl.navigateRoot('search');
         } else {
           this.errorMsg = response.error.message;
-          return;
         }
         this.loading = false;
       })
