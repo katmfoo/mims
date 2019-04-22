@@ -75,11 +75,11 @@
               <div *ngIf="inventoryMenu">
                 <ion-item>
                     <ion-button (click)="minusButton()"><ion-icon name="remove"></ion-icon></ion-button>
-                    <ion-input text-center  value="{{tempInventory}}"></ion-input>
+                    <ion-input text-center [(ngModel)]="tempInventory" ></ion-input>
                     <ion-button (click)="plusButton()"><ion-icon name="add"></ion-icon></ion-button>
                 </ion-item>  
                 <ion-item>
-                  <ion-button>Commit</ion-button>
+                  <ion-button (click)="updateInventory()">Commit</ion-button>
                   <ion-button slot="end" (click)="toggleInventoryMenu()">Cancel</ion-button>
                 </ion-item>
               </div>

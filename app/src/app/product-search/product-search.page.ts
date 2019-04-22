@@ -176,6 +176,27 @@ export class ProductSearchPage {
     await alert.present();
   }
 
+  updateInventory()
+  {
+    if (this.tempInventory) {
+      let date_string = this.getDateTimeMySql();
+      let unit_id = null;
+      if (this.item.unit == 'Unit') {
+        unit_id = 1;
+      } else if (this.item.unit == 'Pound') {
+        unit_id = 2;
+      }
+      this.apiCall.post('/inventory/', {
+        'item_code': this.item.item_code,
+        'amount': (this.tempInventory-this.item.current_inventory),
+        'unit': unit_id,
+        'datetime': date_string
+      }).then(() => {
+        this.downloadProduct();
+      });
+    }
+  }
+
   toggleInventoryMenu()
   {
     this.tempInventory = this.item.current_inventory;
