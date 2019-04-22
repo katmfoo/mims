@@ -12,11 +12,13 @@ import { UtilityService } from './services/utility.service';
 import { HttpClientModule } from '@angular/common/http';
 import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.component';
 import { CreateUserModalComponent } from './create-user-modal/create-user-modal.component';
+import { LogoutPageComponent } from './logout-page/logout-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
+    LogoutPageComponent,
     UserManagementPageComponent,
     EditUserModalComponent,
     CreateUserModalComponent
