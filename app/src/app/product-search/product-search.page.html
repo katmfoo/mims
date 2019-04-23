@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-searchbar animated (ionChange)="searchProduct($event)" (ionFocus)="searchFocused()" placeholder="Product search"></ion-searchbar>
+    <ion-searchbar (click)="disableInventoryMenu()" animated (ionChange)="searchProduct($event)" (ionFocus)="searchFocused()" placeholder="Product search"></ion-searchbar>
     <ion-buttons slot="end" *ngIf="is_cordova">
       <ion-button class="barcode" (click)="scanBarcode()">
         <ion-icon slot="icon-only" name="qr-scanner"></ion-icon>
@@ -41,10 +41,10 @@
       <ion-segment-button checked="true" value="details">
         <ion-label>Details</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="movement">
+      <ion-segment-button (click)="disableInventoryMenu()" value="movement">
         <ion-label>Movement</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="forecast">
+      <ion-segment-button (click)="disableInventoryMenu()" value="forecast">
         <ion-label>Forecast</ion-label>
       </ion-segment-button>
     </ion-segment>
@@ -69,10 +69,12 @@
               </ion-item>
               <ion-item>
                 <ion-label>
-                  Inventory <span class="float-right"> {{item.current_inventory}} {{item.unit}}s </span> <span class ="float-right"><ion-button (click)="toggleInventoryMenu()">Edit</ion-button></span>
+                  Inventory <span class="float-right"> {{item.current_inventory}} {{item.unit}}s </span> <span class ="float-right"></span>
+                  <br>
+                  <span class="float-right"><ion-button (click)="toggleInventoryMenu()">Edit</ion-button></span>
                 </ion-label>
               </ion-item>
-              <div *ngIf="inventoryMenu">
+              <div *ngIf="inventoryMenu && current_tab == 'details'">
                 <ion-grid no-padding>
                   <ion-row>
                     <ion-col>

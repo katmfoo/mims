@@ -130,52 +130,6 @@ export class ProductSearchPage {
     });
   }
 
-  async addInventory(item_code) {
-    const alert = await this.alertController.create({
-      header: 'Add Inventory',
-      inputs: [
-        {
-          name: 'amount',
-          type: 'number',
-        }
-      ],
-      buttons: [  
-        {
-          text: 'Add Inventory',
-          handler: (data) => {
-            if (data.amount) {
-              let date_string = this.getDateTimeMySql();
-              let unit_id = null;
-              if (this.item.unit == 'Unit') {
-                unit_id = 1;
-              } else if (this.item.unit == 'Pound') {
-                unit_id = 2;
-              }
-              this.apiCall.post('/inventory/', {
-                'item_code': item_code,
-                'amount': Number(data.amount),
-                'unit': unit_id,
-                'datetime': date_string
-              }).then(() => {
-                this.downloadProduct();
-              });
-            }
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            
-          }
-        } 
-      ]
-    });
-
-    await alert.present();
-  }
-
   updateInventory()
   {
     if (this.tempInventory) {
@@ -205,20 +159,22 @@ export class ProductSearchPage {
       this.inventoryMenu = true;
     else
       this.inventoryMenu = false;
-    console.log(this.inventoryMenu);
+  }
 
+  disableInventoryMenu()
+  {
+    this.inventoryMenu = false;
+    console.log(this.inventoryMenu);
   }
 
   plusButton()
   {
     this.tempInventory++;
-    console.log(this.tempInventory);
   }
 
   minusButton()
   {
     this.tempInventory--;
-    console.log(this.tempInventory);
   }
 
 
