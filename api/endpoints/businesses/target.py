@@ -27,7 +27,8 @@ def targetGetProducts(data):
     if 'plu' in data:
         stm = stm.where(products.c.plu == data['plu'])
     if 'barcode' in data:
-        stm = stm.where(products.c.barcode == data['barcode'])
+        barcode = '%' + data['barcode'] + '%'
+        stm = stm.where(products.c.barcode.like(barcode))
     if 'department' in data:
         stm = stm.where(products.c.department == data['department'])
     
