@@ -38,3 +38,8 @@ Patrick Richeal, Brandon Ostasewski, Matthew Finnegan, Dominic Marandino, John D
 * Run `sudo nohup python3 -m http.server 80 &` to start the web server in the background
 * Run `ps -e | grep python3` to see the process of the running api
 * Run `kill -9 process-id` to kill the api
+
+###### Live process IDS
+* API: 5745
+* Simulation: 12925
+* Web server: 21355
