@@ -71,7 +71,7 @@
                 <ion-label>
                   Inventory <span class="float-right"> {{item.current_inventory}} {{item.unit}}s </span> <span class ="float-right"></span>
                   <br>
-                  <span class="float-right"><ion-button (click)="toggleInventoryMenu()">Edit</ion-button></span>
+                  <span class="float-right"><ion-button id="editButton" (click)="toggleInventoryMenu()">Edit</ion-button></span>
                 </ion-label>
               </ion-item>
               <div *ngIf="inventoryMenu && current_tab == 'details'">
