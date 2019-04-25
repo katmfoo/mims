@@ -128,6 +128,17 @@
                 </ion-label>
               </ion-item>
             </ion-list>
+            <ion-grid *ngIf="movement_display == 'table'">
+              <ion-row text-center>
+                <ion-col><ion-badge>Sun</ion-badge></ion-col><ion-col><ion-badge>Mon</ion-badge></ion-col><ion-col>Tues</ion-col><ion-col>Wed</ion-col><ion-col>Thurs</ion-col><ion-col>Fri</ion-col><ion-col>Sat</ion-col><ion-col>Sun</ion-col>
+              </ion-row>
+              <ion-row text-center>
+                <ion-col>4/12</ion-col><ion-col>4/13</ion-col><ion-col>Tues</ion-col><ion-col>Wed</ion-col><ion-col>Thurs</ion-col><ion-col>Fri</ion-col><ion-col>Sat</ion-col><ion-col>Sun</ion-col>
+              </ion-row>
+              <ion-row text-center>
+                <ion-col>0</ion-col><ion-col>1</ion-col><ion-col>2</ion-col><ion-col>3</ion-col><ion-col>4</ion-col><ion-col>5</ion-col><ion-col>6</ion-col><ion-col>7</ion-col>
+              </ion-row>
+            </ion-grid>
           </div>
           <div class="row chart-row" *ngIf="movement_display == 'graph'">
             <div class="chart">
