@@ -140,10 +140,14 @@
                 <ion-col id="day7" class="badge-col" (click)="activateExtraDetails(7)"><ion-badge>Su</ion-badge></ion-col>
               </ion-row>
               <ion-row text-center>
-                <ion-col>4/12</ion-col><ion-col>4/13</ion-col><ion-col>Tues</ion-col><ion-col>Wed</ion-col><ion-col>Thurs</ion-col><ion-col>Fri</ion-col><ion-col>Sat</ion-col><ion-col class="last-col">Sun</ion-col>
-              </ion-row>
-              <ion-row text-center>
-                <ion-col>0</ion-col><ion-col>1</ion-col><ion-col>2</ion-col><ion-col>3</ion-col><ion-col>4</ion-col><ion-col>5</ion-col><ion-col>6</ion-col><ion-col>7</ion-col>
+                <ion-col>{{movementValues[0]}}</ion-col>
+                <ion-col>{{movementValues[1]}}</ion-col>
+                <ion-col>{{movementValues[2]}}</ion-col>
+                <ion-col>{{movementValues[3]}}</ion-col>
+                <ion-col>{{movementValues[4]}}</ion-col>
+                <ion-col>{{movementValues[5]}}</ion-col>
+                <ion-col>{{movementValues[6]}}</ion-col>
+                <ion-col>{{movementValues[7]}}</ion-col>
               </ion-row>
             </ion-grid>
             <ion-item *ngIf="extraDetails">
