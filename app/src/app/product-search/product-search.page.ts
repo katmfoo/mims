@@ -44,7 +44,7 @@ export class ProductSearchPage {
   public tempInventory;
 
   public extraDetails: boolean = false;
-  public dayClicked;
+  public currentClickedDay;
 
   constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
     this.is_cordova = this.platform.is('cordova');
@@ -340,15 +340,20 @@ export class ProductSearchPage {
     this.forecastChartLabels = this.setLabel(1);
   }
 
-  activateExtraDetails()
+  activateExtraDetails(dayClicked)
   {
     this.extraDetails = !this.extraDetails;
   }
 
-  activateExtraDetailsHelper()
+  activateExtraDetailsHelper(dayClicked)
   {
     if(this.extraDetails == false)
       this.extraDetails = true;
+    //api call to get details for that day
+    if(dayClicked == this.currentClickedDay)
+      this.extraDetails = false;
+    else  
+      this.currentClickedDay = dayClicked;
   }
 }
 
