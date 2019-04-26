@@ -130,15 +130,27 @@
             </ion-list>
             <ion-grid *ngIf="movement_display == 'table'">
               <ion-row text-center>
-                <ion-col><ion-badge>Sun</ion-badge></ion-col><ion-col><ion-badge>Mon</ion-badge></ion-col><ion-col>Tues</ion-col><ion-col>Wed</ion-col><ion-col>Thurs</ion-col><ion-col>Fri</ion-col><ion-col>Sat</ion-col><ion-col>Sun</ion-col>
+                <ion-col id="day0" class="badge-col" (click)="activateExtraDetails(0)"><ion-badge>Su</ion-badge></ion-col>
+                <ion-col id="day1" class="badge-col" (click)="activateExtraDetails(1)"><ion-badge>M</ion-badge></ion-col>
+                <ion-col id="day2" class="badge-col" (click)="activateExtraDetails(2)"><ion-badge>Tu</ion-badge></ion-col>
+                <ion-col id="day3" class="badge-col" (click)="activateExtraDetails(3)"><ion-badge>W</ion-badge></ion-col>
+                <ion-col id="day4" class="badge-col" (click)="activateExtraDetails(4)"><ion-badge>Th</ion-badge></ion-col>
+                <ion-col id="day5" class="badge-col" (click)="activateExtraDetails(5)"><ion-badge>F</ion-badge></ion-col>
+                <ion-col id="day6" class="badge-col" (click)="activateExtraDetails(6)"><ion-badge>Sa</ion-badge></ion-col>
+                <ion-col id="day7" class="badge-col" (click)="activateExtraDetails(7)"><ion-badge>Su</ion-badge></ion-col>
               </ion-row>
               <ion-row text-center>
-                <ion-col>4/12</ion-col><ion-col>4/13</ion-col><ion-col>Tues</ion-col><ion-col>Wed</ion-col><ion-col>Thurs</ion-col><ion-col>Fri</ion-col><ion-col>Sat</ion-col><ion-col>Sun</ion-col>
+                <ion-col>4/12</ion-col><ion-col>4/13</ion-col><ion-col>Tues</ion-col><ion-col>Wed</ion-col><ion-col>Thurs</ion-col><ion-col>Fri</ion-col><ion-col>Sat</ion-col><ion-col class="last-col">Sun</ion-col>
               </ion-row>
               <ion-row text-center>
                 <ion-col>0</ion-col><ion-col>1</ion-col><ion-col>2</ion-col><ion-col>3</ion-col><ion-col>4</ion-col><ion-col>5</ion-col><ion-col>6</ion-col><ion-col>7</ion-col>
               </ion-row>
             </ion-grid>
+            <ion-item *ngIf="extraDetails">
+              <ion-label>
+                This is some extra stuff!
+              </ion-label>
+            </ion-item>
           </div>
           <div class="row chart-row" *ngIf="movement_display == 'graph'">
             <div class="chart">

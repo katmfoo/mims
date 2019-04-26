@@ -43,6 +43,9 @@ export class ProductSearchPage {
   public inventoryMenu: boolean = false;
   public tempInventory;
 
+  public extraDetails: boolean = false;
+  public dayClicked;
+
   constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
     this.is_cordova = this.platform.is('cordova');
   }
@@ -335,6 +338,17 @@ export class ProductSearchPage {
     this.forecastChartData = [{data: this.forecastValues, label: 'Forecast'}];
     this.movementChartLabels = this.setLabel(0);
     this.forecastChartLabels = this.setLabel(1);
+  }
+
+  activateExtraDetails()
+  {
+    this.extraDetails = !this.extraDetails;
+  }
+
+  activateExtraDetailsHelper()
+  {
+    if(this.extraDetails == false)
+      this.extraDetails = true;
   }
 }
 
