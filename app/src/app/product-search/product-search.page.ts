@@ -94,6 +94,10 @@ export class ProductSearchPage {
     this.current_tab = 'details';
   }
 
+  /**
+   * Downloads the product, movement, and forcast data of
+   * an item.
+   */
   downloadProduct() {
     this.product_loading = true;
     this.movement_loading = true;
