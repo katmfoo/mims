@@ -79,6 +79,14 @@ export class ProductSearchPage {
     }
   }
 
+  /**
+   * Allows a user to select what product they would
+   * like to veiw in more detail
+   * 
+   * @param item_code value that is used to select what
+   * product info will populate the details, history, and
+   * forcast screens.
+   */
   selectProduct(item_code) {
     this.item_code = item_code;
     this.downloadProduct();
