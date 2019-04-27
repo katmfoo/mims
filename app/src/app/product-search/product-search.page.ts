@@ -47,6 +47,14 @@ export class ProductSearchPage {
     this.is_cordova = this.platform.is('cordova');
   }
 
+  /**
+   * Populates a list of items based on the search term that
+   * is entered into the seach bar.
+   * 
+   * @param event value that is assigned to search_term that 
+   * is used to populate the list of products with the a value
+   * similar to search_term
+   */
   searchProduct(event) {
     const search_term = event.detail.value;
     if (search_term) {
