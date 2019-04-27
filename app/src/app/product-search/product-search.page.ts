@@ -150,6 +150,9 @@ export class ProductSearchPage {
     });
   }
 
+  /**
+   * Updates the inventory of an item in the database.
+   */
   updateInventory()
   {
     if (this.tempInventory) {
