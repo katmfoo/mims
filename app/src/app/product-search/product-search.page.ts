@@ -187,26 +187,34 @@ export class ProductSearchPage {
       this.inventoryMenu = false;
   }
 
-  //Disables the inventory menu when the inventory is not currently being edited.
+  /**
+   * Disables the inventory menu when the inventory is not currently being edited.
+  */
   disableInventoryMenu()
   {
     this.inventoryMenu = false;
     console.log(this.inventoryMenu);
   }
 
-  //Increased the inventory of an item by 1.
+  /**
+   * Increased the inventory of an item by 1.
+  */
   plusButton()
   {
     this.tempInventory++;
   }
 
-  //Decreases the inventory of an item by 1
+  /**
+   * Decreases the inventory of an item by 1.
+  */
   minusButton()
   {
     this.tempInventory--;
   }
 
-  //Alerts that outputs a message if a product is not found based on the search term
+  /**
+   * Alerts that outputs a message if a product is not found based on the search term.
+  */
   async productNotFound() {
     const alert = await this.alertController.create({
       header: 'Product not found',
@@ -217,6 +225,9 @@ export class ProductSearchPage {
     await alert.present();
   }
 
+  /**
+   * Gets the date and time from the database.
+  */
   getDateTimeMySql() {
     let date = new Date();
     let date_string = new Date().getUTCFullYear() + '-' +
@@ -229,7 +240,9 @@ export class ProductSearchPage {
     return date_string;
   }
 
-    
+  /**
+   * Method that navivates back to the product-search page.
+  */
   goBack() {
     this.navCtrl.navigateBack('product-search');
   }
@@ -238,6 +251,10 @@ export class ProductSearchPage {
     this.current_tab = value.detail.value;
   }
 
+  /**
+   * Scans a barcode and calls the api .get fucntion to search
+   * for a product within the database.
+   */
   scanBarcode() {
     this.barcodeScanner.scan().then(barcodeData => {
       if (barcodeData.text) {
