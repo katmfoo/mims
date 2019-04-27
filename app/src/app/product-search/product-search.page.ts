@@ -175,6 +175,9 @@ export class ProductSearchPage {
     this.toggleInventoryMenu();
   }
 
+  /**
+   * Toggles the inventory menu to eiter be shown or hidden.
+   */
   toggleInventoryMenu()
   {
     this.tempInventory = this.item.current_inventory;
