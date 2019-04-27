@@ -187,23 +187,26 @@ export class ProductSearchPage {
       this.inventoryMenu = false;
   }
 
+  //Disables the inventory menu when the inventory is not currently being edited.
   disableInventoryMenu()
   {
     this.inventoryMenu = false;
     console.log(this.inventoryMenu);
   }
 
+  //Increased the inventory of an item by 1.
   plusButton()
   {
     this.tempInventory++;
   }
 
+  //Decreases the inventory of an item by 1
   minusButton()
   {
     this.tempInventory--;
   }
 
-
+  //Alerts that outputs a message if a product is not found based on the search term
   async productNotFound() {
     const alert = await this.alertController.create({
       header: 'Product not found',
