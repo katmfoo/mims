@@ -19,12 +19,12 @@ export class UserManagementPageComponent implements OnInit {
 
   ngOnInit() {
     this.updateUsers();
+    this.setUpUsername();
   }
 
   logout() {
-    // logout current user
     localStorage.removeItem('access-token');
-    this.router.navigate(['login']); // TODO: navigate to new logout page
+    this.router.navigate(['login']);
   }
 
   updateUsers() {
@@ -103,5 +103,21 @@ export class UserManagementPageComponent implements OnInit {
         })
       }
     }
+  }
+
+  setUpUsername() {
+    // edit button at top to display username rather than normal text
+    document.getElementById("userBtn").innerText = localStorage.getItem("current-username");
+  }
+
+  displayHelpInfo() {
+    // display a modal with help info about page usage
+    alert("displaying help info");
+  }
+
+  displayUserInfo() {
+    // display a modal with user info
+    //  username, first name, last name, user type, company, etc
+    alert("displaying user info");
   }
 }
