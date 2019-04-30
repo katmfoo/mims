@@ -32,6 +32,7 @@ export class ProductSearchPage {
   public forecast = [];
   public movementValues = [];
   public forecastValues = [];
+  public past10Array = [];
   public lastWeek = [];
   public nextWeek = [];
   public currentDay = this.d.getDay();
@@ -107,6 +108,7 @@ export class ProductSearchPage {
     this.apiCall.get('/products/' + this.item_code + '/', {}).then((response: any) => {
       if (response.success) {
         this.item = response.data.product;
+        this.buildpast10Array(this.item);
         this.product_loading = false;
       }
     });
@@ -126,7 +128,6 @@ export class ProductSearchPage {
 
     
         this.movementValues = this.movement.map(element => element.amount).reverse();
-        this.drawChart();
         this.movement_loading = false;
       }
     });
@@ -142,12 +143,22 @@ export class ProductSearchPage {
             'amount': response.data.product_forecast[item]
           });
         }
-
         this.forecastValues = this.forecast.map(element => element.amount);
         this.drawChart();
         this.forecast_loading = false; 
       }
     });
+  }
+
+  buildpast10Array(item){
+    var index = this.past10Array.findIndex(x => x.item_code == item.item_code);
+    if(index === -1){
+      this.past10Array.unshift(item);
+      if(this.past10Array.length > 10){
+        this.past10Array.pop();
+      }
+    }
+    console.log(this.past10Array);
   }
 
   /**
@@ -193,7 +204,7 @@ export class ProductSearchPage {
   disableInventoryMenu()
   {
     this.inventoryMenu = false;
-    console.log(this.inventoryMenu);
+    //console.log(this.inventoryMenu);
   }
 
   /**
