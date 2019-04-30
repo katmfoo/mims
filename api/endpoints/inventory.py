@@ -22,7 +22,7 @@ def createInventoryTransaction():
     response = Response()
 
     # Ensure user has permission for this endpoint
-    userId = authenticateRequest(response, request, mustBeManager=True)
+    userId = authenticateRequest(response, request, mustBeManager=False)
     if response.hasError(): return response.getJson()
 
     # Ensure required input parameters are received

@@ -47,6 +47,14 @@ export class ProductSearchPage {
     this.is_cordova = this.platform.is('cordova');
   }
 
+  /**
+   * Populates a list of items based on the search term that
+   * is entered into the seach bar.
+   * 
+   * @param event value that is assigned to search_term that 
+   * is used to populate the list of products with the a value
+   * similar to search_term
+   */
   searchProduct(event) {
     const search_term = event.detail.value;
     if (search_term) {
@@ -71,6 +79,14 @@ export class ProductSearchPage {
     }
   }
 
+  /**
+   * Allows a user to select what product they would
+   * like to veiw in more detail
+   * 
+   * @param item_code value that is used to select what
+   * product info will populate the details, history, and
+   * forcast screens.
+   */
   selectProduct(item_code) {
     this.item_code = item_code;
     this.downloadProduct();
@@ -78,6 +94,10 @@ export class ProductSearchPage {
     this.current_tab = 'details';
   }
 
+  /**
+   * Downloads the product, movement, and forcast data of
+   * an item.
+   */
   downloadProduct() {
     this.product_loading = true;
     this.movement_loading = true;
@@ -130,6 +150,9 @@ export class ProductSearchPage {
     });
   }
 
+  /**
+   * Updates the inventory of an item in the database.
+   */
   updateInventory()
   {
     if (this.tempInventory) {
@@ -152,6 +175,9 @@ export class ProductSearchPage {
     this.toggleInventoryMenu();
   }
 
+  /**
+   * Toggles the inventory menu to eiter be shown or hidden.
+   */
   toggleInventoryMenu()
   {
     this.tempInventory = this.item.current_inventory;
@@ -161,23 +187,34 @@ export class ProductSearchPage {
       this.inventoryMenu = false;
   }
 
+  /**
+   * Disables the inventory menu when the inventory is not currently being edited.
+  */
   disableInventoryMenu()
   {
     this.inventoryMenu = false;
     console.log(this.inventoryMenu);
   }
 
+  /**
+   * Increased the inventory of an item by 1.
+  */
   plusButton()
   {
     this.tempInventory++;
   }
 
+  /**
+   * Decreases the inventory of an item by 1.
+  */
   minusButton()
   {
     this.tempInventory--;
   }
 
-
+  /**
+   * Alerts that outputs a message if a product is not found based on the search term.
+  */
   async productNotFound() {
     const alert = await this.alertController.create({
       header: 'Product not found',
@@ -188,6 +225,9 @@ export class ProductSearchPage {
     await alert.present();
   }
 
+  /**
+   * Gets the date and time from the database.
+  */
   getDateTimeMySql() {
     let date = new Date();
     let date_string = new Date().getUTCFullYear() + '-' +
@@ -200,7 +240,9 @@ export class ProductSearchPage {
     return date_string;
   }
 
-    
+  /**
+   * Method that navivates back to the product-search page.
+  */
   goBack() {
     this.navCtrl.navigateBack('product-search');
   }
@@ -209,6 +251,10 @@ export class ProductSearchPage {
     this.current_tab = value.detail.value;
   }
 
+  /**
+   * Scans a barcode and calls the api .get fucntion to search
+   * for a product within the database.
+   */
   scanBarcode() {
     this.barcodeScanner.scan().then(barcodeData => {
       if (barcodeData.text) {
