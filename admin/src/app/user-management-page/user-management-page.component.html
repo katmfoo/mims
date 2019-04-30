@@ -2,18 +2,19 @@
   <!-- Link for glyphicons -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-  </head>
+</head>
 
+<!-- Display Company Name somewhere on page -->
 <div class="container">
   <div class="btn-group mr-3" style="float: right">
-    <button type="button" id="userBtn" value="" class="btn btn-light" (click)="displayUserInfo()">Username</button>
+    <button type="button" id="userBtn" value="" class="btn btn-outline-primary" (click)="open(currUserInfoModal)">Username</button>
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
       <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
       <div class="dropdown-menu" ngbDropdownMenu>
-        <a class="dropdown-item" (click)="displayUserInfo()">User Info</a>
-        <a class="dropdown-item" (click)="displayHelpInfo()">Help</a>
+        <a class="dropdown-item" (click)="open(currUserInfoModal)"><i class="fas fa-user"></i>  User Info</a>
+        <a class="dropdown-item" (click)="open(helpModal)"><i class="fas fa-info-circle"></i>  Help</a>
         <div class="divider dropdown-divider"></div>
-        <a class="dropdown-item" (click)="logout()">Logout</a>
+        <a class="dropdown-item" (click)="logout()"><i class="fas fa-sign-out-alt"></i>  Logout</a>
       </div>
     </div>
   </div>
@@ -62,10 +63,20 @@
   <br>
 </div>
 
+<!-- Modal Information -->
+
 <ng-template #editModal let-modal>
   <app-edit-user-modal [modal]="modal" [username-input]='selectedUser'></app-edit-user-modal>
 </ng-template>
 
 <ng-template #createModal let-modal>
   <app-create-user-modal [modal]="modal"></app-create-user-modal>
+</ng-template>
+
+<ng-template #currUserInfoModal let-modal>
+  <app-curr-user-info-modal [modal]="modal"></app-curr-user-info-modal>
+</ng-template>
+
+<ng-template #helpModal let-modal>
+  <app-help-modal [modal]="modal"></app-help-modal>
 </ng-template>

@@ -73,6 +73,7 @@ export class UserManagementPageComponent implements OnInit {
     }, (reason) => {
       console.log('rejected');
     });
+    this.updateUsers();
   }
 
   openEditModal(content, username : string) {
@@ -106,18 +107,12 @@ export class UserManagementPageComponent implements OnInit {
   }
 
   setUpUsername() {
-    // edit button at top to display username rather than normal text
-    document.getElementById("userBtn").innerText = localStorage.getItem("current-username");
-  }
-
-  displayHelpInfo() {
-    // display a modal with help info about page usage
-    alert("displaying help info");
-  }
-
-  displayUserInfo() {
-    // display a modal with user info
-    //  username, first name, last name, user type, company, etc
-    alert("displaying user info");
+    this.apiCall.get('/users/', {username: localStorage.getItem('current-username')}).then((response: any) => {
+      console.log(response);
+      console.log(response.data.users[0]);
+      let user = response.data.users[0];
+      document.getElementById("userBtn").innerText = user.username;
+      localStorage.setItem('current-username', user.username);
+    });
   }
 }
