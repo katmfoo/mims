@@ -32,7 +32,8 @@ export class ProductSearchPage {
   public forecast = [];
   public movementValues = [];
   public forecastValues = [];
-  public past10Array = [];
+  public past10ArrayLocal = [];
+  public past10Array = []
   public lastWeek = [];
   public nextWeek = [];
   public currentDay = this.d.getDay();
@@ -158,17 +159,19 @@ export class ProductSearchPage {
    */
   buildpast10Array(item){
     //searches array to see if new item_code is found within array, if it is not assign index to -1
-    var index = this.past10Array.findIndex(x => x.item_code == item.item_code);
+    var index = this.past10ArrayLocal.findIndex(x => x.item_code == item.item_code);
     //if item_code is not found within array, execute logic
     if(index === -1){
       //add new item to the start of the array
-      this.past10Array.unshift(item);
+      this.past10ArrayLocal.unshift(item);
       //if array is now over 10 items long execute
-      if(this.past10Array.length > 10){
+      if(this.past10ArrayLocal.length > 10){
         //remove last element in the array
-        this.past10Array.pop();
+        this.past10ArrayLocal.pop();
       }
     }
+    localStorage.setItem('past10ArrayLocal', JSON.stringify(this.past10ArrayLocal));
+    this.past10Array = JSON.parse(localStorage.getItem('past10ArrayLocal'));
   }
 
   
