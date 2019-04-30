@@ -170,8 +170,8 @@ export class ProductSearchPage {
         this.past10ArrayLocal.pop();
       }
     }
-    localStorage.setItem('past10ArrayLocal', JSON.stringify(this.past10ArrayLocal));
-    this.past10Array = JSON.parse(localStorage.getItem('past10ArrayLocal'));
+    localStorage.setItem('past10Array', JSON.stringify(this.past10ArrayLocal));
+    this.past10Array = JSON.parse(localStorage.getItem('past10Array'));
   }
 
   
