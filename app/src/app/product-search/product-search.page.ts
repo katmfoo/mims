@@ -150,17 +150,28 @@ export class ProductSearchPage {
     });
   }
 
+  /**
+   * Builds the Array of past10Array; past10Array is meant to hold the last 10 items
+   * the user has searched for, held within local storage. It is meant to not hold duplicates
+   * and put the newest search at the start of the array, and remove 10th element when reaching 10+ items
+   * @param item item object found from downloading item data
+   */
   buildpast10Array(item){
+    //searches array to see if new item_code is found within array, if it is not assign index to -1
     var index = this.past10Array.findIndex(x => x.item_code == item.item_code);
+    //if item_code is not found within array, execute logic
     if(index === -1){
+      //add new item to the start of the array
       this.past10Array.unshift(item);
+      //if array is now over 10 items long execute
       if(this.past10Array.length > 10){
+        //remove last element in the array
         this.past10Array.pop();
       }
     }
-    //console.log(this.past10Array);
   }
 
+  
   /**
    * Updates the inventory of an item in the database.
    */
