@@ -26,17 +26,17 @@ export class CreateUserModalComponent implements OnInit {
   ngOnInit() {}
 
   createUser() {
-    // Reset error message
+    // Reset the error message
     this.errorMsg = "";
 
-    // Ensure all fields are filled out
+    // Ensure user fills out all fields while creating user
     if (!this.username || !this.password || !this.type || !this.confirm_password || !this.first_name || !this.last_name) {
       this.errorMsg = "All fields required";
       return;
-    } else if (this.password != this.confirm_password) { // != or some method?
+    } else if (this.password != this.confirm_password) { //checks if passwords are not same then display error msg
       this.errorMsg = "Passwords must match";
     } else {
-      // generateUser()
+      
       this.apiCall.post('/users/', { // users.py POST method creates users
         username: this.username,      // MUST BE IN ORDER: username, first_name, last_name, password, type
         first_name: this.first_name,
