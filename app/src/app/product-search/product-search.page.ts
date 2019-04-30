@@ -158,7 +158,7 @@ export class ProductSearchPage {
         this.past10Array.pop();
       }
     }
-    console.log(this.past10Array);
+    //console.log(this.past10Array);
   }
 
   /**
