@@ -15,7 +15,14 @@ export class LoginPageComponent implements OnInit {
 
   constructor(private apiCall: ApiCallService, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // if a user was previously logged in, display info, delete storage
+    if (localStorage.getItem('current-username')) {
+      document.getElementById('logoutMsg').innerText = localStorage.getItem('current-username')
+        + " has successfully logged out.";
+      localStorage.removeItem('current-username');
+    }
+  }
 
   login() {
     // Reset error message
