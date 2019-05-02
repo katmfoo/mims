@@ -340,21 +340,25 @@ export class ProductSearchPage {
     this.forecastChartLabels = this.setLabel(1);
   }
 
-  activateExtraDetails(dayClicked)
+  extraDetailsButton(dayClicked)
   {
-    this.extraDetails = !this.extraDetails;
+    if(!this.extraDetails)
+    {
+      this.extraDetails = true;
+      this.currentClickedDay = dayClicked;
+    }
+    else
+    {
+      if(dayClicked == this.currentClickedDay)
+        this.extraDetails = false;
+      else
+      {
+        this.currentClickedDay = dayClicked;
+        //api call
+      }
+    }
   }
 
-  activateExtraDetailsHelper(dayClicked)
-  {
-    if(this.extraDetails == false)
-      this.extraDetails = true;
-    //api call to get details for that day
-    if(dayClicked == this.currentClickedDay)
-      this.extraDetails = false;
-    else  
-      this.currentClickedDay = dayClicked;
-  }
 }
 
 
