@@ -36,15 +36,14 @@ export class CreateUserModalComponent implements OnInit {
     } else if (this.password != this.confirm_password) { //checks if passwords are not same then display error msg
       this.errorMsg = "Passwords must match";
     } else {
-      
-      this.apiCall.post('/users/', { // users.py POST method creates users
-        username: this.username,      // MUST BE IN ORDER: username, first_name, last_name, password, type
+      this.apiCall.post('/users/', { // users.py POST method to create the users
+        username: this.username,      // IN ORDER: username, first_name, last_name, password, type
         first_name: this.first_name,
         last_name: this.last_name,
         password: this.password,
-        type: Math.floor(this.type.valueOf()) // convert the value of 'type' to an "int"
+        type: Math.floor(this.type.valueOf()) // convert 'type' to an "int"
       }).then((response: any) => { 
-        if (response.success) {
+        if (response.success) { //if user creation works close modal
             this.modal.close();
             return;
         } else {
