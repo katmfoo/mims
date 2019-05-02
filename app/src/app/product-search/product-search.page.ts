@@ -322,10 +322,21 @@ export class ProductSearchPage {
     {data: this.forecastValues, label: 'Forecast'}
   ];
 
+  /**
+   * Input array of movement data for movement visualization
+   */
   public movementChartData:Array<any> = [
     {data: this.movementValues, label: 'Movement'},
   ];
+
+  /**
+   * Array For movement labels. Gets populated with days of weeks
+   */
   public movementChartLabels:Array<string> = [];
+
+  /**
+   * Array for forecast labels. Gets populated with days of weeks
+   */
   public forecastChartLabels:Array<string> = [];
   public lineChartOptions:any = {
     responsive: true
