@@ -314,8 +314,10 @@ export class ProductSearchPage {
     this.forecast_display = value.detail.value;
   }
   
-  //This is where we have to put movement variable
-  // Where the array of [1,5,2,8,9,4] is
+ 
+  /**
+   * Input array of forecast data for forecast visualization
+   */
   public forecastChartData:Array<any> = [
     {data: this.forecastValues, label: 'Forecast'}
   ];
