@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import * as moment from 'moment';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
+import { BrowserStack } from 'protractor/built/driverProviders';
 
 @Component({
   selector: 'app-product-search',
@@ -85,6 +86,7 @@ export class ProductSearchPage {
     this.product_loading = true;
     this.movement_loading = true;
     this.forecast_loading = true;
+    
 
     // Download product data
     this.apiCall.get('/products/' + this.item_code + '/', {}).then((response: any) => {
@@ -100,17 +102,21 @@ export class ProductSearchPage {
 
         this.movementValues = [];
         this.movement = [];
+        
         for (let item in response.data.product_movement) {
           this.movement.unshift({
             'date': moment(item),
             'amount': response.data.product_movement[item]
           });
+          
         }
 
-    
+        
         this.movementValues = this.movement.map(element => element.amount).reverse();
         this.drawChart();
         this.movement_loading = false;
+        this.setBadgeText();
+        
       }
     });
 
@@ -131,6 +137,16 @@ export class ProductSearchPage {
         this.forecast_loading = false; 
       }
     });
+  }
+
+  setBadgeText()
+  {
+    var label = document.getElementById('badge1');
+    if(label != null)
+    {
+      label.innerHTML="dik";
+    }
+    
   }
 
   updateInventory()
@@ -240,6 +256,7 @@ export class ProductSearchPage {
 
   movementDisplayChanged(value) {
     this.movement_display = value.detail.value;
+    this.setBadgeText();
   }
 
   forecastDisplayChanged(value) {
