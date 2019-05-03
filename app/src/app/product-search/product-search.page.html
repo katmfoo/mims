@@ -84,7 +84,7 @@
                 <ion-label>
                   Inventory <span class="float-right"> {{item.current_inventory}} {{item.unit}}s </span> <span class ="float-right"></span>
                   <br>
-                  <span class="float-right"><ion-button (click)="toggleInventoryMenu()">Edit</ion-button></span>
+                  <span class="float-right"><ion-button id="editButton" (click)="toggleInventoryMenu()">Edit</ion-button></span>
                 </ion-label>
               </ion-item>
               <div *ngIf="inventoryMenu && current_tab == 'details'">
@@ -141,6 +141,34 @@
                 </ion-label>
               </ion-item>
             </ion-list>
+            <ion-grid *ngIf="movement_display == 'table'">
+              <ion-row text-center>    
+                <ion-col id="day0" class="badge-col" (click)="extraDetailsButton(0)"><ion-badge id='badge1'>Su</ion-badge></ion-col>
+                <ion-col id="day1" class="badge-col" (click)="extraDetailsButton(1)"><ion-badge>M</ion-badge></ion-col>
+                <ion-col id="day2" class="badge-col" (click)="extraDetailsButton(2)"><ion-badge>Tu</ion-badge></ion-col>
+                <ion-col id="day3" class="badge-col" (click)="extraDetailsButton(3)"><ion-badge>W</ion-badge></ion-col>
+                <ion-col id="day4" class="badge-col" (click)="extraDetailsButton(4)"><ion-badge>Th</ion-badge></ion-col>
+                <ion-col id="day5" class="badge-col" (click)="extraDetailsButton(5)"><ion-badge>F</ion-badge></ion-col>
+                <ion-col id="day6" class="badge-col" (click)="extraDetailsButton(6)"><ion-badge>Sa</ion-badge></ion-col>
+                <ion-col id="day7" class="badge-col" (click)="extraDetailsButton(7)"><ion-badge>Su</ion-badge></ion-col>
+                
+              </ion-row>
+              <ion-row text-center>
+                <ion-col>{{movementValues[0]}}</ion-col>
+                <ion-col>{{movementValues[1]}}</ion-col>
+                <ion-col>{{movementValues[2]}}</ion-col>
+                <ion-col>{{movementValues[3]}}</ion-col>
+                <ion-col>{{movementValues[4]}}</ion-col>
+                <ion-col>{{movementValues[5]}}</ion-col>
+                <ion-col>{{movementValues[6]}}</ion-col>
+                <ion-col>{{movementValues[7]}}</ion-col>
+              </ion-row>
+            </ion-grid>
+            <ion-item *ngIf="extraDetails">
+              <ion-label>
+                This is some extra stuff!
+              </ion-label>
+            </ion-item>
           </div>
           <div class="row chart-row" *ngIf="movement_display == 'graph'">
             <div class="chart">

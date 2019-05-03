@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import * as moment from 'moment';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
+import { BrowserStack } from 'protractor/built/driverProviders';
 
 @Component({
   selector: 'app-product-search',
@@ -44,6 +45,9 @@ export class ProductSearchPage {
 
   public inventoryMenu: boolean = false;
   public tempInventory;
+
+  public extraDetails: boolean = false;
+  public currentClickedDay;
 
   constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
     this.is_cordova = this.platform.is('cordova');
@@ -104,6 +108,7 @@ export class ProductSearchPage {
     this.product_loading = true;
     this.movement_loading = true;
     this.forecast_loading = true;
+    
 
     // Download product data
     this.apiCall.get('/products/' + this.item_code + '/', {}).then((response: any) => {
@@ -120,16 +125,20 @@ export class ProductSearchPage {
 
         this.movementValues = [];
         this.movement = [];
+        
         for (let item in response.data.product_movement) {
           this.movement.unshift({
             'date': moment(item),
             'amount': response.data.product_movement[item]
           });
+          
         }
 
-    
+        
         this.movementValues = this.movement.map(element => element.amount).reverse();
         this.movement_loading = false;
+        this.setBadgeText();
+        
       }
     });
 
@@ -175,7 +184,17 @@ export class ProductSearchPage {
   }
 
   
-  /**
+  
+  setBadgeText()
+  {
+    var label = document.getElementById('badge1');
+    if(label != null)
+    {
+      label.innerHTML="dik";
+    }
+    
+  }
+/**
    * Updates the inventory of an item in the database.
    */
   updateInventory()
@@ -308,6 +327,7 @@ export class ProductSearchPage {
 
   movementDisplayChanged(value) {
     this.movement_display = value.detail.value;
+    this.setBadgeText();
   }
 
   forecastDisplayChanged(value) {
@@ -420,6 +440,26 @@ export class ProductSearchPage {
     this.movementChartLabels = this.setLabel(0);
     this.forecastChartLabels = this.setLabel(1);
   }
+
+  extraDetailsButton(dayClicked)
+  {
+    if(!this.extraDetails)
+    {
+      this.extraDetails = true;
+      this.currentClickedDay = dayClicked;
+    }
+    else
+    {
+      if(dayClicked == this.currentClickedDay)
+        this.extraDetails = false;
+      else
+      {
+        this.currentClickedDay = dayClicked;
+        //api call
+      }
+    }
+  }
+
 }
 
 
