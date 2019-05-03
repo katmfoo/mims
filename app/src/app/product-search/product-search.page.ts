@@ -195,21 +195,16 @@ export class ProductSearchPage {
     var label6 = document.getElementById('badge6');
     var label7 = document.getElementById('badge7');
     var label8 = document.getElementById('badge8');
-
-    // if(label1 != null)
-    // {
-    //   label1.innerHTML="dik";
-    // }
-
+    
     var i = 0;
     var pos = 0;
     var returnArray = [];
     const weekDays = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
 
-    returnArray[0] = "Today"
-    pos = new Date().getDay() + 1;
+    //returnArray[0] = "Today"
+    pos = new Date().getDay();
     //sends the short hand weekday to be built as a string with the short hand date in format "Mon (4/28)"
-    for (i = 1; i < 8; i++) {
+    for (i = 0; i < 8; i++) {
       //returnArray[i] = this.buildString(weekDays[(pos % weekDays.length)], this.setLabelHelper(flag, i));
       returnArray[i] = (weekDays[(pos % weekDays.length)]);
       pos++;
