@@ -233,10 +233,8 @@ export class ProductSearchPage {
     if (label8 != null) {
       label8.innerHTML = returnArray[7];
     }
-
-
-
   }
+  
 /**
    * Updates the inventory of an item in the database.
    */
@@ -482,6 +480,10 @@ export class ProductSearchPage {
     this.forecastChartData = [{data: this.forecastValues, label: 'Forecast'}];
     this.movementChartLabels = this.setLabel(0);
     this.forecastChartLabels = this.setLabel(1);
+  }
+
+  badgeDesc(){
+
   }
 
   extraDetailsButton(dayClicked)

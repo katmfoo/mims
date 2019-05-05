@@ -165,8 +165,8 @@
               </ion-row>
             </ion-grid>
             <ion-item *ngIf="extraDetails">
-              <ion-label>
-                This is some extra stuff!
+              <ion-label id='badge_desc'>
+                {{ item.date.format('D/M/Y') }} 
               </ion-label>
             </ion-item>
           </div>
