@@ -4,7 +4,8 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 </head>
 
-<div class="modal-header">
+<div class="modal-header">    <!-- Header for title (User Info) -->
+
     <h4 class="modal-title" id="modal-basic-title">User Information   <i class="fas fa-user"></i></h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
       <span aria-hidden="true">&times;</span>
@@ -12,12 +13,12 @@
   </div>
   <div class="modal-body">
     <form>
-      <div class="bottom" id="row-1">
-        <div class="box-content right" >
+      <div class="bottom" id="row-1">   <!-- Create box to display first name -->
+        <div class="box-content right" >    
           <h6>First Name</h6>
           <h5 id="firstName" style="text-align:center;">First_Name</h5>
         </div>
-        <div class="box-content">
+        <div class="box-content">    <!-- Create box to display last name -->
           <h6>Last Name</h6>
           <h5 id="lastName" style="text-align:center;">Last_Name</h5>
         </div>
@@ -25,16 +26,16 @@
     </form>
     <form>
       <div class="row bottom" id="row-2">
-        <div class="col-sm-4 right" >
+        <div class="col-sm-4 right" >      <!-- Create box to display username -->
           <h6>Username</h6>
           <h5 id="username" style="text-align:center;">UserName</h5>
         </div>
         <div class="col-sm-4 right">
-          <h6>User ID</h6>
+          <h6>User ID</h6>               <!-- Create box to display userid -->
           <h5 id="userId" style="text-align:center;">User_ID</h5>
         </div>
         <div class="col-sm-4">
-          <h6>User Type</h6>
+          <h6>User Type</h6>           <!-- Create box to display user type -->
           <h5 id="userType" style="text-align:center;">User_Type</h5>
         </div>
       </div>
