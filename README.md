@@ -40,6 +40,6 @@ Patrick Richeal, Brandon Ostasewski, Matthew Finnegan, Dominic Marandino, John D
 * Run `kill -9 process-id` to kill the api
 
 ###### Live process IDS
-* API: 23432
-* Simulation: 12925
-* Web server: 22619
+* API: 7589
+* Simulation: not running
+* Web server: 7824
