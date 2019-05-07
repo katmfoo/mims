@@ -179,7 +179,9 @@ export class ProductSearchPage {
         this.past10ArrayLocal.pop();
       }
     }
+    // Stores values of array in local storage with tag "past10Array"
     localStorage.setItem('past10Array', JSON.stringify(this.past10ArrayLocal));
+    // Grabs tag from local storage and reforms into array until name past10Array for use in home page
     this.past10Array = JSON.parse(localStorage.getItem('past10Array'));
   }
 
@@ -424,19 +426,32 @@ export class ProductSearchPage {
   
   public formWeeks() {
     var i: number;
+    // builds array for past week in format M/DD
     for(i = 0; i < 8; i++){
       this.lastWeek[i] = moment().subtract((7-i), 'days').format('M/DD');
     }
-    
+    // builds array for next week in format M/DD
     for(i = 0; i < 8; i++){
       this.nextWeek[i] = moment().add((0+i), 'days').format('M/DD');
     }
   }
 
+  /**
+   * Builds string in format example: Tue (4/22)
+   * @param weekday Short hand 3 char weekday (Tue)
+   * @param formatedDate short hand 3 char date (4/22)
+   */
   public buildString(weekday: string, formatedDate: string){
     return weekday + " (" + formatedDate + ")";
   }
 
+  /**
+   * Flag helper for setting label
+   * If flag is 0, get date from last week
+   * If flag is 1, get date from next week
+   * @param flag flag sent from setLabel 
+   * @param pos position sent from setLabel
+   */
   public setLabelHelper(flag: number, pos: number){
     if(flag == 0){
       return this.lastWeek[pos];
@@ -446,6 +461,12 @@ export class ProductSearchPage {
     }
   }
 
+  /**
+   * builds the label arrays used in the graphing system. 
+   * if flag is 1, builds forecast labels
+   * if flag is 0, builds movement labels
+   * @param flag 
+   */
   public setLabel(flag: number){
     var i = 0;
     var pos = 0;
@@ -453,18 +474,23 @@ export class ProductSearchPage {
     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     if(flag==1){
+      // sets first label to be "Today" for UX readability
       returnArray[0] = "Today"
+      // sets first position to be "tomorrow" since first label has been created
       pos = new Date().getDay() + 1;
       //sends the short hand weekday to be built as a string with the short hand date in format "Mon (4/28)"
       for(i = 1; i < 8; i++){
+        //                                modular wrapping of weekday array   gets formatted date
         returnArray[i] = this.buildString(weekDays[(pos % weekDays.length)], this.setLabelHelper(flag, i));
         pos++;
       }
     }
     else{
+      // sets last label of array to be "Today" for UX readability
       returnArray[7] = "Today"
       pos = new Date().getDay();
       for(i = 0; i < 7; i++){
+        //                                modular wrapping of weekday array   gets formatted date
         returnArray[i] = this.buildString(weekDays[(pos % weekDays.length)], this.setLabelHelper(flag, i));
         pos++;
       }
@@ -476,11 +502,17 @@ export class ProductSearchPage {
     console.log(e);
   }
   
+  // updates chart's labels and data when a product is opened in app
   public drawChart(){
+    // creates week array
     this.formWeeks();
+    // sets movement data to be updated data from API
     this.movementChartData = [{data: this.movementValues, label: 'Movement'}];
+    // sets forecast data to be updated data from API
     this.forecastChartData = [{data: this.forecastValues, label: 'Forecast'}];
+    // sets movement chart labels with flag 0
     this.movementChartLabels = this.setLabel(0);
+    // sets forecast chart labels with flag 1
     this.forecastChartLabels = this.setLabel(1);
   }
 
