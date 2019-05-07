@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ApiCallService } from '../services/api-call.service';
-import { Router } from '@angular/router';
-import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, Input } from '@angular/core'; //imports input property, ngOnInIt to handle initilization, and components
+import { ApiCallService } from '../services/api-call.service';  //imports apicallservice to call api
+import { Router } from '@angular/router';    //import class router
+import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';   
 
 @Component({
   selector: 'app-edit-user-modal',
@@ -12,15 +12,15 @@ export class EditUserModalComponent implements OnInit {
   // set the following equal to the values inputted into the html page during attemptUserCreation()
   public user_id : number;
 
-  public first_name : string;
-  public last_name : string;
-  public type : number;
-  public username: string;
+  public first_name : string; //first name 
+  public last_name : string;  //last name
+  public type : number;  //2 for employee, 1 for manager
+  public username: string;  //username
 
-  public new_password: string;
+  public new_password: string;  //passwords
   public confirm_password : string;
 
-  public errorMsg: string;
+  public errorMsg: string; //for not filled out fields or  passwords not matching
 
   @Input('modal') modal;
 
