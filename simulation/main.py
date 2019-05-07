@@ -272,7 +272,7 @@ def newInventory(headers, items, simtime):
             print(response["data"])
             data = response["data"]
             forecast = data["product_forecast"]
-            today_forecast = forecast[str(simtime.date)]
+            today_forecast = forecast[str(simtime.date())]
             # Using the forecast to predict how much inventory they will need
             # This is an optimistic store
             if inventory < int(today_forecast * 1.5):
