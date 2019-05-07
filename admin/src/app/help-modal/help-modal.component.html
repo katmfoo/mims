@@ -5,7 +5,7 @@
 </head>
 
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Help Information   <i class="fas fa-info-circle"></i></h4>
+    <h4 class="modal-title" id="modal-basic-title">Help Information   <i class="fas fa-info-circle"></i></h4> <!--heading-->
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -13,6 +13,7 @@
   <div class="modal-body">
     <form>
       <div class="row">
+        <!--sample questions-->
         <div class="col-sm-12"><b>Frequently Asked Questions</b></div>
         <div class="col-sm-12"><b>Why can't an employee log in?</b></div>
         <div class="col-sm-12">To log into the Admin website, you should be a Manager.</div>
@@ -30,5 +31,6 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="modal.close()">Thanks!</button>
+    <!--Thanks button, acts like a close button-->
+    <button type="button" class="btn btn-primary" (click)="modal.close()">Thanks!</button> 
   </div>
