@@ -41,5 +41,5 @@ Patrick Richeal, Brandon Ostasewski, Matthew Finnegan, Dominic Marandino, John D
 
 ###### Live process IDS
 * API: 7589
-* Simulation: not running
+* Simulation: 13610
 * Web server: 7824
