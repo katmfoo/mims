@@ -58,6 +58,7 @@ def main():
         print(str(simtime.date()) + " " + str(simtime.time().isoformat(timespec='seconds')))
 
         # Historical Sales Generation
+
         wait = False
         waitTime = 0
         sales = 0
@@ -68,7 +69,7 @@ def main():
                 changePrices(headers, items, (str(simtime.date()) + " " + str(simtime.time().isoformat(timespec='seconds'))))
             # Checks to see if it is a day and orders new inventory
             if (last_time.weekday() - simtime.weekday() != 0):
-                newInventory(headers, items, (str(simtime.date()) + " " + str(simtime.time().isoformat(timespec='seconds'))))
+                oldInventory(headers, items, (str(simtime.date()) + " " + str(simtime.time().isoformat(timespec='seconds'))))
             # Are we currently waiting for a new sale
             if(waitTime > 0):
                 waitTime = waitTime - 1
@@ -101,7 +102,7 @@ def main():
                     changePrices(headers, items, (str(currentDT.date()) + " " + str(currentDT.time().isoformat(timespec='seconds'))))
                 # Checks to see if it is a day and orders new inventory
                 if (last_time.weekday() - currentDT.weekday() != 0):
-                    newInventory(headers, items, (str(currentDT.date()) + " " + str(currentDT.time().isoformat(timespec='seconds'))))
+                    newInventory(headers, items, (str(currentDT.date()) + " " + str(currentDT.time().isoformat(timespec='seconds'))), currentDT.date())
                 # New Sale
                 makeSale(headers, items, str(currentDT.date()) + " " + str(currentDT.time().isoformat(timespec='seconds')))
                 print(str(currentDT.date()) + " " + str(currentDT.time().isoformat(timespec='seconds')))
@@ -244,7 +245,7 @@ def makeSale(headers, items, simtime):
     except json.decoder.JSONDecodeError:
         print("Couldn't Make Sale")
 
-def newInventory(headers, items, simtime):
+def newInventory(headers, items, simtime, simtimeDate):
     for item in items:
         try:
             url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
@@ -272,7 +273,8 @@ def newInventory(headers, items, simtime):
             print(response["data"])
             data = response["data"]
             forecast = data["product_forecast"]
-            today_forecast = forecast[str(simtime.date())]
+            print(simtimeDate)
+            today_forecast = forecast[str(simtimeDate)]
             # Using the forecast to predict how much inventory they will need
             # This is an optimistic store
             if inventory < int(today_forecast * 1.5):
@@ -309,6 +311,44 @@ def newInventory(headers, items, simtime):
                     print("Couldn't Make New Inventory")
         except json.decoder.JSONDecodeError:
             print("Couldn't Get Case Size Of Item")
+
+def oldInventory(headers, items, simtime):
+    for item in items:
+        try:
+            url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
+            url += item + "/"
+            payload = ""
+            print(url)
+            x = requests.request("GET", url, data=payload, headers=headers)
+            print(x.text)
+            # Convert Response object to Json object
+            response = x.json()
+            print(response["data"])
+            # Right here we have "success" = true, so we must get the inner array
+            data = response["data"]
+            print(data["product"])
+            # We are going into the next nested dictionary object(key value object) to get products
+            product = data["product"]
+            inventory = product["current_inventory"]
+            per = product["units_per_case"]
+            if inventory < per * 10:
+                amount = random.randint(1, 10)
+                data = {
+                    "item_code": item,
+                    "amount": amount,
+                    "unit": 3,
+                    "datetime": simtime
+                }
+                payload = json.dumps(data)
+                print(data)
+                try:
+                    url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
+                    x = requests.request("POST", url, data=payload, headers=headers)
+                except json.decoder.JSONDecodeError:
+                    print("Couldn't Make New Inventory")
+        except json.decoder.JSONDecodeError:
+            print("Couldn't Get Case Size Of Item")
+
 
 def initialInventory(headers, items, simtime):
     url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
