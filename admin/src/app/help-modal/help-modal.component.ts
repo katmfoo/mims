@@ -1,4 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+//imports
+//display info from html
+
+import { Component, OnInit, Input } from '@angular/core'; 
 import { ApiCallService } from '../services/api-call.service';
 import { Router } from '@angular/router';
 import { ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +22,7 @@ export class HelpModalComponent implements OnInit {
   }
 
   modifyDisplay() {
-    //
+    
   }
 
   editUser() {
