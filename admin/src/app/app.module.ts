@@ -14,11 +14,13 @@ import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.compon
 import { CreateUserModalComponent } from './create-user-modal/create-user-modal.component';
 import { CurrUserInfoModalComponent } from './curr-user-info-modal/curr-user-info-modal.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
+import { LogoutPageComponent } from './logout-page/logout-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
+    LogoutPageComponent,
     UserManagementPageComponent,
     EditUserModalComponent,
     CreateUserModalComponent,

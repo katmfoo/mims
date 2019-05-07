@@ -25,7 +25,8 @@ export class UserManagementPageComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('access-token');
-    this.router.navigate(['login']); //navigate to login after calling logout function
+    localStorage.removeItem('current-username');
+    this.router.navigate(['logout']); //navigate to login after calling logout function
   }
 
   updateUsers() {  //any changes on users
