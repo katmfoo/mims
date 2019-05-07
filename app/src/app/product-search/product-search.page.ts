@@ -33,8 +33,8 @@ export class ProductSearchPage {
   public forecast = [];
   public movementValues = [];
   public forecastValues = [];
-  public past10ArrayLocal = [];
-  public past10Array = []
+  public past10ArrayLocal = JSON.parse(localStorage.getItem('past10Array'));
+  public past10Array = JSON.parse(localStorage.getItem('past10Array'));
   public lastWeek = [];
   public nextWeek = [];
   public currentDay = this.d.getDay();
@@ -181,7 +181,7 @@ export class ProductSearchPage {
     }
     // Stores values of array in local storage with tag "past10Array"
     localStorage.setItem('past10Array', JSON.stringify(this.past10ArrayLocal));
-    // Grabs tag from local storage and reforms into array until name past10Array for use in home page
+    // Grabs tag from local storage and reforms into array under name past10Array for use in home page
     this.past10Array = JSON.parse(localStorage.getItem('past10Array'));
   }
 
