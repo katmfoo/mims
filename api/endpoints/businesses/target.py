@@ -205,6 +205,7 @@ def targetGetProductMovement(itemCode, startDate):
     return movement
 
 # Function to get forecasted inventory transactions of a product
+# Parameter itemCode: item code of item that are calculating the forecast for
 def targetGetProductForecast(itemCode):
     # Empty dictionary used to store forecast in format "'future_day': forecast_value"
     forecast = {}
@@ -219,7 +220,9 @@ def targetGetProductForecast(itemCode):
     one_week = datetime.timedelta(weeks=1)
 
     i = 0
-    # i < 8 so we can get a full week of data (I know I can just do a while statement using time delta)
+    # outer loop goes forward a week a day at a time
+    # inner loop goes back 2 months a week at a time
+    # i < 8 so we can get a full week of data 
     while i < 8:
         j = 1
         forecast_value = 0
@@ -237,7 +240,7 @@ def targetGetProductForecast(itemCode):
         forecast[str(current_day)] = int(forecast_value)
         # Get next day
         current_day += one_day
-        # Increment
+        # Increment i+1
         i += 1
 
     return forecast
