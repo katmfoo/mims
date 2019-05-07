@@ -56,10 +56,13 @@
   </form>
 </div>
 
+
+<!--Alert if user not created-->
 <ngb-alert *ngIf="errorMsg" [dismissible]="false" type="danger">
   {{ errorMsg }}
 </ngb-alert>
 
+<!--footer-->
 <div class="modal-footer">
   <button type="button" class="btn btn-primary" (click)="createUser()">Create User</button>
 </div>
