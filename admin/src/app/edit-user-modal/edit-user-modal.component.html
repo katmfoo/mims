@@ -14,45 +14,45 @@
   <form>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="first_name">First Name</label>
+        <label for="first_name">First Name</label>  <!--create input label for first name-->
         <input type="text" class="form-control" id="first_name" [(ngModel)]="first_name" name="first_name" placeholder="First name">
       </div>
       <div class="form-group col-md-6">
-        <label for="last_name">Last Name</label>
+        <label for="last_name">Last Name</label>   <!--create input label for last name-->
         <input type="text" class="form-control" id="last_name" [(ngModel)]="last_name" name="last_name" placeholder="Last name">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-12">
-        <label for="username">Username</label>
+        <label for="username">Username</label>     <!--create input label for username-->
         <input type="text" class="form-control" id="username" [(ngModel)]="username" name="username" placeholder="Username">
       </div>
     </div>
     <div class="form-row">
-      <div class="form-group col-md-12">
-        <label for="type">User type</label>
+      <div class="form-group col-md-12">  
+        <label for="type">User type</label>    <!--create options for usertype-->
         <select class="form-control" id="type"[(ngModel)]="type" name="type" >
-          <option value="2">Employee</option>
-          <option value="1">Manager</option>
+          <option value="2">Employee</option> <!--either an employee-->
+          <option value="1">Manager</option>  <!--or a manager-->
         </select>
       </div>
     </div>
     <h5>Change Password</h5>
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="new_password">New Password</label>
+        <label for="new_password">New Password</label>     <!--create input label for password-->
         <input type="password" class="form-control" id="new_password" [(ngModel)]="new_password" name="new_password" placeholder="New password">
       </div>
       <div class="form-group col-md-6">
-        <label for="confirm_password">Confirm New Password</label>
+        <label for="confirm_password">Confirm New Password</label>    <!--create input label for confirm password-->
         <input type="password" class="form-control" id="confirm_password" [(ngModel)]="confirm_password" name="confirm_password" placeholder="Confirm password">
       </div>
     </div>
   </form>
 </div>
-<ngb-alert *ngIf="errorMsg" [dismissible]="false" type="danger">
+<ngb-alert *ngIf="errorMsg" [dismissible]="false" type="danger">  <!--alert in case password and confirm password dont match-->
   {{ errorMsg }}
 </ngb-alert>
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="editUser()">Save User</button>
+  <button type="button" class="btn btn-primary" (click)="editUser()">Save User</button> <!--save edited info-->
 </div>
