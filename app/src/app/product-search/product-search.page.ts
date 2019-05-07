@@ -236,8 +236,6 @@ export class ProductSearchPage {
       label8.innerHTML = returnArray[7];
     }
 
-
-
   }
 /**
    * Updates the inventory of an item in the database.
@@ -377,6 +375,7 @@ export class ProductSearchPage {
 
   forecastDisplayChanged(value) {
     this.forecast_display = value.detail.value;
+    this.setBadgeText();
   }
   
  
