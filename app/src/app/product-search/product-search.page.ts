@@ -23,7 +23,6 @@ export class ProductSearchPage {
   public product_loading: boolean = false;
   public movement_loading: boolean = false;
   public forecast_loading: boolean = false;
-
   public d = new Date();
   public current_tab = 'details';
   public filtered;
@@ -33,7 +32,7 @@ export class ProductSearchPage {
   public forecast = [];
   public movementValues = [];
   public forecastValues = [];
-  public past10ArrayLocal = JSON.parse(localStorage.getItem('past10Array'));
+  public past10ArrayLocal = []
   public past10Array = JSON.parse(localStorage.getItem('past10Array'));
   public lastWeek = [];
   public nextWeek = [];
@@ -114,7 +113,7 @@ export class ProductSearchPage {
     this.apiCall.get('/products/' + this.item_code + '/', {}).then((response: any) => {
       if (response.success) {
         this.item = response.data.product;
-        //this.buildpast10Array(this.item);
+        this.buildpast10Array(this.item);
         this.product_loading = false;
       }
     });
@@ -169,6 +168,7 @@ export class ProductSearchPage {
   buildpast10Array(item){
     //searches array to see if new item_code is found within array, if it is not assign index to -1
     var index = this.past10ArrayLocal.findIndex(x => x.item_code == item.item_code);
+    this.past10ArrayLocal = JSON.parse(localStorage.getItem('past10Array'));
     //if item_code is not found within array, execute logic
     if(index === -1){
       //add new item to the start of the array
