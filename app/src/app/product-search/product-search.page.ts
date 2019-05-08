@@ -87,6 +87,9 @@ export class ProductSearchPage {
       this.empty_search = true;
       this.search_no_results = false;
     }
+    this.formWeeks();
+    this.movementChartLabels = this.setLabel(0);
+    this.forecastChartLabels = this.setLabel(1);
   }
 
   /**
