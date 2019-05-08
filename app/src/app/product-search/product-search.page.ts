@@ -29,6 +29,7 @@ export class ProductSearchPage {
   public item_code;
   public item;
   public movement = [];
+  public weekDayArray = [];
   public forecast = [];
   public movementValues = [];
   public forecastValues = [];
@@ -188,17 +189,11 @@ export class ProductSearchPage {
 
   
   
-  setBadgeText()
+  public setBadgeText()
   {
-    var label1 = document.getElementById('badge1');
-    var label2 = document.getElementById('badge2');
-    var label3 = document.getElementById('badge3');
-    var label4 = document.getElementById('badge4');
-    var label5 = document.getElementById('badge5');
-    var label6 = document.getElementById('badge6');
-    var label7 = document.getElementById('badge7');
-    var label8 = document.getElementById('badge8');
-    
+   
+    console.log("Test!");
+
     var i = 0;
     var pos = 0;
     var returnArray = [];
@@ -209,33 +204,10 @@ export class ProductSearchPage {
     //sends the short hand weekday to be built as a string with the short hand date in format "Mon (4/28)"
     for (i = 0; i < 8; i++) {
       //returnArray[i] = this.buildString(weekDays[(pos % weekDays.length)], this.setLabelHelper(flag, i));
-      returnArray[i] = (weekDays[(pos % weekDays.length)]);
+      this.weekDayArray[i] = (weekDays[(pos % weekDays.length)]);
       pos++;
     }
-    if (label1 != null) {
-      label1.innerHTML = returnArray[0];
-    }
-    if (label2 != null) {
-      label2.innerHTML = returnArray[1];
-    }
-    if (label3 != null) {
-      label3.innerHTML = returnArray[2];
-    }
-    if (label4 != null) {
-      label4.innerHTML = returnArray[3];
-    }
-    if (label5 != null) {
-      label5.innerHTML = returnArray[4];
-    }
-    if (label6 != null) {
-      label6.innerHTML = returnArray[5];
-    }
-    if (label7 != null) {
-      label7.innerHTML = returnArray[6];
-    }
-    if (label8 != null) {
-      label8.innerHTML = returnArray[7];
-    }
+    
 
   }
 /**
