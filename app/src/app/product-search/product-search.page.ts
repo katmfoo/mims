@@ -503,6 +503,17 @@ export class ProductSearchPage {
     }
   }
 
+  generateDeviation()
+  {
+    var deviation = this.movementValues[this.currentClickedDay] - this.forecastValues[this.currentClickedDay];
+    if(deviation > 0)
+    {
+      var deviationString = "+" + deviation;
+      return deviationString;
+    }
+    return deviation;
+  }
+
 }
 
 
