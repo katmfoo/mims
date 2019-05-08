@@ -153,8 +153,8 @@
           </div>
           <div class="row chart-row" *ngIf="movement_display == 'graph'">
             <div class="chart">
-              <div style="display: block;">
-              <canvas baseChart #baseChart="base-chart" width="300" height="400"
+              <div style="display: block;" >
+              <canvas baseChart #baseChart="base-chart" width="310" height="250" 
                           [datasets]="movementChartData"
                           [labels]="movementChartLabels"
                           [options]="lineChartOptions"
@@ -207,7 +207,7 @@
           <div class="row chart-row" *ngIf="forecast_display == 'graph'">
             <div class="chart">
               <div style="display: block;">
-              <canvas baseChart #baseChart="base-chart" width="300" height="400"
+              <canvas baseChart #baseChart="base-chart" width="300" height="250"
                           [datasets]="forecastChartData"
                           [labels]="forecastChartLabels"
                           [options]="lineChartOptions"
