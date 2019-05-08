@@ -114,7 +114,7 @@ export class ProductSearchPage {
     this.apiCall.get('/products/' + this.item_code + '/', {}).then((response: any) => {
       if (response.success) {
         this.item = response.data.product;
-        this.buildpast10Array(this.item);
+        //this.buildpast10Array(this.item);
         this.product_loading = false;
       }
     });
