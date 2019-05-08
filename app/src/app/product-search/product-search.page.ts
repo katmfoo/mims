@@ -40,8 +40,8 @@ export class ProductSearchPage {
   public currentDay = this.d.getDay();
   public is_cordova: boolean = false;
 
-  public movement_display = 'table';
-  public forecast_display = 'table';
+  public movement_display = 'graph';
+  public forecast_display = 'graph';
 
   public inventoryMenu: boolean = false;
   public tempInventory;
@@ -192,19 +192,13 @@ export class ProductSearchPage {
   
   public setBadgeText()
   {
-   
-    console.log("Test!");
-
     var i = 0;
     var pos = 0;
-    var returnArray = [];
     const weekDays = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
 
-    //returnArray[0] = "Today"
     pos = new Date().getDay();
     //sends the short hand weekday to be built as a string with the short hand date in format "Mon (4/28)"
     for (i = 0; i < 8; i++) {
-      //returnArray[i] = this.buildString(weekDays[(pos % weekDays.length)], this.setLabelHelper(flag, i));
       this.weekDayArray[i] = (weekDays[(pos % weekDays.length)]);
       pos++;
     }
