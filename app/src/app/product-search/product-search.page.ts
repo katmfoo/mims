@@ -50,6 +50,9 @@ export class ProductSearchPage {
   public currentClickedDay;
 
   constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
+    this.formWeeks();
+    this.movementChartLabels = this.setLabel(0);
+    this.forecastChartLabels = this.setLabel(1);
     localStorage.setItem('past10Array', JSON.stringify(this.past10ArrayLocal));
     this.is_cordova = this.platform.is('cordova');
   }
@@ -109,7 +112,9 @@ export class ProductSearchPage {
     this.product_loading = true;
     this.movement_loading = true;
     this.forecast_loading = true;
-    
+    //this.formWeeks();
+    //this.movementChartLabels = this.setLabel(0);
+    //this.forecastChartLabels = this.setLabel(1);
 
     // Download product data
     this.apiCall.get('/products/' + this.item_code + '/', {}).then((response: any) => {
@@ -126,7 +131,8 @@ export class ProductSearchPage {
 
         this.movementValues = [];
         this.movement = [];
-        
+        //this.movementChartData = [{data: this.movementValues, label: 'Movement'}];
+
         for (let item in response.data.product_movement) {
           this.movement.unshift({
             'date': moment(item),
@@ -137,9 +143,10 @@ export class ProductSearchPage {
 
         
         this.movementValues = this.movement.map(element => element.amount).reverse();
-        this.movement_loading = false;
+        this.movementChartData = [{data: this.movementValues, label: 'Movement'}];
+        //this.drawChart();
         this.setBadgeText();
-        
+        this.movement_loading = false;
       }
     });
 
@@ -155,7 +162,8 @@ export class ProductSearchPage {
           });
         }
         this.forecastValues = this.forecast.map(element => element.amount);
-        this.drawChart();
+        this.forecastChartData = [{data: this.forecastValues, label: 'Forecast'}];
+        //this.drawChart();
         this.forecast_loading = false; 
       }
     });
@@ -470,18 +478,6 @@ export class ProductSearchPage {
   }
   
   // updates chart's labels and data when a product is opened in app
-  public drawChart(){
-    // creates week array
-    this.formWeeks();
-    // sets movement data to be updated data from API
-    this.movementChartData = [{data: this.movementValues, label: 'Movement'}];
-    // sets forecast data to be updated data from API
-    this.forecastChartData = [{data: this.forecastValues, label: 'Forecast'}];
-    // sets movement chart labels with flag 0
-    this.movementChartLabels = this.setLabel(0);
-    // sets forecast chart labels with flag 1
-    this.forecastChartLabels = this.setLabel(1);
-  }
 
   extraDetailsButton(dayClicked)
   {
