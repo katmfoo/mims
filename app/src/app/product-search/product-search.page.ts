@@ -50,9 +50,9 @@ export class ProductSearchPage {
   public currentClickedDay;
 
   constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
-    this.formWeeks();
-    this.movementChartLabels = this.setLabel(0);
-    this.forecastChartLabels = this.setLabel(1);
+    //this.formWeeks();
+    //this.movementChartLabels = this.setLabel(0);
+    //this.forecastChartLabels = this.setLabel(1);
     localStorage.setItem('past10Array', JSON.stringify(this.past10ArrayLocal));
     this.is_cordova = this.platform.is('cordova');
   }
@@ -87,9 +87,9 @@ export class ProductSearchPage {
       this.empty_search = true;
       this.search_no_results = false;
     }
-    this.formWeeks();
-    this.movementChartLabels = this.setLabel(0);
-    this.forecastChartLabels = this.setLabel(1);
+    //this.formWeeks();
+    //this.movementChartLabels = this.setLabel(0);
+    //this.forecastChartLabels = this.setLabel(1);
   }
 
   /**
@@ -101,6 +101,9 @@ export class ProductSearchPage {
    * forcast screens.
    */
   selectProduct(item_code) {
+    this.formWeeks();
+    this.movementChartLabels = this.setLabel(0);
+    this.forecastChartLabels = this.setLabel(1);
     this.item_code = item_code;
     this.downloadProduct();
     this.searching = false;
