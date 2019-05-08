@@ -32,7 +32,7 @@ export class ProductSearchPage {
   public forecast = [];
   public movementValues = [];
   public forecastValues = [];
-  public past10ArrayLocal = []
+  public past10ArrayLocal = [];
   public past10Array = JSON.parse(localStorage.getItem('past10Array'));
   public lastWeek = [];
   public nextWeek = [];
@@ -49,6 +49,7 @@ export class ProductSearchPage {
   public currentClickedDay;
 
   constructor(private apiCall: ApiCallService, private alertController: AlertController, private navCtrl: NavController, private platform: Platform, private barcodeScanner: BarcodeScanner) {
+    localStorage.setItem('past10Array', JSON.stringify(this.past10ArrayLocal));
     this.is_cordova = this.platform.is('cordova');
   }
 
@@ -168,7 +169,7 @@ export class ProductSearchPage {
   buildpast10Array(item){
     //searches array to see if new item_code is found within array, if it is not assign index to -1
     var index = this.past10ArrayLocal.findIndex(x => x.item_code == item.item_code);
-    localStorage.setItem('past10Array', JSON.stringify(this.past10ArrayLocal));
+    //localStorage.setItem('past10Array', JSON.stringify(this.past10ArrayLocal));
     this.past10ArrayLocal = JSON.parse(localStorage.getItem('past10Array'));
     //if item_code is not found within array, execute logic
     if(index === -1){
