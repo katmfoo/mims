@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 def main():
 
-    url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
+    url = "http://localhost:5000/products/"
 
     payload = ""
     headers = {
@@ -126,7 +126,7 @@ def makeSale(headers, items, simtime):
         numItems = random.randint(1,3)
         for i in range(1,numItems):
             try:
-                url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
+                url = "http://localhost:5000/products/"
                 rng = random.randint(0, len(items) - 1)
                 item = items[rng]
                 url += item + "/"
@@ -163,7 +163,7 @@ def makeSale(headers, items, simtime):
         numItems = random.randint(2, 5)
         for i in range(1, numItems):
             try:
-                url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
+                url = "http://localhost:5000/products/"
                 rng = random.randint(0, len(items) - 1)
                 item = items[rng]
                 url +=  item + "/"
@@ -202,7 +202,7 @@ def makeSale(headers, items, simtime):
         numItems = random.randint(5, 10)
         for i in range(1, numItems):
             try:
-                url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
+                url = "http://localhost:5000/products/"
                 rng = random.randint(0, len(items) - 1)
                 item = items[rng]
                 url += item + "/"
@@ -240,7 +240,7 @@ def makeSale(headers, items, simtime):
     payload = json.dumps(data)
     print(data)
     try:
-        url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/sales/"
+        url = "http://localhost:5000/sales/"
         x = requests.request("POST", url, data=payload, headers=headers)
     except json.decoder.JSONDecodeError:
         print("Couldn't Make Sale")
@@ -248,7 +248,7 @@ def makeSale(headers, items, simtime):
 def newInventory(headers, items, simtime, simtimeDate):
     for item in items:
         try:
-            url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
+            url = "http://localhost:5000/products/"
             url += item + "/"
             payload = ""
             print(url)
@@ -289,7 +289,7 @@ def newInventory(headers, items, simtime, simtimeDate):
                 payload = json.dumps(data)
                 print(data)
                 try:
-                    url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
+                    url = "http://localhost:5000/inventory/"
                     x = requests.request("POST", url, data=payload, headers=headers)
                 except json.decoder.JSONDecodeError:
                     print("Couldn't Make New Inventory")
@@ -305,7 +305,7 @@ def newInventory(headers, items, simtime, simtimeDate):
                 payload = json.dumps(data)
                 print(data)
                 try:
-                    url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
+                    url = "http://localhost:5000/inventory/"
                     x = requests.request("POST", url, data=payload, headers=headers)
                 except json.decoder.JSONDecodeError:
                     print("Couldn't Make New Inventory")
@@ -315,7 +315,7 @@ def newInventory(headers, items, simtime, simtimeDate):
 def oldInventory(headers, items, simtime):
     for item in items:
         try:
-            url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
+            url = "http://localhost:5000/products/"
             url += item + "/"
             payload = ""
             print(url)
@@ -342,7 +342,7 @@ def oldInventory(headers, items, simtime):
                 payload = json.dumps(data)
                 print(data)
                 try:
-                    url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
+                    url = "http://localhost:5000/inventory/"
                     x = requests.request("POST", url, data=payload, headers=headers)
                 except json.decoder.JSONDecodeError:
                     print("Couldn't Make New Inventory")
@@ -351,7 +351,7 @@ def oldInventory(headers, items, simtime):
 
 
 def initialInventory(headers, items, simtime):
-    url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/inventory/"
+    url = "http://localhost:5000/inventory/"
     for item in items:
         amount = random.randint(5,10)
         data = {
@@ -373,7 +373,7 @@ def changePrices(headers, items, simtime):
     # 10 random items will increase their price by 10%
     for i in range(1,10):
         try:
-            url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
+            url = "http://localhost:5000/products/"
             rng = random.randint(0,len(items) - 1)
             item = items[rng]
             url += item + "/"
@@ -404,7 +404,7 @@ def changePrices(headers, items, simtime):
     # 10 randon items will drop their price by 10%
     for i in range(1,10):
         try:
-            url = "http://ec2-54-81-254-121.compute-1.amazonaws.com:5000/products/"
+            url = "http://localhost:5000/products/"
             rng = random.randint(0,len(items) - 1)
             item = items[rng]
             url += item + "/"
