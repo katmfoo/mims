@@ -1,0 +1,7 @@
+Issues
+
+Last updated May 9th, 2019
+
+1. Previous searches on app, sometimes an item will appear twice.
+2. Visualization graph on app, its difficult to click on the points on the graph.
+3. Editing current logged in users information doesn't update the current logged in user info correctly on the admin.
