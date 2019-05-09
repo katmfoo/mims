@@ -1,5 +1,5 @@
 # mims
-Mobile inventory management system
+Mobile inventory management system (MIMS), senior project for spring 2019 at Rowan University with Dr. Baliga
 
 ### Team members
 Patrick Richeal, Brandon Ostasewski, Matthew Finnegan, Dominic Marandino, John Donahue, Paul Sigloch, Steven Bruman, Sagarika Kumar
